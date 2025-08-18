@@ -1,0 +1,9 @@
+pandas
+numpy
+openpyxl
+pyarrow
+pandera
+python-dotenv
+unidecode
+jupyter
+matplotlib
