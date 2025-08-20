@@ -8,13 +8,13 @@
 #   - Reporte de huecos SIEMPRE en data/reports/
 #
 # Flujo del pipeline (capa base, sin I/O):
-# 1. Cargar previsión y validar columnas
-# 2. Re-etiquetar fechas al año objetivo (manejo seguro de 29/02)
-# 3. Construir calendario completo por Product_ID (365/366)
-# 4. Integrar previsión en calendario (NaN en días sin observación)
-# 5. Generar reporte de huecos (total, 31/12 y 29/02 si aplica)
-# 6. Validar coherencia del calendario (365/366 por producto)
-# 7. Devolver (historico_df, gaps_df, metrics) — SIN escribir disco
+# 1) Cargar previsión y validar columnas
+# 2) Normalizar y controlar duplicados (pre-merge)
+# 3) Re-etiquetar fechas al año objetivo (manejo seguro de 29/02)
+# 4) Construir calendario completo por Product_ID (365/366)
+# 5) Integrar previsión en calendario (NaN en días sin observación)
+# 6) Validar que no hay duplicados post-merge y que el calendario es coherente
+# 7) Generar reporte de huecos y devolver (historico_df, gaps_df, metrics)
 #
 # Input (lo proporciona quien llama):
 #   - data/clean/Prevision_Demanda_2025_Limpia.xlsx (o el que indiques)
@@ -51,7 +51,7 @@ QTY_COL_DEFAULT  = "Sales Quantity"
 def ensure_dirs(*dirs: Path) -> None:
     """Crea directorios (y padres) si no existen."""
     for d in dirs:
-        d.mkdir(parents=True, exist_ok=True)
+        Path(d).mkdir(parents=True, exist_ok=True)
 
 
 def is_leap_year(year: int) -> bool:
@@ -61,26 +61,40 @@ def is_leap_year(year: int) -> bool:
 
 def load_forecast(path: Path, *, date_col: str, id_col: str, qty_col: str) -> pd.DataFrame:
     """
-    Carga la previsión desde Excel y valida las columnas mínimas.
-
-    Raises
-    ------
-    ValueError : si faltan columnas obligatorias.
+    Lee la previsión desde Excel y valida columnas mínimas.
+    (La normalización y control de duplicados se hace en `prepare_forecast`).
     """
     df = pd.read_excel(path)
     missing = [c for c in (id_col, date_col, qty_col) if c not in df.columns]
     if missing:
         raise ValueError(f"Faltan columnas obligatorias: {missing}")
-    df = df.copy()
-    df[date_col] = pd.to_datetime(df[date_col])
-    return df
+    return df.copy()
+
+
+def prepare_forecast(df: pd.DataFrame, *, date_col: str, id_col: str, qty_col: str) -> pd.DataFrame:
+    """
+    Normaliza tipos, limpia duplicados pre-merge y devuelve una copia lista.
+    - Fecha: a datetime normalizado al día (evita horas residuales).
+    - Product_ID: string para consistencia de clave.
+    - Sales Quantity: numérico (coerce → NaN si no convertible).
+    - Duplicados (Product_ID, Date): conserva el último registro.
+    """
+    out = df.copy()
+    out[date_col] = pd.to_datetime(out[date_col]).dt.normalize()
+    out[id_col] = out[id_col].astype(str)
+    out[qty_col] = pd.to_numeric(out[qty_col], errors="coerce")
+    if out.duplicated([id_col, date_col], keep=False).any():
+        ndup = int(out.duplicated([id_col, date_col], keep=False).sum())
+        print(f"⚠️ Detectados {ndup} registros duplicados en [{id_col}, {date_col}] en la previsión → se conserva el último.")
+        out = out.drop_duplicates([id_col, date_col], keep="last")
+    return out
 
 
 def relabel_year_safe(d: pd.Timestamp, target_year: int) -> pd.Timestamp:
     """
-    Re-etiqueta el año de una fecha conservando mes/día cuando sea válido.
-    Si el día no existe en el año destino (p.ej., 29/02 → año no bisiesto),
-    mapea a 28/02. Para otros casos límite, ajusta al último día del mes.
+    Re-etiqueta el año manteniendo mes/día cuando sea válido.
+    Si 29/02 no existe en el año destino, mapea a 28/02.
+    Para otros casos límite, ajusta al último día del mes.
     """
     try:
         return d.replace(year=target_year)
@@ -99,10 +113,13 @@ def relabel_year(df: pd.DataFrame, *, date_col: str, target_year: int) -> pd.Dat
 
 
 def build_full_calendar(product_ids: pd.Series, *, year: int, date_col: str, id_col: str) -> pd.DataFrame:
-    """Construye calendario completo para `year` (365/366) por cada `Product_ID`."""
+    """
+    Construye calendario completo (365/366) por `Product_ID`, ordenando IDs para
+    salidas estables (útil en diffs/tests).
+    """
     all_dates = pd.date_range(f"{year}-01-01", f"{year}-12-31", freq="D")
-    cal = pd.MultiIndex.from_product([product_ids.unique(), all_dates],
-                                     names=[id_col, date_col]).to_frame(index=False)
+    pid_sorted = pd.Index(product_ids.astype(str).unique()).sort_values()
+    cal = pd.MultiIndex.from_product([pid_sorted, all_dates], names=[id_col, date_col]).to_frame(index=False)
     return cal
 
 
@@ -115,15 +132,25 @@ def integrate_forecast(calendar_df: pd.DataFrame, relabeled_df: pd.DataFrame,
     )
 
 
+def assert_no_duplicate_keys(df: pd.DataFrame, *, id_col: str, date_col: str, where: str = "") -> None:
+    """
+    Asegura que no haya duplicados en la clave tras un paso crítico (p.ej., post-merge).
+    Lanza AssertionError con muestra de ejemplos si los hay.
+    """
+    dups = df.duplicated([id_col, date_col])
+    if dups.any():
+        n = int(dups.sum())
+        sample = df.loc[dups, [id_col, date_col]].head(10).to_dict("records")
+        loc = f" ({where})" if where else ""
+        raise AssertionError(f"Se han encontrado {n} duplicados en la clave [{id_col}, {date_col}]{loc}. Ejemplos: {sample}")
+
+
 def gap_report(df: pd.DataFrame, *, year: int, date_col: str, id_col: str, qty_col: str) -> pd.DataFrame:
     """
-    Reporte de huecos por producto.
-    Columnas:
-      - Product_ID
-      - total_gaps (nº de días con NaN)
-      - total_days (esperados 365/366)
-      - <YYYY-12-31> (True si falta ese día)
-      - <YYYY-02-29> (solo si el año es bisiesto; True si falta)
+    Reporte de huecos por producto:
+      - total_gaps: nº de días con NaN
+      - total_days: días esperados (365/366)
+      - Columnas adicionales para fechas especiales: YYYY-12-31 y, si aplica, YYYY-02-29.
     """
     tmp = df.copy()
     tmp["_is_gap"] = tmp[qty_col].isna()
@@ -149,8 +176,7 @@ def gap_report(df: pd.DataFrame, *, year: int, date_col: str, id_col: str, qty_c
              .pivot_table(index=id_col, columns="date_str", values="is_gap", aggfunc="first")
              .reset_index()
     )
-    report = gaps_by_product.merge(special, on=id_col, how="left")
-    return report
+    return gaps_by_product.merge(special, on=id_col, how="left")
 
 
 def sanity_checks(df: pd.DataFrame, *, year: int, date_col: str, id_col: str) -> None:
@@ -159,17 +185,17 @@ def sanity_checks(df: pd.DataFrame, *, year: int, date_col: str, id_col: str) ->
     counts = df.groupby(id_col)[date_col].nunique()
     if (counts != expected_days).any():
         bad = counts[counts != expected_days]
-        raise AssertionError(
-            f"Productos sin {expected_days} días en calendario: {list(bad.index)[:10]}…"
-        )
+        raise AssertionError(f"Productos sin {expected_days} días en calendario: {list(bad.index)[:10]}…")
 
 
 def summarize(df: pd.DataFrame, *, qty_col: str, id_col: str) -> Dict[str, Any]:
-    """Devuelve métricas básicas del dataset integrado."""
+    """Métricas básicas del dataset integrado."""
     n_filas = len(df)
-    n_productos = df[id_col].nunique()
-    pct_huecos = df[qty_col].isna().mean() if n_filas else 0.0
-    return {"n_filas": n_filas, "n_productos": n_productos, "pct_huecos": float(pct_huecos)}
+    return {
+        "n_filas": n_filas,
+        "n_productos": df[id_col].nunique(),
+        "pct_huecos": float(df[qty_col].isna().mean() if n_filas else 0.0)
+    }
 
 
 # =============================================================================
@@ -186,38 +212,29 @@ def generar_historico_df(
     skip_checks: bool = False,
 ) -> Tuple[pd.DataFrame, pd.DataFrame, Dict[str, Any]]:
     """
-    Devuelve los DataFrames del histórico integrado y del reporte de huecos,
-    junto a métricas; NO escribe en disco.
-
-    Returns
-    -------
-    (historico_df, gaps_df, metrics: dict)
-        metrics = {
-          "leap_year": bool,
-          "expected_days": int,
-          "n_filas": int,
-          "n_productos": int,
-          "pct_huecos": float,
-          "all_missing_dec31": bool
-        }
+    Devuelve (historico_df, gaps_df, metrics) sin escribir en disco.
+    Realiza: carga, normalización, re-etiquetado, calendario, merge, validaciones y métricas.
     """
     year = int(year)
 
-    # 1) Carga + re-etiquetado
-    df_forecast = load_forecast(Path(input_path), date_col=date_col, id_col=id_col, qty_col=qty_col)
+    # 1) Carga + normalización + re-etiquetado
+    _df_raw = load_forecast(Path(input_path), date_col=date_col, id_col=id_col, qty_col=qty_col)
+    df_forecast = prepare_forecast(_df_raw, date_col=date_col, id_col=id_col, qty_col=qty_col)
     df_relabeled = relabel_year(df_forecast, date_col=date_col, target_year=year)
 
     # 2) Calendario + integración
     calendar_df = build_full_calendar(df_relabeled[id_col], year=year, date_col=date_col, id_col=id_col)
     historico = integrate_forecast(calendar_df, df_relabeled, date_col=date_col, id_col=id_col, qty_col=qty_col)
 
-    # 3) Reporte de huecos + (opcional) checks
+    # 3) Validación clave post-merge + reporte de huecos
+    assert_no_duplicate_keys(historico, id_col=id_col, date_col=date_col, where="post-merge")
     gaps = gap_report(historico, year=year, date_col=date_col, id_col=id_col, qty_col=qty_col)
 
+    # 4) Checks opcionales de calendario
     if not skip_checks:
         sanity_checks(historico, year=year, date_col=date_col, id_col=id_col)
 
-    # 4) Métricas
+    # 5) Métricas
     metrics = summarize(historico, qty_col=qty_col, id_col=id_col)
     dec31_col = f"{year}-12-31"
     metrics.update({
@@ -246,21 +263,12 @@ def exportar_historico(
     """
     Exporta CSV/Parquet bajo `out_dir` y el reporte de huecos en `data/reports/`.
 
-    Parámetros
-    ----------
-    out_dir : str | Path
-        Carpeta donde se guardan el CSV y el Parquet del histórico (p.ej. data/clean).
-    year : int
-        Año objetivo para nombrar los archivos.
-    csv_compressed : bool
-        Si True, el CSV se guarda comprimido (.csv.gz).
-
     Returns
     -------
-    Dict[str, Path] con rutas de salida: {"parquet", "csv", "gaps"}
+    Dict[str, Path]: {"parquet": Path, "csv": Path, "gaps": Path}
     """
     out_dir = Path(out_dir)
-    reports_dir = Path("data/reports")  # Carpeta fija para reportes (pedida por Cris)
+    reports_dir = Path("data/reports")  # Ubicación fija para reportes
     ensure_dirs(out_dir, reports_dir)
 
     # Orden y limpieza de columnas antes de exportar
@@ -283,4 +291,3 @@ def exportar_historico(
     gaps.to_csv(out_gaps, index=False)
 
     return {"parquet": out_parquet, "csv": out_csv, "gaps": out_gaps}
-
