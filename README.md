@@ -15,9 +15,11 @@ demanda y modelado predictivo.
 ``` plaintext
 PFM2_Asistente_Compras_Inteligente/
 ├── data/               # Datos en diferentes estados
-│   ├── raw/            # Datos originales
-│   ├── clean/          # Datos limpios
-│   └── processed/      # Datos preparados
+│   ├── raw/            # Datos originales sin procesar
+│   ├── interim/        # Datos intermedios (transformaciones temporales)
+│   ├── clean/          # Datos limpios y validados
+│   ├── processed/      # Datos preparados
+│   └── reports/        # Reportes automáticos (ej. huecos en históricos)
 ├── outputs/            # Resultados y salidas
 │   ├── figures/        # Gráficas
 │   └── reports/        # Informes
@@ -88,3 +90,8 @@ PFM2_Asistente_Compras_Inteligente/
 👉 A partir de aquí, iremos completando con: - **Detalles de
 datasets** - **Proceso metodológico (EDA, simulaciones, modelado,
 validación)** - **Resultados** - **Líneas futuras**
+
+------------------------------------------------------------------------
+
+La carpeta data/ incluye un README específico donde se documenta en detalle la e
+structura de las subcarpetas de datos. Lo mismo ocurre con la carpeta scripts/.
