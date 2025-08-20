@@ -28,3 +28,4 @@ Esta carpeta contiene los **datasets** utilizados en el proyecto. Se organiza en
 - Los archivos **Parquet** (`.parquet`) se priorizan sobre Excel/CSV por eficiencia.  
 - Los datos sensibles **no deben incluirse en este repositorio**.
 
+
