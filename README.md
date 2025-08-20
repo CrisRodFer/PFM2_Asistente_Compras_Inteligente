@@ -87,11 +87,13 @@ PFM2_Asistente_Compras_Inteligente/
 
 ------------------------------------------------------------------------
 
-👉 A partir de aquí, iremos completando con: - **Detalles de
-datasets** - **Proceso metodológico (EDA, simulaciones, modelado,
-validación)** - **Resultados** - **Líneas futuras**
+👉 A partir de aquí, iremos completando con: 
+- **Detalles de datasets** 
+- **Proceso metodológico (EDA, simulaciones, modelado,validación)** 
+- **Resultados** 
+- **Líneas futuras**
 
 ------------------------------------------------------------------------
 
-La carpeta data/ incluye un README específico donde se documenta en detalle la e
-structura de las subcarpetas de datos. Lo mismo ocurre con la carpeta scripts/.
+La carpeta data/ incluye un README específico donde se documenta en detalle la 
+estructura de las subcarpetas de datos. Lo mismo ocurre con la carpeta scripts/.
