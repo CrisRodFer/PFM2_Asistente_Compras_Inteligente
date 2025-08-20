@@ -24,57 +24,48 @@
 from __future__ import annotations
 
 # ==== 0. CONFIG (RUTAS + PATH DINÁMICO) ======================================
+# ==== 0. CONFIG (RUTAS + PATH DINÁMICO) ======================================
 from pathlib import Path
 import sys, logging, importlib.util
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
-    force=True,  # garantiza que se vea en consola
+    stream=sys.stdout,   # asegura que lo ves en la consola de VSCode
+    force=True,
 )
 log = logging.getLogger("generar_historico_2024")
 
-# 1) Punto de partida = carpeta de este script
 HERE = Path(__file__).resolve()
 log.info("Ejecutando script: %s", HERE)
 
-# 2) Subir niveles para estimar la raíz (donde suele estar /data)
+# Estimar raíz del proyecto
 ROOT_DIR = HERE
 for _ in range(6):
-    if (ROOT_DIR / "data").exists() or (ROOT_DIR / ".git").exists():
+    if (ROOT_DIR / "data").exists() or (ROOT_DIR / ".git").exists() or (ROOT_DIR / "generar_historicos.py").exists():
         break
     ROOT_DIR = ROOT_DIR.parent
 log.info("ROOT_DIR estimado: %s", ROOT_DIR)
 
-# 3) Buscar el archivo generar_historicos.py en todo el proyecto (subcarpetas incluidas)
+# Buscar el módulo en todo el proyecto
 try:
     MOD_PATH = next(ROOT_DIR.rglob("generar_historicos.py"))
 except StopIteration:
-    MOD_PATH = None
+    raise FileNotFoundError(f"No se ha encontrado 'generar_historicos.py' bajo {ROOT_DIR}")
 
 log.info("Ruta encontrada de generar_historicos.py: %s", MOD_PATH)
 
-# 4) Asegurar import: si lo encuentro, lo cargo por ruta.
-if MOD_PATH is None:
-    raise FileNotFoundError(
-        "No se ha encontrado 'generar_historicos.py' en el proyecto.\n"
-        f"Raíz buscada: {ROOT_DIR}\n"
-        "Comprueba que el archivo existe y su nombre exacto."
-    )
-
-if str(MOD_PATH.parent) not in sys.path:
-    sys.path.insert(0, str(MOD_PATH.parent))
-
+# Cargar por ruta hallada
 spec = importlib.util.spec_from_file_location("generar_historicos", MOD_PATH)
 mod = importlib.util.module_from_spec(spec)
 assert spec and spec.loader, "No se pudo preparar el import de generar_historicos.py"
 spec.loader.exec_module(mod)  # type: ignore
 
-# Exponemos las funciones que necesitamos
+# Exponer funciones
 generar_historico_df = mod.generar_historico_df
 exportar_historico   = mod.exportar_historico
 
-# 5) Directorios de datos tomados respecto a ROOT_DIR
+# Directorios de datos
 DATA_DIR = ROOT_DIR / "data"
 RAW_DIR = DATA_DIR / "raw"
 CLEAN_DIR = DATA_DIR / "clean"
