@@ -7,3 +7,5 @@ python-dotenv
 unidecode
 jupyter
 matplotlib
+spicy
+seaborn
