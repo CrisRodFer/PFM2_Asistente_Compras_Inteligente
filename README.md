@@ -97,3 +97,32 @@ PFM2_Asistente_Compras_Inteligente/
 
 La carpeta data/ incluye un README específico donde se documenta en detalle la 
 estructura de las subcarpetas de datos. Lo mismo ocurre con la carpeta scripts/.
+
+------------------------------------------------------------------------
+
+## 📑 Metodología – Fase 1 (EDA y preparación de datos)
+
+Durante esta fase se llevaron a cabo las siguientes tareas:
+
+1. **Limpieza y validación de la previsión de demanda 2025**  
+   - Revisión de fechas (inclusión de 29/02 y 31/12).  
+   - Eliminación de nulos y duplicados.  
+   - Generación de reportes automáticos de huecos.  
+
+2. **Generación de históricos simulados (2022–2024)**  
+   - Creación de históricos diarios a partir de la previsión de 2025.  
+   - Ajustes por coherencia temporal y progresión lógica entre años.  
+   - Exportación en CSV/Parquet y reporte de validación.  
+
+3. **Limpieza del catálogo de productos**  
+   - Normalización de caracteres y eliminación de inconsistencias.  
+   - Reordenación de columnas y exportación en formato limpio.  
+   - Exportación final en Excel y Parquet para integración con la demanda.  
+
+4. **Análisis de coherencia entre históricos (2022–2024)**  
+   - **Visual**: evolución mensual y boxplots de medias por producto.  
+   - **Estadístico**: descriptivos (media, std, CV) y correlaciones interanuales (>0.98).  
+   - **Contrastes de hipótesis**: ANOVA y Kruskal-Wallis confirman ausencia de diferencias significativas entre años.  
+
+📌 **Conclusión de la fase**:  
+Los históricos generados presentan un comportamiento **estable, coherente y robusto**, validando que los datos están en condiciones óptimas para pasar a la siguiente fase de desagregación de demanda y modelado predictivo.
