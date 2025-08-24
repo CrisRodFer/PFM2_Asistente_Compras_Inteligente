@@ -180,3 +180,5 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 /outputs
+data/processed/demanda_diaria_2022.csv
+data/processed/demanda_diaria_2023.csv
