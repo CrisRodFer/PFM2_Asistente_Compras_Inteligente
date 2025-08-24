@@ -126,3 +126,12 @@ Durante esta fase se llevaron a cabo las siguientes tareas:
 
 📌 **Conclusión de la fase**:  
 Los históricos generados presentan un comportamiento **estable, coherente y robusto**, validando que los datos están en condiciones óptimas para pasar a la siguiente fase de desagregación de demanda y modelado predictivo.
+
+------------------------------------------------------------------------
+
+### Justificación del uso de patrones estacionales
+
+Aunque el dataset inicial es artificial, se ha enriquecido mediante la aplicación de un **patrón estacional basado en factores reales del comercio electrónico en España** (ciclos de ingresos mensuales, estacionalidad semanal, campañas clave como rebajas, Black Friday o Navidad, y ajustes en festivos/vacaciones).  
+
+El objetivo no es replicar al detalle un histórico pasado, sino **incorporar estructuras realistas** que permitan que los modelos de predicción entrenados posteriormente sean **robustos y aplicables a escenarios futuros**.  
+De este modo, cada ajuste o modificación sobre el calendario se entiende como una **etapa de calibración deliberada**, cuyo fin es generar un dataset artificial más realista, coherente y predictivo.  
