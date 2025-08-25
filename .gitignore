@@ -182,3 +182,4 @@ cython_debug/
 /outputs
 data/processed/demanda_diaria_2022.csv
 data/processed/demanda_diaria_2023.csv
+data/processed/demanda_diaria_2024.csv

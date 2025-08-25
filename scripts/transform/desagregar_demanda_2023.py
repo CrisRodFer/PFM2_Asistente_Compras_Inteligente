@@ -100,7 +100,15 @@ def main():
     hist["Year"] = hist["Date"].dt.year
     totales = (hist.groupby(["Product_ID", "Year"], as_index=False)["Sales Quantity"].sum())
     n_products = totales["Product_ID"].nunique()
-    print(f"📦 Totales {YEAR}: productos={n_products:,}")
+    
+
+    EXPECTED_PRODUCTS = 8999  # no-novedades del catálogo
+    actual = totales["Product_ID"].nunique()
+    assert actual == EXPECTED_PRODUCTS, (
+    f"Se esperaban {EXPECTED_PRODUCTS} productos; hay {actual}. "
+    "Revisa histórico y/o catálogo."
+    )
+    print(f"📦 Totales {YEAR}: productos={actual:,}")
 
     # 3) Leer calendario
     cal_df = pd.read_csv(CAL_PATH, parse_dates=["Date"])
