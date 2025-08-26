@@ -135,3 +135,45 @@ Aunque el dataset inicial es artificial, se ha enriquecido mediante la aplicaci�
 
 El objetivo no es replicar al detalle un histórico pasado, sino **incorporar estructuras realistas** que permitan que los modelos de predicción entrenados posteriormente sean **robustos y aplicables a escenarios futuros**.  
 De este modo, cada ajuste o modificación sobre el calendario se entiende como una **etapa de calibración deliberada**, cuyo fin es generar un dataset artificial más realista, coherente y predictivo.  
+
+-------------------------------------------------------------------------
+
+##  📑 Metodología – Fase 2 (Generación de históricos y validación estacional).
+
+1. **Patrón estacional**
+   - Calendario artificial enriquecido con factores del ecommerce en España (rebajas, Black Friday, Prime Day, Navidad, Semana Santa, festivos y agosto).
+   - La función `generar_calendario_estacional(...)` se aplica por año sin I/O y los scripts guardan el calendario por año.
+
+2. **Desagregación de demanda anual**
+   - Conversión a demanda **diaria** para 2022, 2023 y 2024.
+   - Entradas: `data/processed/demanda_diaria_YYYY.csv` (columnas: `Date`, `Demand_Day`).
+   - Salidas EDA: `outputs/figures/*` y `outputs/tables/*`.
+
+3. **Comparativa entre años (EDA)**
+   - Evolución diaria total por año, medias mensuales con CV, correlaciones interanuales y KPIs de consistencia.
+
+4. **Validación con calendario real (iterativa)**
+   - Objetivo: comprobar si los picos/vales de la demanda desagregada coinciden con eventos reales.
+   - Se probaron diferentes enfoques: baseline mensual, filtro de activos, baseline DoW, baseline local ±k y ventanas desplazadas ±shift.
+   - **Configuración final** seleccionada: **baseline local ±7 con ventanas ±3**.
+   - Salidas:
+     - `outputs/tables/validacion_calendario_real_SHIFT_localk7_s3_YYYY.csv`
+     - `outputs/tables/validacion_calendario_real_kpis_SHIFT_k7_s3.csv`
+     - `outputs/figures/evolucion_2024_con_eventos_SHIFT_k7_s3.png`
+
+📓 **Nota metodológica (validación estacional)**  
+Se elaboró un **Notebook bitácora** con todas las iteraciones de validación frente a calendario real.  
+Este README y el notebook **PFM2_Fase2** recogen únicamente la **versión final consolidada** (baseline local ±7 y ventanas ±3).  
+La bitácora está disponible en la carpeta `/notebooks/` como material complementario.
+
+
+### Reproducibilidad (script)
+
+# Desde la raíz del proyecto
+python scripts/eda/validacion_calendario_real.py \
+  --years 2022 2023 2024 --k 7 --shift 3
+
+
+📌 Conclusión de la Fase 2:
+La validación estacional confirma que los históricos desagregados reflejan un comportamiento coherente con eventos de mercado. La configuración final 
+seleccionada (baseline local ±7 y ventanas ±3) se utilizará como feature base en la siguiente fase, donde se integrarán variables de precio y externas.
