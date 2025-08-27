@@ -1,2 +1,2 @@
-registros_entrada,registros_salida,productos_entrada,productos_salida,inactivos_eliminados_cat,duplicados_salida,fecha_min_entrada,fecha_max_entrada,fecha_min_salida,fecha_max_salida,rango_fechas_igual,filas_con_categoria_nula
-9862904,0,8999,0,2934,0,2022-01-01,2024-12-31,,,False,0
+registros_entrada,productos_entrada,registros_enriquecidos,sin_categoria,sin_estado,registros_activos,productos_activos
+9862904,8999,9862904,9862904,9862904,0,0
