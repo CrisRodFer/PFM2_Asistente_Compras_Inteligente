@@ -6,6 +6,10 @@ pandera
 python-dotenv
 unidecode
 jupyter
+notebook
 matplotlib
-spicy
 seaborn
+scipy
+scikit-learn
+ipykernel
+tqdm
