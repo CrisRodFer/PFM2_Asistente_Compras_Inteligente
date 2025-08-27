@@ -21,6 +21,7 @@
 #   - validacion_valores_invalidos.csv
 #   - validacion_cobertura_diaria.csv
 #   - validacion_categoria_inconsistente.csv
+
 #   - validacion_activo_invalido.csv
 #
 # Uso:

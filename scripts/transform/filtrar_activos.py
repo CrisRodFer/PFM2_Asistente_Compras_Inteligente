@@ -11,7 +11,7 @@
 #
 # Inputs:
 #   data/processed/demanda_enriquecida.csv
-# Outputs:
+# Outputs: s
 #   data/processed/demanda_con_catalogo.csv
 #   reports/validation/resumen_filtrado_activos.csv
 # =============================================================================
@@ -99,3 +99,5 @@ if __name__ == "__main__":
         main([])
     else:
         main()
+
+        
