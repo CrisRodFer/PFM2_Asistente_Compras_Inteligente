@@ -1,0 +1,41 @@
+categoria_original_demanda,categoria_norm_demanda,n_filas_demanda,n_productos_demanda,sugerencia_pca_norm,sugerencia_score
+geles-cremas musculares,geles-cremas musculares,1096,1,geles y cremas musculares,0.9167
+deportes,deportes,200568,183,desodorantes,0.7
+post entreno,post entreno,25208,23,pre-entreno,0.6957
+intra entreno,intra entreno,10960,10,pre-entreno,0.6667
+masa muscular,masa muscular,152344,139,geles y cremas musculares,0.6316
+articulaciones,articulaciones,92064,84,recuperacion,0.6154
+suplementacion,suplementacion,3288,3,recuperacion,0.6154
+aceites esenciales,aceites esenciales,25208,23,aceites vinagres y alinos,0.6047
+creatina,creatina,128232,117,cosmetica,0.5882
+sin lactosa,sin lactosa,12056,11,sin gluten,0.5714
+vegano,vegano,71240,65,descanso,0.5714
+vitaminas y minerales,vitaminas y minerales,697056,636,cremas y geles,0.5714
+alimentacion,alimentacion,1096,1,definicion,0.5455
+"te, infusiones y rooibos",te infusiones y rooibos,10960,10,aceites vinagres y alinos,0.5417
+veganos,veganos,1096,1,descanso,0.5333
+hidratacion,hidratacion,88776,81,recuperacion,0.5217
+exfoliantes y tratamientos,exfoliantes y tratamientos,1096,1,aceites vinagres y alinos,0.5098
+bano e higiene personal,bano e higiene personal,1096,1,ganadores de peso,0.5
+aminoacidos,aminoacidos,568824,519,definicion,0.4762
+hidratos de carbono,hidratos de carbono,192896,176,ganadores de peso,0.4444
+salud cardiovascular,salud cardiovascular,8768,8,geles y cremas musculares,0.4444
+bebidas,bebidas,224680,205,leche y bebidas vegetales,0.4375
+sustitutos y otros,sustitutos y otros,26304,24,otros,0.4348
+mejorar la memoria,mejorar la memoria,4384,4,cheat meal,0.4286
+platos preparados,platos preparados,9864,9,efecto frao,0.4286
+proteinas,proteinas,1485080,1355,otros,0.4286
+"agua, refrescos y zumos",agua refrescos y zumos,4384,4,aceites vinagres y alinos,0.4255
+especias y condimentos,especias y condimentos,7672,7,aceites vinagres y alinos,0.4255
+maquillaje,maquillaje,1096,1,cremas solares,0.4167
+parafarmacia,parafarmacia,26304,24,recuperacion,0.4167
+salud digestiva,salud digestiva,2192,2,cosmetica,0.4167
+belleza y salud,belleza y salud,9864,9,cremas y geles,0.4138
+pack por objetivo,pack por objetivo,58088,53,cosmetica,0.3846
+especial masaje deportivo,especial masaje deportivo,3288,3,geles energeticos,0.381
+bio,bio,72336,66,fit food,0.3636
+salsas y siropes,salsas y siropes,89872,82,aceites vinagres y alinos,0.3415
+perfumeria,perfumeria,1096,1,efecto frao,0.2857
+l-carnitina,l-carnitina,58088,53,cosmetica,0.2
+barritas,barritas,428536,391,energia,0.1333
+dieta keto,dieta keto,26304,24,fit food,0.1111
