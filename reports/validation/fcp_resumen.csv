@@ -1,0 +1,2 @@
+filas_finales,productos_finales,start_date,end_date,min_coverage,coverage_scope,duplicados_eliminados,invalidos_eliminados,productos_demanda_cero_eliminados,productos_baja_cobertura_eliminados,outliers_eliminados,registros_entrada_estimada
+6647240,6065,2022-01-01,2024-12-31,0.5,overall,0,0,0,0,0,
