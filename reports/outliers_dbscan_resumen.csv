@@ -1,0 +1,2 @@
+n_total,n_outliers,pct_outliers,source_clusters,source_features,output
+5938,201,0.0338497810710677,C:\Users\crisr\Desktop\Máster Data Science & IA\PROYECTO\PFM2_Asistente_Compras_Inteligente\data\processed\productos_clusters_dbscan.csv,,C:\Users\crisr\Desktop\Máster Data Science & IA\PROYECTO\PFM2_Asistente_Compras_Inteligente\reports\outliers_dbscan.csv
