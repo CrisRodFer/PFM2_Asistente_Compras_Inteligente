@@ -1,0 +1,14 @@
+Productos totales (base): 5938
+Objetivo subset (≈30%): 1781
+Productos en subset: 1781
+
+Distribución por cluster (nº productos en subset):
+ Cluster  n_productos
+       0           63
+       1          370
+       2         1018
+       3          330
+
+Rango fechas subset: 2022-01-01 ➜ 2024-12-31
+Filas marcadas outlier en subset: 0
+Productos con algún outlier en subset: 0

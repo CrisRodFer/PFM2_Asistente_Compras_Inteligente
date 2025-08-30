@@ -200,3 +200,5 @@ data/processed/demanda_filtrada_enriquecida_sin_nans.csv
 data/processed/demanda_con_catalogo.csv
 data/processed/demanda_con_catalogo.csv
 data/processed/demanda_con_clusters.csv
+data/processed/demanda_subset.csv
+data/processed/demanda_con_catalogo.csv
