@@ -203,3 +203,6 @@ data/processed/demanda_con_clusters.csv
 data/processed/demanda_subset.csv
 data/processed/demanda_con_catalogo.csv
 data/processed/demanda_con_catalogo.csv
+data/processed/demanda_con_outliers.csv
+data/processed/demanda_subset_final.csv
+reports/subset_productos.csv

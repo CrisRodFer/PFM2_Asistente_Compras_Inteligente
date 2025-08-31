@@ -1,0 +1,9 @@
+== UNIÓN OUTLIERS + DEMANDA ==
+Ruta outliers : c:\Users\crisr\Desktop\Máster Data Science & IA\PROYECTO\PFM2_Asistente_Compras_Inteligente\reports\outliers_dbscan.csv
+Ruta demanda  : c:\Users\crisr\Desktop\Máster Data Science & IA\PROYECTO\PFM2_Asistente_Compras_Inteligente\data\processed\demanda_filtrada_enriquecida_sin_nans.csv
+
+Productos totales en demanda: 6051
+Productos en lista de outliers: 201
+Filas marcadas como outlier (is_outlier=1): 220296
+
+Guardado CSV   : c:\Users\crisr\Desktop\Máster Data Science & IA\PROYECTO\PFM2_Asistente_Compras_Inteligente\data\processed\demanda_con_outliers.csv

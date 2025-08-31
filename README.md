@@ -177,3 +177,62 @@ python scripts/eda/validacion_calendario_real.py \
 📌 Conclusión de la Fase 2:
 La validación estacional confirma que los históricos desagregados reflejan un comportamiento coherente con eventos de mercado. La configuración final 
 seleccionada (baseline local ±7 y ventanas ±3) se utilizará como feature base en la siguiente fase, donde se integrarán variables de precio y externas.
+
+-------------------------------------------------------------------------
+## 📑 Metodología – Fase 3 (Clustering de productos y generación de subset representativo)
+
+### 3.1 Preparación de features de producto
+- Limpieza y normalización de categorías.
+- Eliminación de productos sin PCs relevantes (categorías no representativas).
+- Obtención de `productos_features_clean.csv` como base de entrada al análisis de clustering.
+
+### 3.2 Clustering de productos
+- Comparación de técnicas: **K-Means, GMM y DBSCAN**.
+- Métricas internas: silhouette score (K-Means con *k=4* ≈ 0.32).
+- Interpretación de clusters:
+  - **C0** → nicho reducido (~210 productos).
+  - **C1** → productos estables y de alta demanda (~1.233).
+  - **C2** → cluster mayoritario (~3.394).
+  - **C3** → miscelánea (~1.101).
+- Decisión final: **K-Means (k=4)** como modelo de referencia.  
+  GMM y DBSCAN se emplearon como técnicas de contraste.
+
+### 3.3 Validación complementaria del clustering
+- Uso del notebook auxiliar `PFM2_Fase3_pruebas_clustering.ipynb`.
+- Confirmación de la robustez de K-Means frente a alternativas.
+
+### 3.4 Asignación de clusters a la demanda desagregada
+- Script `asignar_cluster_a_demanda.py`:
+  - **Entrada**: `demanda_filtrada_enriquecida_sin_nans.csv` + `productos_clusters.csv`.
+  - **Salida**: `demanda_con_clusters.csv`.
+  - Exclusión de productos sin cluster asignado (~113 productos, <2%).
+- Validaciones:
+  - Cobertura temporal completa.
+  - Asignación de clusters consistente con el catálogo.
+
+### 3.5 Generación del subset representativo
+- **Criterios de selección**:
+  - Mantener cobertura completa de fechas (2022–2024).
+  - Conservar casi completos los clústeres minoritarios (C0, C1, C3).
+  - Reducir proporcionalmente el clúster mayoritario (C2) al ~30%.
+  - Incluir **todos los outliers** como casos especiales (no eliminar top ventas atípicos).
+- **Outputs intermedios**:
+  - `demanda_subset.parquet` (30% sin outliers).
+  - `outliers.parquet` (productos con `is_outlier=1`).
+  - `demanda_subset_final.parquet` (fusión subset + outliers).
+
+### 3.6 Validaciones del subset final
+- **Validación rápida pre-outliers**:
+  - Reglas de reducción de clusters aplicadas correctamente.
+  - Integridad de claves sin duplicados ni nulos.
+- **Validación robusta final** (sobre parquet):
+  - Cobertura temporal 2022–2024 intacta.
+  - Sin duplicados ni NaNs en claves.
+  - Subset ⊆ catálogo original.
+  - Todos los outliers conservados (220.296 filas, 201 productos).
+  - Distribución por cluster coherente tras reducción.
+  - Tamaño final: 3.596 productos (~60% del catálogo).
+
+
+📌 **Conclusión de la Fase 3**:  
+Se ha construido un **subset representativo, coherente y manejable** (30% + outliers), que mantiene diversidad de clusters, top ventas atípicos y cobertura temporal completa. Este subset servirá como base para la **Fase 4**, centrada en el análisis del impacto del precio y variables externas.

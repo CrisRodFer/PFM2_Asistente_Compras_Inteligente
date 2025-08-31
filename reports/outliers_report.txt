@@ -1,0 +1,9 @@
+== REPORTE DE FILTRADO DE OUTLIERS ==
+Entrada : c:\Users\crisr\Desktop\Máster Data Science & IA\PROYECTO\PFM2_Asistente_Compras_Inteligente\data\processed\demanda_con_outliers.csv
+Salida  : outliers.csv  y  outliers.parquet
+
+Filas totales en demanda           : 6,631,896
+Productos únicos en demanda        : 6,051
+Filas marcadas como outlier (==1)  : 220,296
+Productos únicos con outliers      : 201
+Rango temporal outliers            : 2022-01-01 00:00:00 ➜ 2024-12-31 00:00:00

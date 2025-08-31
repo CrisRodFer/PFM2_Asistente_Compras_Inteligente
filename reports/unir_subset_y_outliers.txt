@@ -1,0 +1,11 @@
+=== UNION SUBSET 30% + OUTLIERS ===
+IN  subset : C:\Users\crisr\Desktop\Máster Data Science & IA\PROYECTO\PFM2_Asistente_Compras_Inteligente\data\processed\demanda_subset.parquet
+IN  outliers: C:\Users\crisr\Desktop\Máster Data Science & IA\PROYECTO\PFM2_Asistente_Compras_Inteligente\data\processed\outliers.parquet
+OUT final : C:\Users\crisr\Desktop\Máster Data Science & IA\PROYECTO\PFM2_Asistente_Compras_Inteligente\data\processed\demanda_subset_final.parquet
+
+Filas totales          : 3,941,216
+Productos únicos       : 3,596
+Rango temporal         : 2022-01-01 00:00:00 -> 2024-12-31 00:00:00
+Outliers (filas)       : 220,296
+Outliers (productos)   : 201
+Productos únicos por cluster: {0.0: 151, 1.0: 1146, 2.0: 1007, 3.0: 1091}

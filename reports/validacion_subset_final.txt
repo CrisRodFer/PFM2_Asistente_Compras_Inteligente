@@ -1,0 +1,17 @@
+=== VALIDACION SUBSET FINAL ===
+[full] filas=6,508,048 | productos=5,938 | fecha=2022-01-01→2024-12-31 | outlier_filas=0 | outlier_prods=0 | dups_key=0
+[subset] filas=3,941,216 | productos=3,596 | fecha=2022-01-01→2024-12-31 | outlier_filas=220,296 | outlier_prods=201 | dups_key=0
+
+Cobertura temporal OK: True
+Duplicados clave OK: True  | NaNs en claves OK: True
+Subset ⊆ Catálogo (Product_ID): True
+Todos los outliers oficiales presentes: True
+
+Productos subset vs full: 3,596 / 5,938 (≈ 60.56%)
+
+Distribución por clúster (productos únicos):
+ Cluster  n_full  n_subset  pct_subset_vs_full
+       0     210       151            0.719048
+       1    1233      1146            0.929440
+       2    3394      1007            0.296700
+       3    1101      1091            0.990917
