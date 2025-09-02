@@ -1,6 +1,5 @@
-
 # =============================================================================
-# Script: apply_price_effect.py
+# Script: aplicar_efecto_precio.py
 # Propósito:
 #   - Aplicar el impacto de precio (ventanas + elasticidades) sobre la baseline
 #     para 2022–2024 y generar un dataset ajustado al calendario real.
@@ -11,17 +10,17 @@
 #   2) Lee ventanas: data/auxiliar/ventanas_precio.csv
 #   3) Lee eventos reales (SHIFT): outputs/tables/validacion_calendario_real_SHIFT_*.csv
 #   4) Construye multiplicadores por día y clúster / producto aplicando
-#      M = (1 + discount) ** epsilon_cluster, con guardarraíles CAP/FLOOR
-#      (+50% CAP si solapa evento real) y tratamiento de outliers.
+#        M = (1 + discount) ** epsilon_cluster,
+#      con guardarraíles CAP/FLOOR (+50% CAP si día con evento real) y tratamiento
+#      de outliers (no amplificar si M>1 en días outlier).
 #   5) Resuelve solapes (elige mayor |lift|, y prioriza product_id sobre clúster/global).
 #   6) Genera:
-#      - data/processed/demanda_price_adjusted.parquet
-#      - (opcional) outputs/tables/price_calendar.parquet
+#        - data/processed/demanda_price_adjusted.parquet
+#        - (opcional) outputs/tables/price_calendar.parquet
 #
 # Edición/escenarios:
 #   - Ajusta descuentos/fechas/scope en data/auxiliar/ventanas_precio.csv
-#   - (Opcional) activa bloque de ESCENARIO (comentado más abajo) para aplicar
-#     sólo algunas ventanas sin tocar el CSV.
+#   - (Opcional) activa bloque de ESCENARIO (comentado) para aplicar sólo algunas ventanas.
 #
 # Dependencias:
 #   - pandas, numpy, pyarrow (parquet), xlsxwriter u openpyxl (no obligatorio)
@@ -31,6 +30,7 @@ from __future__ import annotations
 
 from pathlib import Path
 import logging
+import os
 import re
 import pandas as pd
 import numpy as np
@@ -38,7 +38,12 @@ import numpy as np
 # =========================
 # CONFIGURACIÓN Y RUTAS
 # =========================
-ROOT_DIR = Path(__file__).resolve().parents[2]   # .../scripts/transform/ -> raiz
+# Soporte notebook / entorno: si no hay __file__, usa PFM2_ROOT o la ruta local conocida
+try:
+    ROOT_DIR = Path(__file__).resolve().parents[2]   # .../scripts/transform/ -> raíz del repo
+except NameError:
+    ROOT_DIR = Path(os.getenv("PFM2_ROOT", r"C:\Users\crisr\Desktop\Máster Data Science & IA\PROYECTO\PFM2_Asistente_Compras_Inteligente"))
+
 DATA_DIR = ROOT_DIR / "data"
 PROCESSED_DIR = DATA_DIR / "processed"
 AUXILIAR_DIR = DATA_DIR / ("auxiliar" if (DATA_DIR / "auxiliar").exists() else "aux")
@@ -57,13 +62,18 @@ SHIFT_PATTERNS = [
 OUT_PARQUET  = PROCESSED_DIR / "demanda_price_adjusted.parquet"
 OUT_CALENDAR = OUTPUTS_DIR / "price_calendar.parquet"  # útil para Streamlit (opcional)
 
-# Elasticidades por clúster
-ELASTICITIES = {0: -0.6, 1: -1.0, 2: -1.2}
+# Elasticidades por clúster (C0..C3)
+ELASTICITIES = {
+    0: -0.6,  # Estables / fondo (baja sensibilidad)
+    1: -1.0,  # Mainstream (media)
+    2: -1.2,  # Altamente promocionable / value (alta)
+    3: -0.8,  # Premium / nicho (media-baja)
+}
 
 # Guardarraíles
-CAPS_SIN_EVENTO = {0: 1.8, 1: 2.2, 2: 2.8}  # tope multiplicador sin evento
-EVENT_BONUS = 1.5                           # +50% del CAP si día de evento real
-FLOOR_MULT  = 0.5                           # suelo general
+CAPS_SIN_EVENTO = {0: 1.8, 1: 2.2, 2: 2.8, 3: 2.0}  # tope multiplicador sin evento por clúster
+EVENT_BONUS = 1.5                                   # +50% del CAP si día de evento real
+FLOOR_MULT  = 0.5                                   # suelo general
 
 # Tratamiento outliers:
 # - si is_outlier==1 y M>1: no amplificar (M_final = min(M, 1))
@@ -76,8 +86,9 @@ EXPORT_CALENDAR = True
 # -------------- ESCENARIO (opcional; desactivado por defecto) ----------------
 # Si quieres aplicar sólo algunas ventanas (e.g., para pruebas/Streamlit),
 # descomenta el bloque de más abajo y define aquí los IDs a usar.
-# APPLY_ONLY_WINDOW_IDS = ["bf_2024", "rebajas_2024"]
+# APPLY_ONLY_WINDOW_IDS = ["bf_2024", "rebajas_invierno_2024"]
 # -----------------------------------------------------------------------------
+
 
 # =========================
 # LOGGING
@@ -86,7 +97,8 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
 )
-log = logging.getLogger(Path(__file__).stem)
+log = logging.getLogger(Path(__file__).stem if "__file__" in globals() else "aplicar_efecto_precio")
+
 
 # =========================
 # UTILIDADES
@@ -116,6 +128,7 @@ def _parse_scope_values(s: str) -> list[int]:
     if s is None or str(s).strip() == "":
         return []
     return [int(x) for x in str(s).replace(",", "|").split("|") if str(x).strip()!=""]
+
 
 # =========================
 # CARGA: VENTANAS OBSERVADAS (SHIFT)
@@ -183,7 +196,7 @@ def load_observed_windows(shift_dir: Path) -> tuple[pd.DataFrame, dict[int, set]
         raise RuntimeError("No pude estandarizar ninguna tabla SHIFT.")
 
     obs = pd.concat(frames, ignore_index=True)
-    obs = obs.loc[:, ~obs.columns.duplicated()].copy()
+    obs = obs.loc[:, ~df.columns.duplicated()].copy()
     obs = obs.sort_values(["Año","Evento"]).reset_index(drop=True)
 
     event_dates_by_year: dict[int, set] = {}
@@ -197,6 +210,7 @@ def load_observed_windows(shift_dir: Path) -> tuple[pd.DataFrame, dict[int, set]
     log.info("SHIFT cargado. Años: %s · Registros: %s",
              ", ".join(map(str, sorted(event_dates_by_year.keys()))), len(obs))
     return obs, event_dates_by_year
+
 
 # =========================
 # BASELINE: columnas clave
@@ -239,18 +253,18 @@ def detect_baseline_columns(df: pd.DataFrame) -> dict:
 
     return out
 
+
 # =========================
 # PRODUCTO → CLÚSTER
 # =========================
 def product_to_cluster_map(df: pd.DataFrame, col_product: str, col_cluster: str) -> dict[int,int]:
-    """
-    Construye un mapeo product_id → cluster usando la moda por producto.
-    """
+    """Construye un mapeo product_id → cluster usando la moda por producto."""
     tmp = (df[[col_product, col_cluster]]
            .dropna()
            .groupby(col_product)[col_cluster]
            .agg(lambda s: s.mode().iloc[0] if len(s.mode()) else s.iloc[0]))
     return tmp.to_dict()
+
 
 # =========================
 # CALENDARIO DE MULTIPLICADORES
@@ -288,6 +302,7 @@ def build_price_multiplier_calendar(windows: pd.DataFrame,
                     cap = CAPS_SIN_EVENTO.get(c, 2.0) * (EVENT_BONUS if (dt in event_dates_by_year.get(dt.year, set())) else 1.0)
                     M = max(FLOOR_MULT, min(base_M, cap))
                     rows_c.append((dt, c, float(M), w_id))
+
         elif scope_type == "cluster":
             targets = [int(c) for c in scope_vals] or sorted(elasticities.keys())
             for c in targets:
@@ -297,6 +312,7 @@ def build_price_multiplier_calendar(windows: pd.DataFrame,
                     cap = CAPS_SIN_EVENTO.get(c, 2.0) * (EVENT_BONUS if (dt in event_dates_by_year.get(dt.year, set())) else 1.0)
                     M = max(FLOOR_MULT, min(base_M, cap))
                     rows_c.append((dt, c, float(M), w_id))
+
         elif scope_type == "product_id":
             targets = [int(pid) for pid in scope_vals if int(pid) in p2c]
             for pid in targets:
@@ -307,6 +323,7 @@ def build_price_multiplier_calendar(windows: pd.DataFrame,
                     cap = CAPS_SIN_EVENTO.get(c, 2.0) * (EVENT_BONUS if (dt in event_dates_by_year.get(dt.year, set())) else 1.0)
                     M = max(FLOOR_MULT, min(base_M, cap))
                     rows_p.append((dt, pid, float(M), w_id))
+
         else:
             # desconocido → tratar como global
             targets = sorted(elasticities.keys())
@@ -335,29 +352,65 @@ def build_price_multiplier_calendar(windows: pd.DataFrame,
 
     return m_cluster, m_product
 
+
 # =========================
-# APLICAR A BASELINE
+# APLICAR A BASELINE (ROBUSTO)
 # =========================
 def apply_multipliers_to_baseline(base: pd.DataFrame,
                                   cols: dict,
                                   m_cluster: pd.DataFrame,
                                   m_product: pd.DataFrame,
-                                  elasticities: dict[int,float]) -> pd.DataFrame:
+                                  elasticities: dict[int,float],
+                                  p2c: dict[int,int] | None = None) -> pd.DataFrame:
     """
     Aplica multiplicadores a la baseline, priorizando product_id sobre clúster.
-    Devuelve DF con columnas nuevas:
+    Añadido: coerción robusta de tipos e imputación de cluster por product_id.
+    Devuelve DF con:
       - demand_multiplier
       - Demand_Day_priceAdj
       - price_factor_effective
-      - Price_virtual (si existe precio base)
+      - Price_virtual (si hay precio) o Price_index_virtual (si no)
     """
     b = base.copy()
-    # normaliza fecha y tipos
-    b[cols["date"]] = pd.to_datetime(b[cols["date"]], errors="coerce").dt.date
-    b["__Cluster__"]    = b[cols["cluster"]].astype(int)
-    b["__product_id__"] = b[cols["product_id"]].astype(int)
 
-    # merge product-specific (prioridad)
+    # --- Fecha en date ---
+    b[cols["date"]] = pd.to_datetime(b[cols["date"]], errors="coerce").dt.date
+
+    # --- product_id a numérico (descartar filas sin product_id) ---
+    pid = pd.to_numeric(b[cols["product_id"]], errors="coerce")
+    pid_na = pid.isna()
+    if pid_na.any():
+        log.warning("Filas sin product_id: %s → se descartan para el ajuste de precio.", int(pid_na.sum()))
+        b = b.loc[~pid_na].copy()
+        pid = pid.loc[b.index]
+
+    # --- cluster a numérico (coerce), imputar desde p2c y rellenar con moda ---
+    cluster_raw = pd.to_numeric(b[cols["cluster"]], errors="coerce")
+
+    # Imputar por mapeo product_id -> cluster si está disponible
+    if p2c:
+        mask_na = cluster_raw.isna()
+        if mask_na.any():
+            imputed = b.loc[mask_na, cols["product_id"]].map(p2c)
+            imputed = pd.to_numeric(imputed, errors="coerce")
+            cluster_raw.loc[mask_na] = imputed
+
+    # Si aún quedan NaN, usar la moda de los clusters válidos; si no existe moda, usar 0
+    if cluster_raw.isna().any():
+        valid = cluster_raw.dropna()
+        if len(valid):
+            mode_val = valid.mode().iloc[0]
+        else:
+            mode_val = 0
+        n_fill = int(cluster_raw.isna().sum())
+        log.warning("Clusters nulos tras imputación: %s → se rellenan con la moda=%s", n_fill, mode_val)
+        cluster_raw = cluster_raw.fillna(mode_val)
+
+    # Cast final
+    b["__Cluster__"]    = cluster_raw.astype(int)
+    b["__product_id__"] = pid.astype(int)
+
+    # --- Merge de multiplicadores: prioridad product_id > cluster/global ---
     if not m_product.empty:
         mp = m_product.rename(columns={"Date":"__Date__","product_id":"__product_id__","M":"M_prod"})
         b["__Date__"] = b[cols["date"]]
@@ -365,7 +418,6 @@ def apply_multipliers_to_baseline(base: pd.DataFrame,
     else:
         b["M_prod"] = np.nan
 
-    # merge cluster/global
     if not m_cluster.empty:
         mc = m_cluster.rename(columns={"Date":"__Date__","Cluster":"__Cluster__","M":"M_clu"})
         if "__Date__" not in b.columns:
@@ -374,43 +426,39 @@ def apply_multipliers_to_baseline(base: pd.DataFrame,
     else:
         b["M_clu"] = np.nan
 
-    # priorizar product_id; si no hay, usar cluster/global; si tampoco, 1.0
     b["demand_multiplier"] = b["M_prod"].fillna(b["M_clu"]).fillna(1.0).astype(float)
 
-    # Outliers (no amplificar si sube)
+    # --- Outliers: no amplificar si M>1 ---
     if "is_outlier" in cols and cols["is_outlier"] in b.columns and NO_AMPLIFY_OUTLIERS:
         mask_up = (b["demand_multiplier"] > 1.0) & (b[cols["is_outlier"]].astype(int) == 1)
         b.loc[mask_up, "demand_multiplier"] = 1.0
 
-    # Demanda ajustada
+    # --- Demanda ajustada ---
     b["Demand_Day_priceAdj"] = b[cols["demand"]].astype(float) * b["demand_multiplier"]
 
-    # Price virtual / factor efectivo (si hay precio base)
-    # price_factor_effective = M ** (1/epsilon_cluster)
+    # --- Price factor efectivo e (opcional) precio virtual ---
     def _eps_for_row(row):
         c = int(row["__Cluster__"])
         return float(elasticities.get(c, -1.0))
 
     b["epsilon_row"] = b.apply(_eps_for_row, axis=1)
-    # Evitar dividir por 0 si epsilon mal definido
     b["price_factor_effective"] = b.apply(
         lambda r: (r["demand_multiplier"] ** (1.0 / r["epsilon_row"])) if r["epsilon_row"] != 0 else 1.0,
         axis=1
     )
 
-    # Si existe precio base, crear Price_virtual; si no, deja price_factor_effective y, opcionalmente, un índice
     price_col = cols.get("price")
     if price_col and price_col in b.columns:
         b["Price_virtual"] = b[price_col].astype(float) * b["price_factor_effective"]
     else:
-        # índice de precio artificial (base 1.0)
         b["Price_index_virtual"] = b["price_factor_effective"]
 
-    # Limpieza columnas temporales
-    drop_cols = ["__Date__","__Cluster__","__product_id__","M_prod","M_clu","epsilon_row"]
+    # Limpieza temporal
+    drop_cols = ["__Date__","M_prod","M_clu","epsilon_row"]
     b = b.drop(columns=[c for c in drop_cols if c in b.columns])
 
     return b
+
 
 # =========================
 # MAIN
@@ -418,7 +466,7 @@ def apply_multipliers_to_baseline(base: pd.DataFrame,
 def main() -> None:
     """Pipeline completo de aplicación del efecto precio a la baseline."""
     try:
-        log.info("Inicio apply_price_effect.py")
+        log.info("Inicio aplicar_efecto_precio.py")
         ensure_dirs(PROCESSED_DIR, OUTPUTS_DIR)
 
         # 1) Baseline (cargamos sólo columnas necesarias + precio si existe)
@@ -433,7 +481,6 @@ def main() -> None:
         base = _read_parquet_safe(BASELINE_PARQUET, columns=list(set(need_cols)))
         if base.empty:
             raise RuntimeError("Baseline cargada vacía con columnas necesarias.")
-
         log.info("Baseline cargada: filas=%s · columnas=%s", len(base), list(base.columns))
 
         # 2) Mapeo producto → clúster (para ventanas por product_id)
@@ -448,7 +495,6 @@ def main() -> None:
         windows["discount"] = windows["discount"].astype(float)
 
         # --- ESCENARIO (opcional): aplicar sólo ciertas ventanas -----------------
-        # Descomenta este bloque si definiste APPLY_ONLY_WINDOW_IDS arriba:
         # if 'APPLY_ONLY_WINDOW_IDS' in globals() and len(APPLY_ONLY_WINDOW_IDS) > 0:
         #     windows = windows[windows["id"].isin(APPLY_ONLY_WINDOW_IDS)].copy()
         #     log.info("ESCENARIO: usando sólo ventanas %s", APPLY_ONLY_WINDOW_IDS)
@@ -465,17 +511,17 @@ def main() -> None:
             event_dates_by_year=event_dates_by_year,
             p2c=p2c
         )
-
         log.info("Calendario construido: m_cluster=%s filas · m_product=%s filas",
                  len(m_cluster), len(m_product))
 
-        # 6) Aplicar a baseline
+        # 6) Aplicar a baseline (ahora con imputación robusta de clúster)
         adjusted = apply_multipliers_to_baseline(
             base=base,
             cols=cols_map,
             m_cluster=m_cluster,
             m_product=m_product,
-            elasticities=ELASTICITIES
+            elasticities=ELASTICITIES,
+            p2c=p2c  # ← imputar cluster desde product_id si falta
         )
 
         # 7) Exportar
@@ -483,7 +529,6 @@ def main() -> None:
         log.info("Parquet ajustado escrito en: %s (filas=%s)", OUT_PARQUET, len(adjusted))
 
         if EXPORT_CALENDAR:
-            # Guardamos el calendario comprimido (por día/cluster y por día/producto si existe)
             packs = []
             if not m_cluster.empty:
                 packs.append(m_cluster.assign(level="cluster"))
@@ -499,6 +544,7 @@ def main() -> None:
     except Exception as e:
         log.exception("Fallo en la ejecución: %s", e)
         raise
+
 
 if __name__ == "__main__":
     main()
