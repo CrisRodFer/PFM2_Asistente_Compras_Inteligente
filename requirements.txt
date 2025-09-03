@@ -13,3 +13,5 @@ scipy
 scikit-learn
 ipykernel
 tqdm
+xlsxwriter
+streamlit

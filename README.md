@@ -12,30 +12,22 @@ demanda y modelado predictivo.
 
 ## 📂 Estructura del proyecto
 
-``` plaintext
 PFM2_Asistente_Compras_Inteligente/
-├── data/               # Datos en diferentes estados
-│   ├── raw/            # Datos originales sin procesar
-│   ├── interim/        # Datos intermedios (transformaciones temporales)
-│   ├── clean/          # Datos limpios y validados
-│   ├── processed/      # Datos preparados
-│   └── reports/        # Reportes automáticos (ej. huecos en históricos)
-├── outputs/            # Resultados y salidas
-│   ├── figures/        # Gráficas
-│   └── reports/        # Informes
-├── logs/               # Registros de ejecución
-├── notebooks/          # Notebooks del proyecto
-├── scripts/            # Scripts ejecutables
-├── sql/                # Consultas SQL
-├── streamlit_app/      # Interfaz Streamlit
-├── src/                # Código reusable
-│   ├── config.py
-│   ├── logging_conf.py
-│   └── utils_data.py
-├── requirements.txt    # Dependencias
-├── .gitignore
-└── .gitattributes
-```
+├── data/
+│   ├── raw/
+│   ├── interim/
+│   ├── clean/
+│   ├── processed/         # demanda_subset_final.parquet, demanda_price_adjusted.parquet, ...
+│   └── auxiliar/          # ventanas_precio.csv, preflight_ventanas.xlsx (antes "aux")
+├── outputs/
+│   ├── figures/
+│   └── tables/            # validacion_calendario_real_SHIFT_*.csv, price_calendar.parquet, ...
+├── notebooks/
+├── scripts/
+│   ├── analysis/          # ventanas_precio.py  (genera/valida ventanas de precio)
+│   └── transform/         # aplicar_efecto_precio.py (aplica efecto a la baseline)
+├── requirements.txt
+└── ...
 
 ------------------------------------------------------------------------
 
@@ -236,3 +228,89 @@ seleccionada (baseline local ±7 y ventanas ±3) se utilizará como feature base
 
 📌 **Conclusión de la Fase 3**:  
 Se ha construido un **subset representativo, coherente y manejable** (30% + outliers), que mantiene diversidad de clusters, top ventas atípicos y cobertura temporal completa. Este subset servirá como base para la **Fase 4**, centrada en el análisis del impacto del precio y variables externas.
+
+
+-------------------------------------------------------------------------
+
+## 📑 Metodología – Fase 4 (Impacto del precio sobre la demanda)
+
+### 4.1 Objetivo, datos de partida y diseño del efecto (ventanas + elasticidades)
+- **Objetivo**: simular cómo cambian las unidades cuando decidimos modificar el precio (descuentos/subidas), manteniendo separados otros efectos (promos no-precio, externos). Se trabaja sobre el subset final (2022–2024) y se alinea con el calendario real validado en Fase 2.
+- **Datos de partida** (dataset `demanda_subset_final`):
+  - Demanda → `Demand_Day`
+  - Producto → `Product_ID`
+  - Fecha → `Date`
+  - Clúster → `Cluster`
+  - Outliers → `is_outlier`
+  - Precio base (si existe) → `precio_medio`  
+  > Si no hay serie de precio real, se genera **precio virtual** a partir de las ventanas.
+- **Ventanas**: `start`, `end`, `discount` (p. ej. −0.10), `scope_type` (`global|cluster|product_id`) y `scope_values`.
+- **Elasticidades por clúster (arranque)**:
+  - C0 = −0.6 (poco sensible)
+  - C1 = −1.0 (media)
+  - C2 = −1.2 (alta)
+  - C3 = −0.8 (media-baja)
+- **Fórmula del efecto**  
+  Multiplicador de unidades por día:  
+  `M_price,t = (1 + d_t)^(ε_{g(i)})`  ⇒  `qty_{i,t} = baseline_{i,t} * M_price,t`
+- **Guardarraíles y política de outliers**
+  - **CAP por clúster (sin evento)**: C0 1.8×, C1 2.2×, C2 2.8×, C3 2.0×.  
+    En día de **evento real** (SHIFT) → CAP × **1.5**.
+  - **FLOOR** global: **0.5×**.
+  - **Outliers**: si `is_outlier==1` y `M>1`, **no amplificar** (forzar `M=1`).  
+  - **Solapes**: prioridad `product_id` > `cluster` > `global` (se elige el mayor `|M−1|`).
+
+
+### 4.2 Preflight de ventanas — `scripts/analysis/ventanas_precio.py`
+- Genera/actualiza **`data/auxiliar/ventanas_precio.csv`** y **`data/auxiliar/preflight_ventanas.xlsx`** (sanity de ventanas).
+- Entradas: SHIFT `outputs/tables/validacion_calendario_real_SHIFT_*.csv`.
+- Recomendado para revisar coberturas, solapes y “lifts” esperados por clúster antes de aplicar.
+
+
+### 4.3 Aplicación del efecto — `scripts/transform/aplicar_efecto_precio.py`
+- **Inputs**: `demanda_subset_final.parquet`, `ventanas_precio.csv`, y SHIFT `outputs/tables/validacion_calendario_real_SHIFT_*.csv`.
+- **Outputs**:
+  - `data/processed/demanda_price_adjusted.parquet`  
+    (añade `demand_multiplier`, `Demand_Day_priceAdj`, `price_factor_effective`, `Price_virtual` o `Price_index_virtual`).
+  - `outputs/tables/price_calendar.parquet` (calendario de multiplicadores; útil para la app).
+
+
+### 4.4 Validación rápida (sanity)
+- **Rangos**: `M ∈ [0.5, CAP×1.5]` sin valores fuera de tope/suelo.  
+- **Cobertura**: % de días con `M≠1` acorde a duración de campañas.  
+- **Outliers**: si `is_outlier==1` y `M>1` ⇒ `M=1`.  
+- **Consistencia**: `price_factor_effective ≈ M^(1/ε)` (error ≈ 0).  
+- **Clúster**: mayor lift en C2, intermedio C1/C3, menor C0 (coherente con elasticidades).
+
+
+
+### 4.5 Validación adicional: alineamiento con calendario real
+- Alineamiento precio vs. ventanas (±3 días): **precision ≈ 1.00** y **recall ≈ 0.67** por año.  
+  ⇒ todo el efecto cae **dentro** de ventanas; no todas las fechas de ventana se usan (diseño esperado por umbral/cobertura).
+- Gráficas anuales: picos/mesetas de la serie ajustada coinciden con zonas sombreadas (rebajas, agosto, BF, Navidad).
+
+
+
+**📌 Conclusión de la Fase 4**  
+Fase 4 **OK**. Dataset listo para el **modelado** y para la app de escenarios (*what-if* de precio).
+
+**⏭️ Reproducibilidad (Fase 4)**
+
+```bash
+# 1) Ventanas de precio (CSV + preflight)
+python scripts/analysis/ventanas_precio.py
+
+# 2) Aplicar efecto precio a la baseline (parquet ajustado + calendario)
+python scripts/transform/aplicar_efecto_precio.py
+
+
+➡️ **Entradas previas necesarias**
+- `data/processed/demanda_subset_final.parquet (de Fases 1–3)`.
+- SHIFT en `outputs/tables/validacion_calendario_real_SHIFT_*.csv (Fase 2)`.
+
+⬅️ **Salidas clave**
+- `data/auxiliar/ventanas_precio.csv`, `data/auxiliar/preflight_ventanas.xlsx`
+- `data/processed/demanda_price_adjusted.parquet`
+- `outputs/tables/price_calendar.parquet`
+
+-------------------------------------------------------------------------
