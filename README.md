@@ -314,3 +314,66 @@ python scripts/transform/aplicar_efecto_precio.py
 - `outputs/tables/price_calendar.parquet`
 
 -------------------------------------------------------------------------
+
+## 📑 Metodología – Fase 5 (Factores externos, ruido y validación)
+
+### 5.1 Preparación de los datos de entrada
+- Punto de partida: `data/processed/demanda_price_adjusted.parquet` (output de la Fase 4).
+- Columnas clave: `Demand_Day`, `Demand_Final`, `Demand_Final_Noiseds`, `demand_multiplier`, `Factors_Applied`.
+- Revisión inicial de integridad y consistencia antes de aplicar factores externos.
+
+### 5.2 Definición de factores externos
+- Factores considerados: **inflación, promociones no-precio, competencia, estacionalidad extra y eventos específicos** (ej. agosto).
+- Cada factor se implementa como columna multiplicadora `M_factor`, aplicada sobre la serie de referencia.
+- Se evita solapamiento con el precio (ya ajustado en Fase 4).
+- Se añaden tolerancias y ventanas alineadas al calendario real validado en Fase 2.
+
+### 5.3 Diseño del modelo de aplicación
+- Fórmula general de la demanda ajustada: Demand_Final = Demand_Day × (Π M_factor_i)
+- Cuando ningún factor aplica → `Demand_Final = Demand_Day`.
+- En cada fila se registra en `Factors_Applied` la lista exacta de factores activos.
+- Esta trazabilidad permite auditar el efecto de cada multiplicador.
+
+### 5.4 Implementación en código
+- Scripts principales:
+- `ventanas_externos.py` → genera ventanas externas (`calendar_externos.parquet`).
+- `enriquecer_ventas_externos.py` → aplica y valida ventanas externas (sanity checks).
+- `aplicar_factores.py` → aplica los multiplicadores a la demanda.
+- Outputs intermedios:  
+- `data/auxiliar/ventanas_externos.csv`, `preflight_externos.xlsx`
+- `data/processed/demanda_all_adjusted.parquet`, `calendar_total_externos.parquet`
+
+### 5.5 Validación de coherencia y robustez.
+
+**5.5.1 Validación de coherencia del precio**  
+- Revisión de rangos de multiplicadores (`M ∈ [0.5, CAP×1.5]`).
+- Confirmación de que los valores son consistentes con elasticidades y ventanas de Fase 4.
+
+**5.5.2 Validación adicional (alineamiento ventanas)**  
+- Comparación con el calendario real ±3 días.  
+- Métricas: *Precision* = 1.0; *Recall* ≈ 0.67–0.69; *F1* ≈ 0.80.  
+- Gráficas muestran picos alineados con ventanas de rebajas, agosto, Black Friday, etc.
+
+**5.5.3. Comparativa de demanda.**  
+- Introducción de ruido lognormal para enriquecer la serie y aumentar la variabilidad de forma controlada.  
+- La comparativa entre `Demand_Day`, `Demand_Final` y `Demand_Final_Noiseds` mostró que algunos clústers presentaban un 
+  exceso de ruido (40–60%), mientras que otros mantenían niveles razonables (~20%).  
+- Para estabilizar la serie se aplicó un ajuste por clúster (`ajuste_ruido_por_cluster.py`), reduciendo los casos con exceso a ~22% y 
+  manteniendo sin cambios los clústers ya estables.  
+- El resultado es un dataset más realista y consistente, que conserva la señal original pero mejora la 
+  robustez para el modelado predictivo.
+
+**5.5.4 Validación de trazabilidad**  
+- Confirmación de que `Factors_Applied` refleja exactamente los multiplicadores ≠ 1.  
+- Top combinaciones:  
+- `inflation|seasonExtra` (~3.2M filas)  
+- `agosto_nonprice|inflation|seasonExtra` (~334K filas)  
+- `inflation|promo|seasonExtra` (~237K filas)  
+- Se confirma que no aparecen factores espurios ni inconsistencias.
+
+-------------------------------------------------------------------------
+
+
+📌 **Conclusión de la Fase 5**:  
+La demanda ajustada resultante es **estadísticamente coherente, trazable y alineada con el calendario real**, constituyendo una base sólida para la siguiente fase de **modelado predictivo**.
+

@@ -15,3 +15,5 @@ ipykernel
 tqdm
 xlsxwriter
 streamlit
+plotly
+altair
