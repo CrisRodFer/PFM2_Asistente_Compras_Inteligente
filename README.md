@@ -12,22 +12,51 @@ demanda y modelado predictivo.
 
 ## 📂 Estructura del proyecto
 
+```plaintext
 PFM2_Asistente_Compras_Inteligente/
+│
 ├── data/
-│   ├── raw/
-│   ├── interim/
-│   ├── clean/
-│   ├── processed/         # demanda_subset_final.parquet, demanda_price_adjusted.parquet, ...
-│   └── auxiliar/          # ventanas_precio.csv, preflight_ventanas.xlsx (antes "aux")
-├── outputs/
-│   ├── figures/
-│   └── tables/            # validacion_calendario_real_SHIFT_*.csv, price_calendar.parquet, ...
-├── notebooks/
+│   ├── raw/                  # Datos originales (fuentes externas, ficheros iniciales)
+│   ├── clean/                # Datos limpios tras primeras transformaciones
+│   ├── processed/            # Datos procesados y listos para análisis/modelado
+│   │   ├── demanda_all_adjusted_postnoise.parquet
+│   │   ├── subset_modelado.parquet
+│   │   └── ...
+│   └── external/             # Datos externos (calendarios reales, factores, etc.)
+│
 ├── scripts/
-│   ├── analysis/          # ventanas_precio.py  (genera/valida ventanas de precio)
-│   └── transform/         # aplicar_efecto_precio.py (aplica efecto a la baseline)
+│   ├── analysis/             # Scripts de análisis y validación
+│   │   ├── identificar_nuevos_outliers.py
+│   │   ├── clasificar_picos_aislados_dbscan.py
+│   │   ├── consolidar_outliers_fase6.py
+│   │   ├── generar_subset_modelado.py
+│   │   └── ...
+│   ├── transform/            # Scripts de transformación de datos
+│   ├── utils/                # Funciones de soporte y utilidades
+│   └── ...
+│
+├── reports/
+│   ├── figures/              # Visualizaciones y gráficas exportadas
+│   └── outliers/             # Resultados específicos del análisis de outliers
+│       ├── outliers_candidatos_nuevos_dias.csv
+│       ├── outliers_candidatos_nuevos_productos.csv
+│       ├── outliers_dbscan_dias.csv
+│       ├── outliers_dbscan_productos.csv
+│       ├── outliers_resumen.csv
+│       └── outliers_resumen_metricas.csv
+│
+├── outputs/
+│   ├── tables/               # Tablas intermedias (ej. validación calendario real)
+│   └── figures/              # Gráficos guardados manualmente
+│
+├── notebooks/
+│   ├── PFM2.ipynb                  # Notebook principal (Fases 1–6)
+│   └── PFM2_Modelado_y_App.ipynb   # Notebook para Fase 7 en adelante
+│
 ├── requirements.txt
-└── ...
+├── README.md
+└── .gitignore
+
 
 ------------------------------------------------------------------------
 
@@ -371,9 +400,44 @@ python scripts/transform/aplicar_efecto_precio.py
 - `inflation|promo|seasonExtra` (~237K filas)  
 - Se confirma que no aparecen factores espurios ni inconsistencias.
 
--------------------------------------------------------------------------
-
-
 📌 **Conclusión de la Fase 5**:  
 La demanda ajustada resultante es **estadísticamente coherente, trazable y alineada con el calendario real**, constituyendo una base sólida para la siguiente fase de **modelado predictivo**.
 
+-------------------------------------------------------------------------
+
+## 📑 Metodología – Fase 6 (Análisis y tratamiento de outliers)
+
+### 6.1 Validación complementaria (`is_outlier = 0`)
+- Punto de partida: `data/processed/demanda_all_adjusted_postnoise.parquet`.
+- Criterios aplicados: MAD z-score y percentiles P95/P99.
+- Clasificación automática: top_venta, pico_aislado, mixto.
+- Outputs:
+  - `reports/outliers/outliers_candidatos_nuevos_dias.csv`
+  - `reports/outliers/outliers_candidatos_nuevos_productos.csv`
+
+### 6.2 Revisión de outliers DBSCAN (`is_outlier = 1`)
+- Se aplica la misma lógica que en 6.1 sobre los casos detectados inicialmente con DBSCAN.
+- Clasificación y decisiones por producto-año.
+- Outputs:
+  - `reports/outliers/outliers_dbscan_dias.csv`
+  - `reports/outliers/outliers_dbscan_productos.csv`
+
+### 6.3 Consolidado y decisiones finales
+- Unión y priorización de tipologías: top_venta > mixto > pico_aislado.
+- Decisiones aplicadas: sin_cambio, suavizado_a015, alerta_pendiente.
+- Outputs:
+  - `reports/outliers/outliers_resumen.csv`
+  - `reports/outliers/outliers_resumen_metricas.csv`
+
+### 6.4 Implicaciones para modelado y subset final
+- Se mantiene la columna original is_outlier (DBSCAN).
+- Se añaden columnas de trazabilidad anual:
+  - `tipo_outlier_year`
+  - `decision_outlier_year`
+- Output final:
+  -`data/processed/subset_modelado.parquet`
+
+📌  **Conclusión de la Fase 6**.
+Los picos aislados quedan justificados por calendario real y los top ventas se mantienen; no se detectan outliers espurios. El dataset resultante está validado y listo para la Fase 7 (modelado y aplicación).
+
+-------------------------------------------------------------------------

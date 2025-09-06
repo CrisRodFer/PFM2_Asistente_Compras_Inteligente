@@ -17,3 +17,4 @@ xlsxwriter
 streamlit
 plotly
 altair
+statsmodels
