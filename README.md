@@ -441,3 +441,74 @@ La demanda ajustada resultante es **estadísticamente coherente, trazable y alin
 Los picos aislados quedan justificados por calendario real y los top ventas se mantienen; no se detectan outliers espurios. El dataset resultante está validado y listo para la Fase 7 (modelado y aplicación).
 
 -------------------------------------------------------------------------
+
+## 📑 Metodología – Fase 7 (Validación y preparación del dataset para modelado)
+
+### 7.1 Validación inicial del dataset
+- Script principal: `scripts/eda/validacion_dataset_modelado.py`
+- Objetivos:
+  - Verificar integridad del target (`demand_final_noised`).
+  - Confirmar cobertura temporal completa (2022–2024).
+  - Detectar duplicados en (`product_id`, `date`).
+  - Validar la coherencia de los clústeres y la trazabilidad de los outliers.
+  - Generar reporte tipo “semáforo” con indicadores críticos (OK/NO-OK).
+- Script auxiliar: `scripts/eda/check_outliers_clusters.py`
+  - Objetivo: auditar la coherencia entre `cluster` y `__cluster__` y confirmar la asignación de outliers.
+  - Se documenta como herramienta complementaria, no obligatoria en el pipeline.
+- Resultados:
+  - Target sin nulos ni negativos.
+  - Cobertura temporal completa hasta 2024-12-31.
+  - Sin duplicados por (`product_id`, `date`).
+  - Todos los productos con clúster asignado (0–3).
+  - Outliers asignados al clúster mayoritario, garantizando cobertura.
+- Conclusión: el dataset `subset_modelado.parquet` queda validado como punto de partida fiable para el modelado.
+
+
+### 7.2 Preparación del dataset para modelado
+- Script: `scripts/transform/preparacion_dataset_modelado.py`
+- Transformaciones aplicadas:
+  - Renombrado de columnas clave:
+    - `__cluster__` → `cluster_id`
+    - `demand_final_noised` → `sales_quantity`
+  - Eliminación de columnas redundantes:
+    - `cluster`, `__product_id__`, `demand_final_noiseds_adj`
+  - Normalización de tipos:  
+    - `date` → datetime  
+    - `product_id` → string  
+    - `cluster_id` → int
+  - Control de duplicados y nulos:
+    - Sin duplicados en (`product_id`, `date`)  
+    - Sin nulos en `sales_quantity`
+  - Selección final de variables: identificadores, target, precio, factores externos y trazabilidad.
+- Output final:  
+  - `data/processed/dataset_modelado_ready.parquet` → dataset limpio y consolidado para modelado.
+- Verificación post-transformación:
+  - Confirmada cobertura temporal completa.  
+  - `sales_quantity` sin nulos ni negativos.  
+  - `product_id` válido (sin 0 ni cadenas vacías).  
+  - Sin duplicados en (`product_id`, `date`).  
+  - `cluster_id` completo y dentro del rango esperado (0–3).  
+
+
+### 7.3 Target y features disponibles
+- **Target definido:**
+  - `sales_quantity` → demanda diaria final por producto, consolidada y validada.
+- **Features disponibles:**
+  - Identificadores y estructura temporal:
+    - `product_id`, `date`, `cluster_id`
+  - Precio y derivados:
+    - `precio_medio`, `price_virtual`, `price_factor_effective`, `demand_day_priceadj`
+  - Factores externos:
+    - `m_agosto_nonprice`, `m_competition`, `m_inflation`, `m_promo`, etc.
+  - Outliers y trazabilidad (opcionales):
+    - `is_outlier`, `tipo_outlier_year`, `decision_outlier_year`
+- Implicaciones:
+  - Los modelos de series temporales clásicos (p.ej. SARIMAX, Holt-Winters) usarán el target y exógenas seleccionadas.
+  - Los modelos de machine learning (Ridge, Random Forest) podrán explotar un conjunto más amplio de features.
+  - Este listado define el universo de variables disponibles, dejando la selección específica para la Fase 8.
+
+📌 **Conclusión de la Fase 7**:  
+El dataset `dataset_modelado_ready.parquet` constituye la **base estable, homogénea y trazable** para el modelado.  
+Con esta fase se cierra todo el bloque de preparación y se garantiza que los modelos de la Fase 8 se entrenarán sobre datos limpios, validados y estructurados.
+
+-------------------------------------------------------------------------
