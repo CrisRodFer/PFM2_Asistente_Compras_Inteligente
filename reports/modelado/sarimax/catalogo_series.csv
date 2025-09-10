@@ -1,0 +1,13 @@
+cluster_id,split,n_rows,date_min,date_max,path
+0,test,0,,,data\processed\modelado\sarimax\cluster_0\test.csv
+0,train,730,2022-01-01,2023-12-31,data\processed\modelado\sarimax\cluster_0\train.csv
+0,val,366,2024-01-01,2024-12-31,data\processed\modelado\sarimax\cluster_0\val.csv
+1,test,0,,,data\processed\modelado\sarimax\cluster_1\test.csv
+1,train,730,2022-01-01,2023-12-31,data\processed\modelado\sarimax\cluster_1\train.csv
+1,val,366,2024-01-01,2024-12-31,data\processed\modelado\sarimax\cluster_1\val.csv
+2,test,0,,,data\processed\modelado\sarimax\cluster_2\test.csv
+2,train,730,2022-01-01,2023-12-31,data\processed\modelado\sarimax\cluster_2\train.csv
+2,val,366,2024-01-01,2024-12-31,data\processed\modelado\sarimax\cluster_2\val.csv
+3,test,0,,,data\processed\modelado\sarimax\cluster_3\test.csv
+3,train,730,2022-01-01,2023-12-31,data\processed\modelado\sarimax\cluster_3\train.csv
+3,val,366,2024-01-01,2024-12-31,data\processed\modelado\sarimax\cluster_3\val.csv
