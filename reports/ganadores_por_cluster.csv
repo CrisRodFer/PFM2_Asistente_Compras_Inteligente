@@ -1,0 +1,5 @@
+cluster,model,smape,status
+0,SeasonalNaive,6.27,ok
+1,SARIMAX,6.95,failed
+2,SARIMAX,6.47,ok
+3,SARIMAX,5.31,failed
