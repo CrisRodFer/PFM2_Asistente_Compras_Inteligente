@@ -12,50 +12,58 @@ demanda y modelado predictivo.
 
 ## 📂 Estructura del proyecto
 
-```plaintext
-PFM2_Asistente_Compras_Inteligente/
-│
-├── data/
-│   ├── raw/                  # Datos originales (fuentes externas, ficheros iniciales)
-│   ├── clean/                # Datos limpios tras primeras transformaciones
-│   ├── processed/            # Datos procesados y listos para análisis/modelado
+📂 PFM2_Asistente_Compras_Inteligente
+├── 📂 data
+│   ├── 📂 raw
+│   ├── 📂 clean
+│   ├── 📂 processed
+│   │   ├── demanda_all_adjusted.parquet
 │   │   ├── demanda_all_adjusted_postnoise.parquet
 │   │   ├── subset_modelado.parquet
-│   │   └── ...
-│   └── external/             # Datos externos (calendarios reales, factores, etc.)
+│   │   ├── dataset_modelado_ready.parquet
+│   │   ├── predicciones_2025.parquet
+│   │   ├── predicciones_2025_estacional.parquet
+│   │   ├── predicciones_2025_optimista.parquet
+│   │   └── predicciones_2025_pesimista.parquet
+│   └── 📂 external
 │
-├── scripts/
-│   ├── analysis/             # Scripts de análisis y validación
-│   │   ├── identificar_nuevos_outliers.py
-│   │   ├── clasificar_picos_aislados_dbscan.py
-│   │   ├── consolidar_outliers_fase6.py
-│   │   ├── generar_subset_modelado.py
-│   │   └── ...
-│   ├── transform/            # Scripts de transformación de datos
-│   ├── utils/                # Funciones de soporte y utilidades
-│   └── ...
+├── 📂 outputs
+│   ├── 📂 figuras
+│   └── 📂 controles_escenarios
+│       ├── control_totales_optimista.csv
+│       ├── control_por_cluster_optimista.csv
+│       ├── control_totales_pesimista.csv
+│       └── control_por_cluster_pesimista.csv
 │
-├── reports/
-│   ├── figures/              # Visualizaciones y gráficas exportadas
-│   └── outliers/             # Resultados específicos del análisis de outliers
-│       ├── outliers_candidatos_nuevos_dias.csv
-│       ├── outliers_candidatos_nuevos_productos.csv
-│       ├── outliers_dbscan_dias.csv
-│       ├── outliers_dbscan_productos.csv
-│       ├── outliers_resumen.csv
-│       └── outliers_resumen_metricas.csv
+├── 📂 scripts
+│   ├── 📂 eda
+│   │   ├── validacion_dataset_modelado.py
+│   │   └── check_outliers_clusters.py
+│   ├── 📂 transform
+│   │   ├── generar_historicos.py
+│   │   ├── desagregar_demanda.py
+│   │   └── normalizar_features.py
+│   ├── 📂 modeling
+│   │   ├── seasonal_naive.py
+│   │   ├── holt_winters.py
+│   │   ├── sarimax_cluster.py
+│   │   ├── regresion_ml.py
+│   │   ├── evaluacion_global.py
+│   │   ├── backtesting.py
+│   │   ├── predicciones_2025.py
+│   │   ├── simular_escenario_optimista.py
+│   │   └── simular_escenario_pesimista.py
+│   └── 📂 utils
+│       ├── simular_escenario.py
+│       ├── ajustar_ruido.py
+│       └── validar_calendario.py
 │
-├── outputs/
-│   ├── tables/               # Tablas intermedias (ej. validación calendario real)
-│   └── figures/              # Gráficos guardados manualmente
+├── 📂 notebooks
+│   └── PFM2_Modelado_y_app.ipynb
 │
-├── notebooks/
-│   ├── PFM2.ipynb                  # Notebook principal (Fases 1–6)
-│   └── PFM2_Modelado_y_App.ipynb   # Notebook para Fase 7 en adelante
-│
-├── requirements.txt
 ├── README.md
-└── .gitignore
+└── requirements.txt
+
 
 
 ------------------------------------------------------------------------
@@ -510,5 +518,107 @@ Los picos aislados quedan justificados por calendario real y los top ventas se m
 📌 **Conclusión de la Fase 7**:  
 El dataset `dataset_modelado_ready.parquet` constituye la **base estable, homogénea y trazable** para el modelado.  
 Con esta fase se cierra todo el bloque de preparación y se garantiza que los modelos de la Fase 8 se entrenarán sobre datos limpios, validados y estructurados.
+
+-------------------------------------------------------------------------
+📑 Metodología – Fase 8 (Modelado de la demanda).
+
+### 8.1 Preparación del dataset para entrenamiento
+- **Script principal:** `scripts/eda/preparacion_dataset_ml.py`
+- **Objetivos:**
+  - Preparar el dataset `dataset_modelado_ready.parquet` como entrada para modelos de series temporales y de ML.
+  - Asegurar consistencia en el target (`sales_quantity`) y en las features seleccionadas.
+- **Resultados:**
+  - Dataset preparado y verificado como base común para los experimentos de modelado.
+- **Conclusión:** El dataset queda listo para entrenar modelos bajo diferentes enfoques.
+
+
+
+### 8.2 Baselines
+- **Scripts principales:**  
+  - `scripts/modeling/seasonal_naive.py`  
+  - `scripts/modeling/holt_winters.py`  
+- **Objetivos:**
+  - Establecer modelos de referencia iniciales (benchmarks).
+  - Evaluar enfoques sencillos: baseline por clúster, Seasonal Naive y Holt-Winters (ETS).
+- **Resultados:**
+  - Se generan métricas de error para cada baseline.
+  - Se confirma que los modelos clásicos capturan cierta estacionalidad pero no son robustos en clústeres con alta variabilidad.
+- **Conclusión:** Es necesario avanzar hacia modelos más complejos para mejorar precisión y estabilidad.
+
+
+### 8.3 Modelos clásicos de series temporales
+- **Script principal:** `scripts/modeling/sarimax_cluster.py`
+- **Objetivos:**
+  - Entrenar y evaluar modelos SARIMAX por clúster.
+  - Incluir factores exógenos relevantes en la predicción.
+- **Resultados:**
+  - SARIMAX obtiene resultados aceptables en clústeres estables.
+  - En clústeres más variables, el modelo presenta limitaciones.
+- **Conclusión:** SARIMAX aporta valor pero no ofrece mejoras consistentes frente a los baselines en todos los casos.
+
+
+### 8.4 Modelos de regresión y ML
+- **Scripts principales:**  
+  - `scripts/modeling/regresion_ml.py`  
+  - `scripts/modeling/evaluacion_global.py`  
+- **Objetivos:**
+  - Aplicar modelos de regresión y Random Forest para capturar relaciones no lineales.
+  - Comparar el rendimiento frente a SARIMAX y baselines.
+  - Analizar la importancia de variables y su interpretabilidad.
+- **Resultados:**
+  - Random Forest ofrece los mejores resultados globales.
+  - Se identifican como variables clave: precio medio, promociones y factores externos.
+- **Conclusión:** Random Forest se establece como el modelo más adecuado para este caso de uso.
+
+
+### 8.5 Backtesting y comparación
+- **Script principal:** `scripts/modeling/backtesting.py`
+- **Objetivos:**
+  - Validar los modelos mediante backtesting.
+  - Comparar métricas globales y por clúster (WAPE, MAPE, RMSE).
+- **Resultados:**
+  - Random Forest mantiene un rendimiento más estable frente a SARIMAX y baselines.
+- **Conclusión:** El modelo seleccionado es consistente bajo distintos periodos de validación.
+
+
+### 8.6 Predicciones finales (2025) – escenario neutro con estacionalidad
+- **Script principal:** `scripts/modeling/predicciones_2025.py`
+- **Objetivos:**
+  - Generar el escenario neutro estacionalizado para 2025.
+  - Establecer una base de comparación para escenarios alternativos.
+- **Resultados:**
+  - Se produce el archivo `predicciones_2025_estacional.parquet`.
+- **Conclusión:** El escenario neutro estacionalizado queda validado como baseline para simulaciones.
+
+
+### 8.7 Simulación de escenarios optimista y pesimista
+- **Scripts principales:**  
+  - `scripts/utils/simular_escenario.py`  
+  - `scripts/modeling/simular_escenario_optimista.py`  
+  - `scripts/modeling/simular_escenario_pesimista.py`  
+- **Objetivos:**
+  - Simular escenarios alternativos aplicando factores derivados de las métricas de backtesting.
+  - Optimista: multiplicar predicciones por `1 + WAPE_%`.
+  - Pesimista: multiplicar predicciones por `1 - WAPE_%` (con límite ≥ 0).
+- **Resultados:**
+  - Escenarios alternativos generados en formato Parquet (`predicciones_2025_optimista.parquet`, `predicciones_2025_pesimista.parquet`).
+  - Controles comparativos exportados en CSV (`outputs/controles_escenarios`).
+- **Conclusión:** Los escenarios reflejan un rango realista de incertidumbre basado en la precisión histórica del modelo.
+
+
+### 8.8 Conclusiones y líneas futuras
+- **Conclusiones:**
+  - Random Forest se confirma como el modelo más robusto para predecir la demanda base.
+  - El backtesting valida la coherencia del escenario neutro y los escenarios alternativos.
+  - El enfoque por clúster resulta clave para capturar patrones diferenciados.
+- **Líneas de mejora:**
+  - Probar otros modelos avanzados (Prophet, LSTM).
+  - Refinar la simulación de factores externos (exógenas).
+  - Incorporar un módulo de ajuste manual para eventos extraordinarios.
+
+
+
+📌 **Conclusión de la Fase 8**:  
+La Fase 8 consolida el bloque de modelado, confirmando que Random Forest es el modelo más robusto para predecir la demanda. El backtesting valida la coherencia del escenario neutro y de los escenarios alternativos, asegurando un rango realista de proyecciones. Se cierra así la fase de modelado con una base sólida para la toma de decisiones en compras y planificación.
 
 -------------------------------------------------------------------------

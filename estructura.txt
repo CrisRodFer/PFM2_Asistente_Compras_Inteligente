@@ -17275,7 +17275,7 @@ C:.
 ¦   ¦       ¦           _version_meson.cpython-313.pyc
 ¦   ¦       ¦           __init__.cpython-313.pyc
 ¦   ¦       ¦           
-¦   ¦       +---pandas-2.3.1.dist-info
+¦   ¦       +---pandas-2.3.2.dist-info
 ¦   ¦       ¦       DELVEWHEEL
 ¦   ¦       ¦       entry_points.txt
 ¦   ¦       ¦       INSTALLER
@@ -17286,7 +17286,7 @@ C:.
 ¦   ¦       ¦       WHEEL
 ¦   ¦       ¦       
 ¦   ¦       +---pandas.libs
-¦   ¦       ¦       msvcp140-1a0962f2a91a74c6d7136a768987a591.dll
+¦   ¦       ¦       msvcp140-a4c2229bdc2a2a630acdc095b4d86008.dll
 ¦   ¦       ¦       
 ¦   ¦       +---pandera
 ¦   ¦       ¦   ¦   config.py
@@ -17761,6 +17761,78 @@ C:.
 ¦   ¦       ¦           
 ¦   ¦       +---parso-0.8.4.dist-info
 ¦   ¦       ¦       AUTHORS.txt
+¦   ¦       ¦       INSTALLER
+¦   ¦       ¦       LICENSE.txt
+¦   ¦       ¦       METADATA
+¦   ¦       ¦       RECORD
+¦   ¦       ¦       top_level.txt
+¦   ¦       ¦       WHEEL
+¦   ¦       ¦       
+¦   ¦       +---patsy
+¦   ¦       ¦   ¦   build.py
+¦   ¦       ¦   ¦   builtins.py
+¦   ¦       ¦   ¦   categorical.py
+¦   ¦       ¦   ¦   compat.py
+¦   ¦       ¦   ¦   compat_ordereddict.py
+¦   ¦       ¦   ¦   constraint.py
+¦   ¦       ¦   ¦   contrasts.py
+¦   ¦       ¦   ¦   desc.py
+¦   ¦       ¦   ¦   design_info.py
+¦   ¦       ¦   ¦   eval.py
+¦   ¦       ¦   ¦   highlevel.py
+¦   ¦       ¦   ¦   infix_parser.py
+¦   ¦       ¦   ¦   mgcv_cubic_splines.py
+¦   ¦       ¦   ¦   missing.py
+¦   ¦       ¦   ¦   origin.py
+¦   ¦       ¦   ¦   parse_formula.py
+¦   ¦       ¦   ¦   redundancy.py
+¦   ¦       ¦   ¦   splines.py
+¦   ¦       ¦   ¦   state.py
+¦   ¦       ¦   ¦   test_build.py
+¦   ¦       ¦   ¦   test_highlevel.py
+¦   ¦       ¦   ¦   test_regressions.py
+¦   ¦       ¦   ¦   test_splines_bs_data.py
+¦   ¦       ¦   ¦   test_splines_crs_data.py
+¦   ¦       ¦   ¦   test_state.py
+¦   ¦       ¦   ¦   tokens.py
+¦   ¦       ¦   ¦   user_util.py
+¦   ¦       ¦   ¦   util.py
+¦   ¦       ¦   ¦   version.py
+¦   ¦       ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---__pycache__
+¦   ¦       ¦           build.cpython-313.pyc
+¦   ¦       ¦           builtins.cpython-313.pyc
+¦   ¦       ¦           categorical.cpython-313.pyc
+¦   ¦       ¦           compat.cpython-313.pyc
+¦   ¦       ¦           compat_ordereddict.cpython-313.pyc
+¦   ¦       ¦           constraint.cpython-313.pyc
+¦   ¦       ¦           contrasts.cpython-313.pyc
+¦   ¦       ¦           desc.cpython-313.pyc
+¦   ¦       ¦           design_info.cpython-313.pyc
+¦   ¦       ¦           eval.cpython-313.pyc
+¦   ¦       ¦           highlevel.cpython-313.pyc
+¦   ¦       ¦           infix_parser.cpython-313.pyc
+¦   ¦       ¦           mgcv_cubic_splines.cpython-313.pyc
+¦   ¦       ¦           missing.cpython-313.pyc
+¦   ¦       ¦           origin.cpython-313.pyc
+¦   ¦       ¦           parse_formula.cpython-313.pyc
+¦   ¦       ¦           redundancy.cpython-313.pyc
+¦   ¦       ¦           splines.cpython-313.pyc
+¦   ¦       ¦           state.cpython-313.pyc
+¦   ¦       ¦           test_build.cpython-313.pyc
+¦   ¦       ¦           test_highlevel.cpython-313.pyc
+¦   ¦       ¦           test_regressions.cpython-313.pyc
+¦   ¦       ¦           test_splines_bs_data.cpython-313.pyc
+¦   ¦       ¦           test_splines_crs_data.cpython-313.pyc
+¦   ¦       ¦           test_state.cpython-313.pyc
+¦   ¦       ¦           tokens.cpython-313.pyc
+¦   ¦       ¦           user_util.cpython-313.pyc
+¦   ¦       ¦           util.cpython-313.pyc
+¦   ¦       ¦           version.cpython-313.pyc
+¦   ¦       ¦           __init__.cpython-313.pyc
+¦   ¦       ¦           
+¦   ¦       +---patsy-1.0.1.dist-info
 ¦   ¦       ¦       INSTALLER
 ¦   ¦       ¦       LICENSE.txt
 ¦   ¦       ¦       METADATA
@@ -29334,6 +29406,3033 @@ C:.
 ¦   ¦       ¦       top_level.txt
 ¦   ¦       ¦       WHEEL
 ¦   ¦       ¦       
+¦   ¦       +---statsmodels
+¦   ¦       ¦   ¦   api.py
+¦   ¦       ¦   ¦   conftest.py
+¦   ¦       ¦   ¦   LICENSE.txt
+¦   ¦       ¦   ¦   setup.cfg
+¦   ¦       ¦   ¦   _version.py
+¦   ¦       ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---base
+¦   ¦       ¦   ¦   ¦   covtype.py
+¦   ¦       ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   distributed_estimation.py
+¦   ¦       ¦   ¦   ¦   elastic_net.py
+¦   ¦       ¦   ¦   ¦   l1_cvxopt.py
+¦   ¦       ¦   ¦   ¦   l1_slsqp.py
+¦   ¦       ¦   ¦   ¦   l1_solvers_common.py
+¦   ¦       ¦   ¦   ¦   model.py
+¦   ¦       ¦   ¦   ¦   optimizer.py
+¦   ¦       ¦   ¦   ¦   transform.py
+¦   ¦       ¦   ¦   ¦   wrapper.py
+¦   ¦       ¦   ¦   ¦   _constraints.py
+¦   ¦       ¦   ¦   ¦   _parameter_inference.py
+¦   ¦       ¦   ¦   ¦   _penalized.py
+¦   ¦       ¦   ¦   ¦   _penalties.py
+¦   ¦       ¦   ¦   ¦   _prediction_inference.py
+¦   ¦       ¦   ¦   ¦   _screening.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_data.py
+¦   ¦       ¦   ¦   ¦   ¦   test_distributed_estimation.py
+¦   ¦       ¦   ¦   ¦   ¦   test_generic_methods.py
+¦   ¦       ¦   ¦   ¦   ¦   test_optimize.py
+¦   ¦       ¦   ¦   ¦   ¦   test_penalized.py
+¦   ¦       ¦   ¦   ¦   ¦   test_penalties.py
+¦   ¦       ¦   ¦   ¦   ¦   test_predict.py
+¦   ¦       ¦   ¦   ¦   ¦   test_screening.py
+¦   ¦       ¦   ¦   ¦   ¦   test_shrink_pickle.py
+¦   ¦       ¦   ¦   ¦   ¦   test_transform.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_distributed_estimation.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_generic_methods.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_optimize.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_penalized.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_penalties.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_predict.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_screening.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_shrink_pickle.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_transform.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           covtype.cpython-313.pyc
+¦   ¦       ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦           distributed_estimation.cpython-313.pyc
+¦   ¦       ¦   ¦           elastic_net.cpython-313.pyc
+¦   ¦       ¦   ¦           l1_cvxopt.cpython-313.pyc
+¦   ¦       ¦   ¦           l1_slsqp.cpython-313.pyc
+¦   ¦       ¦   ¦           l1_solvers_common.cpython-313.pyc
+¦   ¦       ¦   ¦           model.cpython-313.pyc
+¦   ¦       ¦   ¦           optimizer.cpython-313.pyc
+¦   ¦       ¦   ¦           transform.cpython-313.pyc
+¦   ¦       ¦   ¦           wrapper.cpython-313.pyc
+¦   ¦       ¦   ¦           _constraints.cpython-313.pyc
+¦   ¦       ¦   ¦           _parameter_inference.cpython-313.pyc
+¦   ¦       ¦   ¦           _penalized.cpython-313.pyc
+¦   ¦       ¦   ¦           _penalties.cpython-313.pyc
+¦   ¦       ¦   ¦           _prediction_inference.cpython-313.pyc
+¦   ¦       ¦   ¦           _screening.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---compat
+¦   ¦       ¦   ¦   ¦   numpy.py
+¦   ¦       ¦   ¦   ¦   pandas.py
+¦   ¦       ¦   ¦   ¦   patsy.py
+¦   ¦       ¦   ¦   ¦   platform.py
+¦   ¦       ¦   ¦   ¦   pytest.py
+¦   ¦       ¦   ¦   ¦   python.py
+¦   ¦       ¦   ¦   ¦   scipy.py
+¦   ¦       ¦   ¦   ¦   _scipy_multivariate_t.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_itercompat.py
+¦   ¦       ¦   ¦   ¦   ¦   test_pandas.py
+¦   ¦       ¦   ¦   ¦   ¦   test_scipy_compat.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_itercompat.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_pandas.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_scipy_compat.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           numpy.cpython-313.pyc
+¦   ¦       ¦   ¦           pandas.cpython-313.pyc
+¦   ¦       ¦   ¦           patsy.cpython-313.pyc
+¦   ¦       ¦   ¦           platform.cpython-313.pyc
+¦   ¦       ¦   ¦           pytest.cpython-313.pyc
+¦   ¦       ¦   ¦           python.cpython-313.pyc
+¦   ¦       ¦   ¦           scipy.cpython-313.pyc
+¦   ¦       ¦   ¦           _scipy_multivariate_t.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---datasets
+¦   ¦       ¦   ¦   ¦   template_data.py
+¦   ¦       ¦   ¦   ¦   utils.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---anes96
+¦   ¦       ¦   ¦   ¦   ¦   anes96.csv
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---cancer
+¦   ¦       ¦   ¦   ¦   ¦   cancer.csv
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---ccard
+¦   ¦       ¦   ¦   ¦   ¦   ccard.csv
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---china_smoking
+¦   ¦       ¦   ¦   ¦   ¦   china_smoking.csv
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---co2
+¦   ¦       ¦   ¦   ¦   ¦   co2.csv
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---committee
+¦   ¦       ¦   ¦   ¦   ¦   committee.csv
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---copper
+¦   ¦       ¦   ¦   ¦   ¦   copper.csv
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---cpunish
+¦   ¦       ¦   ¦   ¦   ¦   cpunish.csv
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---danish_data
+¦   ¦       ¦   ¦   ¦   ¦   data.csv
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---elec_equip
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   elec_equip.csv
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---elnino
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   elnino.csv
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---engel
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   engel.csv
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---fair
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   fair.csv
+¦   ¦       ¦   ¦   ¦   ¦   fair_pt.csv
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---fertility
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   fertility.csv
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---grunfeld
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   grunfeld.csv
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---heart
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   heart.csv
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---interest_inflation
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   E6.csv
+¦   ¦       ¦   ¦   ¦   ¦   E6_jmulti.csv
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---longley
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   longley.csv
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---macrodata
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   macrodata.csv
+¦   ¦       ¦   ¦   ¦   ¦   macrodata.dta
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---modechoice
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   modechoice.csv
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---nile
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   nile.csv
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---randhie
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   randhie.csv
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---scotland
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   scotvote.csv
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---spector
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   spector.csv
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---stackloss
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   stackloss.csv
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---star98
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   star98.csv
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---statecrime
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   statecrime.csv
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---strikes
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   strikes.csv
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---sunspots
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   sunspots.csv
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_data.py
+¦   ¦       ¦   ¦   ¦   ¦   test_utils.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_utils.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           template_data.cpython-313.pyc
+¦   ¦       ¦   ¦           utils.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---discrete
+¦   ¦       ¦   ¦   ¦   conditional_models.py
+¦   ¦       ¦   ¦   ¦   count_model.py
+¦   ¦       ¦   ¦   ¦   diagnostic.py
+¦   ¦       ¦   ¦   ¦   discrete_margins.py
+¦   ¦       ¦   ¦   ¦   discrete_model.py
+¦   ¦       ¦   ¦   ¦   truncated_model.py
+¦   ¦       ¦   ¦   ¦   _diagnostics_count.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_conditional.py
+¦   ¦       ¦   ¦   ¦   ¦   test_constrained.py
+¦   ¦       ¦   ¦   ¦   ¦   test_count_model.py
+¦   ¦       ¦   ¦   ¦   ¦   test_diagnostic.py
+¦   ¦       ¦   ¦   ¦   ¦   test_discrete.py
+¦   ¦       ¦   ¦   ¦   ¦   test_margins.py
+¦   ¦       ¦   ¦   ¦   ¦   test_predict.py
+¦   ¦       ¦   ¦   ¦   ¦   test_sandwich_cov.py
+¦   ¦       ¦   ¦   ¦   ¦   test_truncated_model.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   mnlogit_resid.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   mn_logit_summary.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   nbinom_resids.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   phat_mnlogit.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   poisson_resid.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   predict_prob_poisson.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_count_margins.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_count_robust_cluster.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_discrete.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_glm_logit_constrained.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_poisson_constrained.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_predict.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_truncated.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_truncated_st.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ships.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   sm3533.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   yhat_mnlogit.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   yhat_poisson.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           results_count_margins.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_count_robust_cluster.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_discrete.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_glm_logit_constrained.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_poisson_constrained.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_predict.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_truncated.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_truncated_st.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_conditional.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_constrained.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_count_model.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_diagnostic.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_discrete.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_margins.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_predict.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_sandwich_cov.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_truncated_model.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           conditional_models.cpython-313.pyc
+¦   ¦       ¦   ¦           count_model.cpython-313.pyc
+¦   ¦       ¦   ¦           diagnostic.cpython-313.pyc
+¦   ¦       ¦   ¦           discrete_margins.cpython-313.pyc
+¦   ¦       ¦   ¦           discrete_model.cpython-313.pyc
+¦   ¦       ¦   ¦           truncated_model.cpython-313.pyc
+¦   ¦       ¦   ¦           _diagnostics_count.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---distributions
+¦   ¦       ¦   ¦   ¦   bernstein.py
+¦   ¦       ¦   ¦   ¦   discrete.py
+¦   ¦       ¦   ¦   ¦   edgeworth.py
+¦   ¦       ¦   ¦   ¦   empirical_distribution.py
+¦   ¦       ¦   ¦   ¦   mixture_rvs.py
+¦   ¦       ¦   ¦   ¦   tools.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---copula
+¦   ¦       ¦   ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   ¦   archimedean.py
+¦   ¦       ¦   ¦   ¦   ¦   copulas.py
+¦   ¦       ¦   ¦   ¦   ¦   depfunc_ev.py
+¦   ¦       ¦   ¦   ¦   ¦   elliptical.py
+¦   ¦       ¦   ¦   ¦   ¦   extreme_value.py
+¦   ¦       ¦   ¦   ¦   ¦   other_copulas.py
+¦   ¦       ¦   ¦   ¦   ¦   transforms.py
+¦   ¦       ¦   ¦   ¦   ¦   _special.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           archimedean.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           copulas.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           depfunc_ev.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           elliptical.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           extreme_value.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           other_copulas.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           transforms.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           _special.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_bernstein.py
+¦   ¦       ¦   ¦   ¦   ¦   test_discrete.py
+¦   ¦       ¦   ¦   ¦   ¦   test_ecdf.py
+¦   ¦       ¦   ¦   ¦   ¦   test_edgeworth.py
+¦   ¦       ¦   ¦   ¦   ¦   test_mixture.py
+¦   ¦       ¦   ¦   ¦   ¦   test_tools.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_bernstein.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_discrete.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_ecdf.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_edgeworth.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_mixture.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_tools.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           bernstein.cpython-313.pyc
+¦   ¦       ¦   ¦           discrete.cpython-313.pyc
+¦   ¦       ¦   ¦           edgeworth.cpython-313.pyc
+¦   ¦       ¦   ¦           empirical_distribution.cpython-313.pyc
+¦   ¦       ¦   ¦           mixture_rvs.cpython-313.pyc
+¦   ¦       ¦   ¦           tools.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---duration
+¦   ¦       ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   hazard_regression.py
+¦   ¦       ¦   ¦   ¦   survfunc.py
+¦   ¦       ¦   ¦   ¦   _kernel_estimates.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_phreg.py
+¦   ¦       ¦   ¦   ¦   ¦   test_survfunc.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   bmt.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   bmt_results.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   phreg_gentests.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   survival_data_1000_10.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   survival_data_100_5.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   survival_data_20_1.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   survival_data_50_1.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   survival_data_50_2.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   survival_enet_r_results.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   survival_r_results.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           phreg_gentests.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           survival_enet_r_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           survival_r_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_phreg.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_survfunc.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦           hazard_regression.cpython-313.pyc
+¦   ¦       ¦   ¦           survfunc.cpython-313.pyc
+¦   ¦       ¦   ¦           _kernel_estimates.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---emplike
+¦   ¦       ¦   ¦   ¦   aft_el.py
+¦   ¦       ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   descriptive.py
+¦   ¦       ¦   ¦   ¦   elanova.py
+¦   ¦       ¦   ¦   ¦   elregress.py
+¦   ¦       ¦   ¦   ¦   originregress.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_aft.py
+¦   ¦       ¦   ¦   ¦   ¦   test_anova.py
+¦   ¦       ¦   ¦   ¦   ¦   test_descriptive.py
+¦   ¦       ¦   ¦   ¦   ¦   test_origin.py
+¦   ¦       ¦   ¦   ¦   ¦   test_regression.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   el_results.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           el_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_aft.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_anova.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_descriptive.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_origin.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_regression.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           aft_el.cpython-313.pyc
+¦   ¦       ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦           descriptive.cpython-313.pyc
+¦   ¦       ¦   ¦           elanova.cpython-313.pyc
+¦   ¦       ¦   ¦           elregress.cpython-313.pyc
+¦   ¦       ¦   ¦           originregress.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---formula
+¦   ¦       ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   formulatools.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_formula.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_formula.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦           formulatools.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---gam
+¦   ¦       ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   gam_penalties.py
+¦   ¦       ¦   ¦   ¦   generalized_additive_model.py
+¦   ¦       ¦   ¦   ¦   smooth_basis.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---gam_cross_validation
+¦   ¦       ¦   ¦   ¦   ¦   cross_validators.py
+¦   ¦       ¦   ¦   ¦   ¦   gam_cross_validation.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           cross_validators.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           gam_cross_validation.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_gam.py
+¦   ¦       ¦   ¦   ¦   ¦   test_penalized.py
+¦   ¦       ¦   ¦   ¦   ¦   test_smooth_basis.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   autos.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   autos_exog.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   autos_predict.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   cubic_cyclic_splines_from_mgcv.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   gam_PIRLS_results.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   logit_gam_mgcv.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   motorcycle.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   prediction_from_mgcv.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_mpg_bs.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_mpg_bs_poisson.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_pls.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           results_mpg_bs.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_mpg_bs_poisson.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_pls.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_gam.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_penalized.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_smooth_basis.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦           gam_penalties.cpython-313.pyc
+¦   ¦       ¦   ¦           generalized_additive_model.cpython-313.pyc
+¦   ¦       ¦   ¦           smooth_basis.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---genmod
+¦   ¦       ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   bayes_mixed_glm.py
+¦   ¦       ¦   ¦   ¦   cov_struct.py
+¦   ¦       ¦   ¦   ¦   generalized_estimating_equations.py
+¦   ¦       ¦   ¦   ¦   generalized_linear_model.py
+¦   ¦       ¦   ¦   ¦   qif.py
+¦   ¦       ¦   ¦   ¦   _tweedie_compound_poisson.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---families
+¦   ¦       ¦   ¦   ¦   ¦   family.py
+¦   ¦       ¦   ¦   ¦   ¦   links.py
+¦   ¦       ¦   ¦   ¦   ¦   varfuncs.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_family.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_link.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           test_family.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_link.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           family.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           links.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           varfuncs.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   gee_categorical_simulation_check.py
+¦   ¦       ¦   ¦   ¦   ¦   gee_gaussian_simulation_check.py
+¦   ¦       ¦   ¦   ¦   ¦   gee_poisson_simulation_check.py
+¦   ¦       ¦   ¦   ¦   ¦   gee_simulation_check.py
+¦   ¦       ¦   ¦   ¦   ¦   test_bayes_mixed_glm.py
+¦   ¦       ¦   ¦   ¦   ¦   test_constrained.py
+¦   ¦       ¦   ¦   ¦   ¦   test_gee.py
+¦   ¦       ¦   ¦   ¦   ¦   test_gee_glm.py
+¦   ¦       ¦   ¦   ¦   ¦   test_glm.py
+¦   ¦       ¦   ¦   ¦   ¦   test_glm_weights.py
+¦   ¦       ¦   ¦   ¦   ¦   test_qif.py
+¦   ¦       ¦   ¦   ¦   ¦   test_score_test.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   elastic_net_generate_tests.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   enet_binomial.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   enet_poisson.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   epil.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   gee_generate_tests.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   gee_linear_1.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   gee_logistic_1.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   gee_nested_linear_1.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   gee_nominal_1.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   gee_ordinal_1.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   gee_poisson_1.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   glmnet_r_results.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   glm_test_resids.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   igaussident_resids.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   inv_gaussian.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   iris.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   medparlogresids.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_glm.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_glm_poisson_weights.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_tweedie_aweights_nonrobust.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   res_R_var_weight.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   stata_cancer_glm.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   stata_lbw_glm.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   stata_medpar1_glm.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           elastic_net_generate_tests.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           gee_generate_tests.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           glmnet_r_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           glm_test_resids.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_glm.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_glm_poisson_weights.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           res_R_var_weight.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           gee_categorical_simulation_check.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           gee_gaussian_simulation_check.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           gee_poisson_simulation_check.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           gee_simulation_check.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_bayes_mixed_glm.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_constrained.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_gee.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_gee_glm.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_glm.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_glm_weights.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_qif.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_score_test.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦           bayes_mixed_glm.cpython-313.pyc
+¦   ¦       ¦   ¦           cov_struct.cpython-313.pyc
+¦   ¦       ¦   ¦           generalized_estimating_equations.cpython-313.pyc
+¦   ¦       ¦   ¦           generalized_linear_model.cpython-313.pyc
+¦   ¦       ¦   ¦           qif.cpython-313.pyc
+¦   ¦       ¦   ¦           _tweedie_compound_poisson.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---graphics
+¦   ¦       ¦   ¦   ¦   agreement.py
+¦   ¦       ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   boxplots.py
+¦   ¦       ¦   ¦   ¦   correlation.py
+¦   ¦       ¦   ¦   ¦   dotplots.py
+¦   ¦       ¦   ¦   ¦   factorplots.py
+¦   ¦       ¦   ¦   ¦   functional.py
+¦   ¦       ¦   ¦   ¦   gofplots.py
+¦   ¦       ¦   ¦   ¦   mosaicplot.py
+¦   ¦       ¦   ¦   ¦   plottools.py
+¦   ¦       ¦   ¦   ¦   plot_grids.py
+¦   ¦       ¦   ¦   ¦   regressionplots.py
+¦   ¦       ¦   ¦   ¦   tsaplots.py
+¦   ¦       ¦   ¦   ¦   tukeyplot.py
+¦   ¦       ¦   ¦   ¦   utils.py
+¦   ¦       ¦   ¦   ¦   _regressionplots_doc.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_agreement.py
+¦   ¦       ¦   ¦   ¦   ¦   test_boxplots.py
+¦   ¦       ¦   ¦   ¦   ¦   test_correlation.py
+¦   ¦       ¦   ¦   ¦   ¦   test_dotplot.py
+¦   ¦       ¦   ¦   ¦   ¦   test_factorplots.py
+¦   ¦       ¦   ¦   ¦   ¦   test_functional.py
+¦   ¦       ¦   ¦   ¦   ¦   test_gofplots.py
+¦   ¦       ¦   ¦   ¦   ¦   test_mosaicplot.py
+¦   ¦       ¦   ¦   ¦   ¦   test_regressionplots.py
+¦   ¦       ¦   ¦   ¦   ¦   test_tsaplots.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_agreement.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_boxplots.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_correlation.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_dotplot.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_factorplots.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_functional.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_gofplots.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_mosaicplot.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_regressionplots.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_tsaplots.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           agreement.cpython-313.pyc
+¦   ¦       ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦           boxplots.cpython-313.pyc
+¦   ¦       ¦   ¦           correlation.cpython-313.pyc
+¦   ¦       ¦   ¦           dotplots.cpython-313.pyc
+¦   ¦       ¦   ¦           factorplots.cpython-313.pyc
+¦   ¦       ¦   ¦           functional.cpython-313.pyc
+¦   ¦       ¦   ¦           gofplots.cpython-313.pyc
+¦   ¦       ¦   ¦           mosaicplot.cpython-313.pyc
+¦   ¦       ¦   ¦           plottools.cpython-313.pyc
+¦   ¦       ¦   ¦           plot_grids.cpython-313.pyc
+¦   ¦       ¦   ¦           regressionplots.cpython-313.pyc
+¦   ¦       ¦   ¦           tsaplots.cpython-313.pyc
+¦   ¦       ¦   ¦           tukeyplot.cpython-313.pyc
+¦   ¦       ¦   ¦           utils.cpython-313.pyc
+¦   ¦       ¦   ¦           _regressionplots_doc.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---imputation
+¦   ¦       ¦   ¦   ¦   bayes_mi.py
+¦   ¦       ¦   ¦   ¦   mice.py
+¦   ¦       ¦   ¦   ¦   ros.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_bayes_mi.py
+¦   ¦       ¦   ¦   ¦   ¦   test_mice.py
+¦   ¦       ¦   ¦   ¦   ¦   test_ros.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_bayes_mi.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_mice.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_ros.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           bayes_mi.cpython-313.pyc
+¦   ¦       ¦   ¦           mice.cpython-313.pyc
+¦   ¦       ¦   ¦           ros.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---interface
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---iolib
+¦   ¦       ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   foreign.py
+¦   ¦       ¦   ¦   ¦   openfile.py
+¦   ¦       ¦   ¦   ¦   smpickle.py
+¦   ¦       ¦   ¦   ¦   stata_summary_examples.py
+¦   ¦       ¦   ¦   ¦   summary.py
+¦   ¦       ¦   ¦   ¦   summary2.py
+¦   ¦       ¦   ¦   ¦   table.py
+¦   ¦       ¦   ¦   ¦   tableformatting.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_pickle.py
+¦   ¦       ¦   ¦   ¦   ¦   test_summary.py
+¦   ¦       ¦   ¦   ¦   ¦   test_summary2.py
+¦   ¦       ¦   ¦   ¦   ¦   test_summary_old.py
+¦   ¦       ¦   ¦   ¦   ¦   test_table.py
+¦   ¦       ¦   ¦   ¦   ¦   test_table_econpy.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   data_missing.dta
+¦   ¦       ¦   ¦   ¦   ¦   ¦   macrodata.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   time_series_examples.dta
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           macrodata.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_pickle.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_summary.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_summary2.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_summary_old.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_table.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_table_econpy.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦           foreign.cpython-313.pyc
+¦   ¦       ¦   ¦           openfile.cpython-313.pyc
+¦   ¦       ¦   ¦           smpickle.cpython-313.pyc
+¦   ¦       ¦   ¦           stata_summary_examples.cpython-313.pyc
+¦   ¦       ¦   ¦           summary.cpython-313.pyc
+¦   ¦       ¦   ¦           summary2.cpython-313.pyc
+¦   ¦       ¦   ¦           table.cpython-313.pyc
+¦   ¦       ¦   ¦           tableformatting.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---miscmodels
+¦   ¦       ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   count.py
+¦   ¦       ¦   ¦   ¦   nonlinls.py
+¦   ¦       ¦   ¦   ¦   ordinal_model.py
+¦   ¦       ¦   ¦   ¦   tmodel.py
+¦   ¦       ¦   ¦   ¦   try_mlecov.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   results_tmodel.py
+¦   ¦       ¦   ¦   ¦   ¦   test_generic_mle.py
+¦   ¦       ¦   ¦   ¦   ¦   test_ordinal_model.py
+¦   ¦       ¦   ¦   ¦   ¦   test_poisson.py
+¦   ¦       ¦   ¦   ¦   ¦   test_tmodel.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ologit_ucla.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_ordinal_model.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           results_ordinal_model.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           results_tmodel.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_generic_mle.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_ordinal_model.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_poisson.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_tmodel.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦           count.cpython-313.pyc
+¦   ¦       ¦   ¦           nonlinls.cpython-313.pyc
+¦   ¦       ¦   ¦           ordinal_model.cpython-313.pyc
+¦   ¦       ¦   ¦           tmodel.cpython-313.pyc
+¦   ¦       ¦   ¦           try_mlecov.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---multivariate
+¦   ¦       ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   cancorr.py
+¦   ¦       ¦   ¦   ¦   factor.py
+¦   ¦       ¦   ¦   ¦   manova.py
+¦   ¦       ¦   ¦   ¦   multivariate_ols.py
+¦   ¦       ¦   ¦   ¦   pca.py
+¦   ¦       ¦   ¦   ¦   plots.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---factor_rotation
+¦   ¦       ¦   ¦   ¦   ¦   _analytic_rotation.py
+¦   ¦       ¦   ¦   ¦   ¦   _gpa_rotation.py
+¦   ¦       ¦   ¦   ¦   ¦   _wrappers.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_rotation.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           test_rotation.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           _analytic_rotation.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           _gpa_rotation.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           _wrappers.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_cancorr.py
+¦   ¦       ¦   ¦   ¦   ¦   test_factor.py
+¦   ¦       ¦   ¦   ¦   ¦   test_manova.py
+¦   ¦       ¦   ¦   ¦   ¦   test_ml_factor.py
+¦   ¦       ¦   ¦   ¦   ¦   test_multivariate_ols.py
+¦   ¦       ¦   ¦   ¦   ¦   test_pca.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   datamlw.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   factors_stata.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   factor_data.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           datamlw.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_cancorr.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_factor.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_manova.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_ml_factor.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_multivariate_ols.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_pca.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦           cancorr.cpython-313.pyc
+¦   ¦       ¦   ¦           factor.cpython-313.pyc
+¦   ¦       ¦   ¦           manova.cpython-313.pyc
+¦   ¦       ¦   ¦           multivariate_ols.cpython-313.pyc
+¦   ¦       ¦   ¦           pca.cpython-313.pyc
+¦   ¦       ¦   ¦           plots.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---nonparametric
+¦   ¦       ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   bandwidths.py
+¦   ¦       ¦   ¦   ¦   kde.py
+¦   ¦       ¦   ¦   ¦   kdetools.py
+¦   ¦       ¦   ¦   ¦   kernels.py
+¦   ¦       ¦   ¦   ¦   kernels_asymmetric.py
+¦   ¦       ¦   ¦   ¦   kernel_density.py
+¦   ¦       ¦   ¦   ¦   kernel_regression.py
+¦   ¦       ¦   ¦   ¦   linbin.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   smoothers_lowess.py
+¦   ¦       ¦   ¦   ¦   smoothers_lowess_old.py
+¦   ¦       ¦   ¦   ¦   _kernel_base.py
+¦   ¦       ¦   ¦   ¦   _smoothers_lowess.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_asymmetric.py
+¦   ¦       ¦   ¦   ¦   ¦   test_bandwidths.py
+¦   ¦       ¦   ¦   ¦   ¦   test_kde.py
+¦   ¦       ¦   ¦   ¦   ¦   test_kernels.py
+¦   ¦       ¦   ¦   ¦   ¦   test_kernel_density.py
+¦   ¦       ¦   ¦   ¦   ¦   test_kernel_regression.py
+¦   ¦       ¦   ¦   ¦   ¦   test_lowess.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_kcde.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_kde.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_kde_fft.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_kde_univ_weights.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_kde_weights.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_kernel_regression.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_lowess_delta.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_lowess_frac.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_lowess_iter.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_lowess_simple.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_asymmetric.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_bandwidths.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_kde.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_kernels.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_kernel_density.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_kernel_regression.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_lowess.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦           bandwidths.cpython-313.pyc
+¦   ¦       ¦   ¦           kde.cpython-313.pyc
+¦   ¦       ¦   ¦           kdetools.cpython-313.pyc
+¦   ¦       ¦   ¦           kernels.cpython-313.pyc
+¦   ¦       ¦   ¦           kernels_asymmetric.cpython-313.pyc
+¦   ¦       ¦   ¦           kernel_density.cpython-313.pyc
+¦   ¦       ¦   ¦           kernel_regression.cpython-313.pyc
+¦   ¦       ¦   ¦           smoothers_lowess.cpython-313.pyc
+¦   ¦       ¦   ¦           smoothers_lowess_old.cpython-313.pyc
+¦   ¦       ¦   ¦           _kernel_base.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---othermod
+¦   ¦       ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   betareg.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_beta.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   foodexpenditure.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   methylation-test.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   resid_methylation.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_betareg.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           results_betareg.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_beta.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦           betareg.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---regression
+¦   ¦       ¦   ¦   ¦   dimred.py
+¦   ¦       ¦   ¦   ¦   feasible_gls.py
+¦   ¦       ¦   ¦   ¦   linear_model.py
+¦   ¦       ¦   ¦   ¦   mixed_linear_model.py
+¦   ¦       ¦   ¦   ¦   process_regression.py
+¦   ¦       ¦   ¦   ¦   quantile_regression.py
+¦   ¦       ¦   ¦   ¦   recursive_ls.py
+¦   ¦       ¦   ¦   ¦   rolling.py
+¦   ¦       ¦   ¦   ¦   _prediction.py
+¦   ¦       ¦   ¦   ¦   _tools.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_cov.py
+¦   ¦       ¦   ¦   ¦   ¦   test_dimred.py
+¦   ¦       ¦   ¦   ¦   ¦   test_glsar_gretl.py
+¦   ¦       ¦   ¦   ¦   ¦   test_glsar_stata.py
+¦   ¦       ¦   ¦   ¦   ¦   test_lme.py
+¦   ¦       ¦   ¦   ¦   ¦   test_predict.py
+¦   ¦       ¦   ¦   ¦   ¦   test_processreg.py
+¦   ¦       ¦   ¦   ¦   ¦   test_quantile_regression.py
+¦   ¦       ¦   ¦   ¦   ¦   test_recursive_ls.py
+¦   ¦       ¦   ¦   ¦   ¦   test_regression.py
+¦   ¦       ¦   ¦   ¦   ¦   test_robustcov.py
+¦   ¦       ¦   ¦   ¦   ¦   test_rolling.py
+¦   ¦       ¦   ¦   ¦   ¦   test_theil.py
+¦   ¦       ¦   ¦   ¦   ¦   test_tools.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   dietox.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   generate_lasso.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   generate_lme.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   glmnet_r_results.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   lasso_data.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   leverage_influence_ols_nostars.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   lme00.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   lme01.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   lme02.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   lme03.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   lme04.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   lme05.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   lme06.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   lme07.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   lme08.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   lme09.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   lme10.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   lme11.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   lme_r_results.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   macro_gr_corc_stata.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   pastes.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_grunfeld_ols_robust_cluster.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_macro_ols_robust.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_quantile_regression.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_regression.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_rls_R.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_rls_stata.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_theil_textile.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   theil_textile_predict.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           generate_lasso.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           generate_lme.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           glmnet_r_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           lme_r_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           macro_gr_corc_stata.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_grunfeld_ols_robust_cluster.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_macro_ols_robust.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_quantile_regression.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_regression.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_theil_textile.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_cov.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_dimred.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_glsar_gretl.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_glsar_stata.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_lme.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_predict.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_processreg.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_quantile_regression.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_recursive_ls.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_regression.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_robustcov.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_rolling.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_theil.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_tools.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           dimred.cpython-313.pyc
+¦   ¦       ¦   ¦           feasible_gls.cpython-313.pyc
+¦   ¦       ¦   ¦           linear_model.cpython-313.pyc
+¦   ¦       ¦   ¦           mixed_linear_model.cpython-313.pyc
+¦   ¦       ¦   ¦           process_regression.cpython-313.pyc
+¦   ¦       ¦   ¦           quantile_regression.cpython-313.pyc
+¦   ¦       ¦   ¦           recursive_ls.cpython-313.pyc
+¦   ¦       ¦   ¦           rolling.cpython-313.pyc
+¦   ¦       ¦   ¦           _prediction.cpython-313.pyc
+¦   ¦       ¦   ¦           _tools.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---robust
+¦   ¦       ¦   ¦   ¦   norms.py
+¦   ¦       ¦   ¦   ¦   robust_linear_model.py
+¦   ¦       ¦   ¦   ¦   scale.py
+¦   ¦       ¦   ¦   ¦   _qn.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_mquantiles.py
+¦   ¦       ¦   ¦   ¦   ¦   test_norms.py
+¦   ¦       ¦   ¦   ¦   ¦   test_rlm.py
+¦   ¦       ¦   ¦   ¦   ¦   test_scale.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_norms.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_rlm.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           results_norms.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_rlm.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_mquantiles.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_norms.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_rlm.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_scale.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           norms.cpython-313.pyc
+¦   ¦       ¦   ¦           robust_linear_model.cpython-313.pyc
+¦   ¦       ¦   ¦           scale.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---sandbox
+¦   ¦       ¦   ¦   ¦   bspline.py
+¦   ¦       ¦   ¦   ¦   descstats.py
+¦   ¦       ¦   ¦   ¦   gam.py
+¦   ¦       ¦   ¦   ¦   infotheo.py
+¦   ¦       ¦   ¦   ¦   mle.py
+¦   ¦       ¦   ¦   ¦   multilinear.py
+¦   ¦       ¦   ¦   ¦   pca.py
+¦   ¦       ¦   ¦   ¦   predict_functional.py
+¦   ¦       ¦   ¦   ¦   rls.py
+¦   ¦       ¦   ¦   ¦   sysreg.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---archive
+¦   ¦       ¦   ¦   ¦   ¦   linalg_covmat.py
+¦   ¦       ¦   ¦   ¦   ¦   linalg_decomp_1.py
+¦   ¦       ¦   ¦   ¦   ¦   tsa.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           linalg_covmat.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           linalg_decomp_1.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           tsa.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---datarich
+¦   ¦       ¦   ¦   ¦   ¦   factormodels.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           factormodels.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---distributions
+¦   ¦       ¦   ¦   ¦   ¦   estimators.py
+¦   ¦       ¦   ¦   ¦   ¦   extras.py
+¦   ¦       ¦   ¦   ¦   ¦   genpareto.py
+¦   ¦       ¦   ¦   ¦   ¦   gof_new.py
+¦   ¦       ¦   ¦   ¦   ¦   multivariate.py
+¦   ¦       ¦   ¦   ¦   ¦   mv_measures.py
+¦   ¦       ¦   ¦   ¦   ¦   mv_normal.py
+¦   ¦       ¦   ¦   ¦   ¦   otherdist.py
+¦   ¦       ¦   ¦   ¦   ¦   quantize.py
+¦   ¦       ¦   ¦   ¦   ¦   sppatch.py
+¦   ¦       ¦   ¦   ¦   ¦   transformed.py
+¦   ¦       ¦   ¦   ¦   ¦   transform_functions.py
+¦   ¦       ¦   ¦   ¦   ¦   try_max.py
+¦   ¦       ¦   ¦   ¦   ¦   try_pot.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---examples
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ex_extras.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ex_fitfr.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ex_gof.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ex_mvelliptical.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ex_transf2.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   matchdist.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           ex_extras.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           ex_fitfr.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           ex_gof.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           ex_mvelliptical.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           ex_transf2.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           matchdist.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   check_moments.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   distparams.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_extras.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_gof_new.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_multivariate.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_norm_expan.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_transf.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   _est_fit.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           check_moments.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           distparams.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_extras.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_gof_new.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_multivariate.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_norm_expan.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_transf.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           _est_fit.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           estimators.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           extras.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           genpareto.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           gof_new.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           multivariate.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           mv_measures.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           mv_normal.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           otherdist.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           quantize.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           sppatch.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           transformed.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           transform_functions.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           try_max.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           try_pot.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---mcevaluate
+¦   ¦       ¦   ¦   ¦   ¦   arma.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           arma.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---nonparametric
+¦   ¦       ¦   ¦   ¦   ¦   densityorthopoly.py
+¦   ¦       ¦   ¦   ¦   ¦   dgp_examples.py
+¦   ¦       ¦   ¦   ¦   ¦   kde2.py
+¦   ¦       ¦   ¦   ¦   ¦   kdecovclass.py
+¦   ¦       ¦   ¦   ¦   ¦   kernels.py
+¦   ¦       ¦   ¦   ¦   ¦   kernel_extras.py
+¦   ¦       ¦   ¦   ¦   ¦   smoothers.py
+¦   ¦       ¦   ¦   ¦   ¦   testdata.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ex_gam_am_new.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ex_gam_new.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ex_smoothers.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_kernel_extras.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_smoothers.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           ex_gam_am_new.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           ex_gam_new.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           ex_smoothers.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_kernel_extras.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_smoothers.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           densityorthopoly.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           dgp_examples.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           kde2.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           kdecovclass.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           kernels.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           kernel_extras.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           smoothers.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           testdata.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---panel
+¦   ¦       ¦   ¦   ¦   ¦   correlation_structures.py
+¦   ¦       ¦   ¦   ¦   ¦   mixed.py
+¦   ¦       ¦   ¦   ¦   ¦   panelmod.py
+¦   ¦       ¦   ¦   ¦   ¦   panel_short.py
+¦   ¦       ¦   ¦   ¦   ¦   random_panel.py
+¦   ¦       ¦   ¦   ¦   ¦   sandwich_covariance_generic.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_random_panel.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           test_random_panel.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           correlation_structures.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           mixed.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           panelmod.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           panel_short.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           random_panel.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           sandwich_covariance_generic.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---regression
+¦   ¦       ¦   ¦   ¦   ¦   anova_nistcertified.py
+¦   ¦       ¦   ¦   ¦   ¦   ar_panel.py
+¦   ¦       ¦   ¦   ¦   ¦   example_kernridge.py
+¦   ¦       ¦   ¦   ¦   ¦   gmm.py
+¦   ¦       ¦   ¦   ¦   ¦   kernridgeregress_class.py
+¦   ¦       ¦   ¦   ¦   ¦   ols_anova_original.py
+¦   ¦       ¦   ¦   ¦   ¦   onewaygls.py
+¦   ¦       ¦   ¦   ¦   ¦   penalized.py
+¦   ¦       ¦   ¦   ¦   ¦   predstd.py
+¦   ¦       ¦   ¦   ¦   ¦   runmnl.py
+¦   ¦       ¦   ¦   ¦   ¦   sympy_diff.py
+¦   ¦       ¦   ¦   ¦   ¦   tools.py
+¦   ¦       ¦   ¦   ¦   ¦   treewalkerclass.py
+¦   ¦       ¦   ¦   ¦   ¦   try_catdata.py
+¦   ¦       ¦   ¦   ¦   ¦   try_ols_anova.py
+¦   ¦       ¦   ¦   ¦   ¦   try_treewalker.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   griliches76.dta
+¦   ¦       ¦   ¦   ¦   ¦   ¦   racd10data_with_transformed.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_gmm_griliches.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_gmm_griliches_iter.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_gmm_poisson.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_ivreg2_griliches.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_gmm.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_gmm_poisson.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           results_gmm_griliches.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_gmm_griliches_iter.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_gmm_poisson.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_ivreg2_griliches.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_gmm.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_gmm_poisson.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           anova_nistcertified.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           ar_panel.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           example_kernridge.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           gmm.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           kernridgeregress_class.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           ols_anova_original.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           onewaygls.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           penalized.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           predstd.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           runmnl.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           sympy_diff.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           tools.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           treewalkerclass.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           try_catdata.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           try_ols_anova.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           try_treewalker.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---stats
+¦   ¦       ¦   ¦   ¦   ¦   contrast_tools.py
+¦   ¦       ¦   ¦   ¦   ¦   diagnostic.py
+¦   ¦       ¦   ¦   ¦   ¦   ex_newtests.py
+¦   ¦       ¦   ¦   ¦   ¦   multicomp.py
+¦   ¦       ¦   ¦   ¦   ¦   runs.py
+¦   ¦       ¦   ¦   ¦   ¦   stats_dhuard.py
+¦   ¦       ¦   ¦   ¦   ¦   stats_mstats_short.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_multicomp.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_runs.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           test_multicomp.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_runs.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           contrast_tools.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           diagnostic.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           ex_newtests.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           multicomp.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           runs.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           stats_dhuard.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           stats_mstats_short.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   maketests_mlabwrap.py
+¦   ¦       ¦   ¦   ¦   ¦   savervs.py
+¦   ¦       ¦   ¦   ¦   ¦   test_gam.py
+¦   ¦       ¦   ¦   ¦   ¦   test_pca.py
+¦   ¦       ¦   ¦   ¦   ¦   test_predict_functional.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           maketests_mlabwrap.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           savervs.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_gam.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_pca.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_predict_functional.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---tools
+¦   ¦       ¦   ¦   ¦   ¦   cross_val.py
+¦   ¦       ¦   ¦   ¦   ¦   mctools.py
+¦   ¦       ¦   ¦   ¦   ¦   tools_pca.py
+¦   ¦       ¦   ¦   ¦   ¦   try_mctools.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           cross_val.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           mctools.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           tools_pca.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           try_mctools.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---tsa
+¦   ¦       ¦   ¦   ¦   ¦   diffusion.py
+¦   ¦       ¦   ¦   ¦   ¦   diffusion2.py
+¦   ¦       ¦   ¦   ¦   ¦   example_arma.py
+¦   ¦       ¦   ¦   ¦   ¦   fftarma.py
+¦   ¦       ¦   ¦   ¦   ¦   movstat.py
+¦   ¦       ¦   ¦   ¦   ¦   try_arma_more.py
+¦   ¦       ¦   ¦   ¦   ¦   try_fi.py
+¦   ¦       ¦   ¦   ¦   ¦   try_var_convolve.py
+¦   ¦       ¦   ¦   ¦   ¦   varma.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           diffusion.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           diffusion2.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           example_arma.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           fftarma.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           movstat.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           try_arma_more.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           try_fi.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           try_var_convolve.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           varma.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           bspline.cpython-313.pyc
+¦   ¦       ¦   ¦           descstats.cpython-313.pyc
+¦   ¦       ¦   ¦           gam.cpython-313.pyc
+¦   ¦       ¦   ¦           infotheo.cpython-313.pyc
+¦   ¦       ¦   ¦           mle.cpython-313.pyc
+¦   ¦       ¦   ¦           multilinear.cpython-313.pyc
+¦   ¦       ¦   ¦           pca.cpython-313.pyc
+¦   ¦       ¦   ¦           predict_functional.cpython-313.pyc
+¦   ¦       ¦   ¦           rls.cpython-313.pyc
+¦   ¦       ¦   ¦           sysreg.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---src
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---stats
+¦   ¦       ¦   ¦   ¦   anova.py
+¦   ¦       ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   base.py
+¦   ¦       ¦   ¦   ¦   contingency_tables.py
+¦   ¦       ¦   ¦   ¦   contrast.py
+¦   ¦       ¦   ¦   ¦   correlation_tools.py
+¦   ¦       ¦   ¦   ¦   descriptivestats.py
+¦   ¦       ¦   ¦   ¦   diagnostic.py
+¦   ¦       ¦   ¦   ¦   diagnostic_gen.py
+¦   ¦       ¦   ¦   ¦   dist_dependence_measures.py
+¦   ¦       ¦   ¦   ¦   effect_size.py
+¦   ¦       ¦   ¦   ¦   gof.py
+¦   ¦       ¦   ¦   ¦   inter_rater.py
+¦   ¦       ¦   ¦   ¦   knockoff_regeffects.py
+¦   ¦       ¦   ¦   ¦   mediation.py
+¦   ¦       ¦   ¦   ¦   meta_analysis.py
+¦   ¦       ¦   ¦   ¦   moment_helpers.py
+¦   ¦       ¦   ¦   ¦   multicomp.py
+¦   ¦       ¦   ¦   ¦   multitest.py
+¦   ¦       ¦   ¦   ¦   multivariate.py
+¦   ¦       ¦   ¦   ¦   multivariate_tools.py
+¦   ¦       ¦   ¦   ¦   nonparametric.py
+¦   ¦       ¦   ¦   ¦   oaxaca.py
+¦   ¦       ¦   ¦   ¦   oneway.py
+¦   ¦       ¦   ¦   ¦   outliers_influence.py
+¦   ¦       ¦   ¦   ¦   power.py
+¦   ¦       ¦   ¦   ¦   proportion.py
+¦   ¦       ¦   ¦   ¦   rates.py
+¦   ¦       ¦   ¦   ¦   regularized_covariance.py
+¦   ¦       ¦   ¦   ¦   robust_compare.py
+¦   ¦       ¦   ¦   ¦   sandwich_covariance.py
+¦   ¦       ¦   ¦   ¦   stattools.py
+¦   ¦       ¦   ¦   ¦   tabledist.py
+¦   ¦       ¦   ¦   ¦   weightstats.py
+¦   ¦       ¦   ¦   ¦   _adnorm.py
+¦   ¦       ¦   ¦   ¦   _delta_method.py
+¦   ¦       ¦   ¦   ¦   _diagnostic_other.py
+¦   ¦       ¦   ¦   ¦   _inference_tools.py
+¦   ¦       ¦   ¦   ¦   _knockoff.py
+¦   ¦       ¦   ¦   ¦   _lilliefors.py
+¦   ¦       ¦   ¦   ¦   _lilliefors_critical_values.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---libqsturng
+¦   ¦       ¦   ¦   ¦   ¦   CH.r
+¦   ¦       ¦   ¦   ¦   ¦   LICENSE.txt
+¦   ¦       ¦   ¦   ¦   ¦   make_tbls.py
+¦   ¦       ¦   ¦   ¦   ¦   qsturng_.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   bootleg.dat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_qsturng.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           test_qsturng.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           make_tbls.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           qsturng_.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_anova.py
+¦   ¦       ¦   ¦   ¦   ¦   test_anova_rm.py
+¦   ¦       ¦   ¦   ¦   ¦   test_base.py
+¦   ¦       ¦   ¦   ¦   ¦   test_contingency_tables.py
+¦   ¦       ¦   ¦   ¦   ¦   test_contrast.py
+¦   ¦       ¦   ¦   ¦   ¦   test_correlation.py
+¦   ¦       ¦   ¦   ¦   ¦   test_corrpsd.py
+¦   ¦       ¦   ¦   ¦   ¦   test_data.txt
+¦   ¦       ¦   ¦   ¦   ¦   test_deltacov.py
+¦   ¦       ¦   ¦   ¦   ¦   test_descriptivestats.py
+¦   ¦       ¦   ¦   ¦   ¦   test_diagnostic.py
+¦   ¦       ¦   ¦   ¦   ¦   test_diagnostic_other.py
+¦   ¦       ¦   ¦   ¦   ¦   test_dist_dependant_measures.py
+¦   ¦       ¦   ¦   ¦   ¦   test_effectsize.py
+¦   ¦       ¦   ¦   ¦   ¦   test_gof.py
+¦   ¦       ¦   ¦   ¦   ¦   test_groups_sw.py
+¦   ¦       ¦   ¦   ¦   ¦   test_influence.py
+¦   ¦       ¦   ¦   ¦   ¦   test_inter_rater.py
+¦   ¦       ¦   ¦   ¦   ¦   test_knockoff.py
+¦   ¦       ¦   ¦   ¦   ¦   test_lilliefors.py
+¦   ¦       ¦   ¦   ¦   ¦   test_mediation.py
+¦   ¦       ¦   ¦   ¦   ¦   test_meta.py
+¦   ¦       ¦   ¦   ¦   ¦   test_moment_helpers.py
+¦   ¦       ¦   ¦   ¦   ¦   test_multi.py
+¦   ¦       ¦   ¦   ¦   ¦   test_multivariate.py
+¦   ¦       ¦   ¦   ¦   ¦   test_nonparametric.py
+¦   ¦       ¦   ¦   ¦   ¦   test_oaxaca.py
+¦   ¦       ¦   ¦   ¦   ¦   test_oneway.py
+¦   ¦       ¦   ¦   ¦   ¦   test_outliers_influence.py
+¦   ¦       ¦   ¦   ¦   ¦   test_pairwise.py
+¦   ¦       ¦   ¦   ¦   ¦   test_panel_robustcov.py
+¦   ¦       ¦   ¦   ¦   ¦   test_power.py
+¦   ¦       ¦   ¦   ¦   ¦   test_proportion.py
+¦   ¦       ¦   ¦   ¦   ¦   test_qsturng.py
+¦   ¦       ¦   ¦   ¦   ¦   test_rates_poisson.py
+¦   ¦       ¦   ¦   ¦   ¦   test_regularized_covariance.py
+¦   ¦       ¦   ¦   ¦   ¦   test_robust_compare.py
+¦   ¦       ¦   ¦   ¦   ¦   test_sandwich.py
+¦   ¦       ¦   ¦   ¦   ¦   test_statstools.py
+¦   ¦       ¦   ¦   ¦   ¦   test_tabledist.py
+¦   ¦       ¦   ¦   ¦   ¦   test_tost.py
+¦   ¦       ¦   ¦   ¦   ¦   test_weightstats.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   binary_constrict.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   bootleg.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   contingency_table_r_results.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   data.dat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   framing.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   influence_lsdiag_R.json
+¦   ¦       ¦   ¦   ¦   ¦   ¦   influence_measures_bool_R.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   influence_measures_R.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   lilliefors_critical_value_simulation.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_influence_logit.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_meta.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_multinomial_proportions.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_panelrobust.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_power.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_proportion.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_rates.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   wspec1.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   wspec2.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   wspec3.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   wspec4.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           lilliefors_critical_value_simulation.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_meta.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_multinomial_proportions.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_panelrobust.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_power.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_proportion.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_rates.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_anova.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_anova_rm.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_base.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_contingency_tables.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_contrast.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_correlation.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_corrpsd.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_deltacov.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_descriptivestats.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_diagnostic.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_diagnostic_other.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_dist_dependant_measures.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_effectsize.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_gof.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_groups_sw.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_influence.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_inter_rater.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_knockoff.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_lilliefors.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_mediation.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_meta.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_moment_helpers.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_multi.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_multivariate.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_nonparametric.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_oaxaca.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_oneway.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_outliers_influence.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_pairwise.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_panel_robustcov.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_power.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_proportion.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_qsturng.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_rates_poisson.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_regularized_covariance.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_robust_compare.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_sandwich.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_statstools.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_tabledist.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_tost.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_weightstats.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           anova.cpython-313.pyc
+¦   ¦       ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦           base.cpython-313.pyc
+¦   ¦       ¦   ¦           contingency_tables.cpython-313.pyc
+¦   ¦       ¦   ¦           contrast.cpython-313.pyc
+¦   ¦       ¦   ¦           correlation_tools.cpython-313.pyc
+¦   ¦       ¦   ¦           descriptivestats.cpython-313.pyc
+¦   ¦       ¦   ¦           diagnostic.cpython-313.pyc
+¦   ¦       ¦   ¦           diagnostic_gen.cpython-313.pyc
+¦   ¦       ¦   ¦           dist_dependence_measures.cpython-313.pyc
+¦   ¦       ¦   ¦           effect_size.cpython-313.pyc
+¦   ¦       ¦   ¦           gof.cpython-313.pyc
+¦   ¦       ¦   ¦           inter_rater.cpython-313.pyc
+¦   ¦       ¦   ¦           knockoff_regeffects.cpython-313.pyc
+¦   ¦       ¦   ¦           mediation.cpython-313.pyc
+¦   ¦       ¦   ¦           meta_analysis.cpython-313.pyc
+¦   ¦       ¦   ¦           moment_helpers.cpython-313.pyc
+¦   ¦       ¦   ¦           multicomp.cpython-313.pyc
+¦   ¦       ¦   ¦           multitest.cpython-313.pyc
+¦   ¦       ¦   ¦           multivariate.cpython-313.pyc
+¦   ¦       ¦   ¦           multivariate_tools.cpython-313.pyc
+¦   ¦       ¦   ¦           nonparametric.cpython-313.pyc
+¦   ¦       ¦   ¦           oaxaca.cpython-313.pyc
+¦   ¦       ¦   ¦           oneway.cpython-313.pyc
+¦   ¦       ¦   ¦           outliers_influence.cpython-313.pyc
+¦   ¦       ¦   ¦           power.cpython-313.pyc
+¦   ¦       ¦   ¦           proportion.cpython-313.pyc
+¦   ¦       ¦   ¦           rates.cpython-313.pyc
+¦   ¦       ¦   ¦           regularized_covariance.cpython-313.pyc
+¦   ¦       ¦   ¦           robust_compare.cpython-313.pyc
+¦   ¦       ¦   ¦           sandwich_covariance.cpython-313.pyc
+¦   ¦       ¦   ¦           stattools.cpython-313.pyc
+¦   ¦       ¦   ¦           tabledist.cpython-313.pyc
+¦   ¦       ¦   ¦           weightstats.cpython-313.pyc
+¦   ¦       ¦   ¦           _adnorm.cpython-313.pyc
+¦   ¦       ¦   ¦           _delta_method.cpython-313.pyc
+¦   ¦       ¦   ¦           _diagnostic_other.cpython-313.pyc
+¦   ¦       ¦   ¦           _inference_tools.cpython-313.pyc
+¦   ¦       ¦   ¦           _knockoff.cpython-313.pyc
+¦   ¦       ¦   ¦           _lilliefors.cpython-313.pyc
+¦   ¦       ¦   ¦           _lilliefors_critical_values.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---tests
+¦   ¦       ¦   ¦   ¦   test_package.py
+¦   ¦       ¦   ¦   ¦   test_x13.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           test_package.cpython-313.pyc
+¦   ¦       ¦   ¦           test_x13.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---tools
+¦   ¦       ¦   ¦   ¦   catadd.py
+¦   ¦       ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   decorators.py
+¦   ¦       ¦   ¦   ¦   docstring.py
+¦   ¦       ¦   ¦   ¦   eval_measures.py
+¦   ¦       ¦   ¦   ¦   grouputils.py
+¦   ¦       ¦   ¦   ¦   linalg.py
+¦   ¦       ¦   ¦   ¦   numdiff.py
+¦   ¦       ¦   ¦   ¦   parallel.py
+¦   ¦       ¦   ¦   ¦   print_version.py
+¦   ¦       ¦   ¦   ¦   rng_qrng.py
+¦   ¦       ¦   ¦   ¦   rootfinding.py
+¦   ¦       ¦   ¦   ¦   sequences.py
+¦   ¦       ¦   ¦   ¦   sm_exceptions.py
+¦   ¦       ¦   ¦   ¦   testing.py
+¦   ¦       ¦   ¦   ¦   tools.py
+¦   ¦       ¦   ¦   ¦   transform_model.py
+¦   ¦       ¦   ¦   ¦   typing.py
+¦   ¦       ¦   ¦   ¦   web.py
+¦   ¦       ¦   ¦   ¦   _testing.py
+¦   ¦       ¦   ¦   ¦   _test_runner.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_catadd.py
+¦   ¦       ¦   ¦   ¦   ¦   test_data.py
+¦   ¦       ¦   ¦   ¦   ¦   test_decorators.py
+¦   ¦       ¦   ¦   ¦   ¦   test_docstring.py
+¦   ¦       ¦   ¦   ¦   ¦   test_eval_measures.py
+¦   ¦       ¦   ¦   ¦   ¦   test_grouputils.py
+¦   ¦       ¦   ¦   ¦   ¦   test_linalg.py
+¦   ¦       ¦   ¦   ¦   ¦   test_numdiff.py
+¦   ¦       ¦   ¦   ¦   ¦   test_parallel.py
+¦   ¦       ¦   ¦   ¦   ¦   test_rootfinding.py
+¦   ¦       ¦   ¦   ¦   ¦   test_sequences.py
+¦   ¦       ¦   ¦   ¦   ¦   test_testing.py
+¦   ¦       ¦   ¦   ¦   ¦   test_tools.py
+¦   ¦       ¦   ¦   ¦   ¦   test_transform_model.py
+¦   ¦       ¦   ¦   ¦   ¦   test_web.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_catadd.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_decorators.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_docstring.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_eval_measures.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_grouputils.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_linalg.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_numdiff.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_parallel.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_rootfinding.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_sequences.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_testing.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_tools.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_transform_model.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_web.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---validation
+¦   ¦       ¦   ¦   ¦   ¦   decorators.py
+¦   ¦       ¦   ¦   ¦   ¦   validation.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_validation.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           test_validation.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           decorators.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           validation.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           catadd.cpython-313.pyc
+¦   ¦       ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦           decorators.cpython-313.pyc
+¦   ¦       ¦   ¦           docstring.cpython-313.pyc
+¦   ¦       ¦   ¦           eval_measures.cpython-313.pyc
+¦   ¦       ¦   ¦           grouputils.cpython-313.pyc
+¦   ¦       ¦   ¦           linalg.cpython-313.pyc
+¦   ¦       ¦   ¦           numdiff.cpython-313.pyc
+¦   ¦       ¦   ¦           parallel.cpython-313.pyc
+¦   ¦       ¦   ¦           print_version.cpython-313.pyc
+¦   ¦       ¦   ¦           rng_qrng.cpython-313.pyc
+¦   ¦       ¦   ¦           rootfinding.cpython-313.pyc
+¦   ¦       ¦   ¦           sequences.cpython-313.pyc
+¦   ¦       ¦   ¦           sm_exceptions.cpython-313.pyc
+¦   ¦       ¦   ¦           testing.cpython-313.pyc
+¦   ¦       ¦   ¦           tools.cpython-313.pyc
+¦   ¦       ¦   ¦           transform_model.cpython-313.pyc
+¦   ¦       ¦   ¦           typing.cpython-313.pyc
+¦   ¦       ¦   ¦           web.cpython-313.pyc
+¦   ¦       ¦   ¦           _testing.cpython-313.pyc
+¦   ¦       ¦   ¦           _test_runner.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---treatment
+¦   ¦       ¦   ¦   ¦   treatment_effects.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_teffects.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   cataneo2.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_teffects.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           results_teffects.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_teffects.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           treatment_effects.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---tsa
+¦   ¦       ¦   ¦   ¦   adfvalues.py
+¦   ¦       ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   arima_model.py
+¦   ¦       ¦   ¦   ¦   arima_process.py
+¦   ¦       ¦   ¦   ¦   arma_mle.py
+¦   ¦       ¦   ¦   ¦   ar_model.py
+¦   ¦       ¦   ¦   ¦   coint_tables.py
+¦   ¦       ¦   ¦   ¦   descriptivestats.py
+¦   ¦       ¦   ¦   ¦   deterministic.py
+¦   ¦       ¦   ¦   ¦   mlemodel.py
+¦   ¦       ¦   ¦   ¦   seasonal.py
+¦   ¦       ¦   ¦   ¦   stattools.py
+¦   ¦       ¦   ¦   ¦   tsatools.py
+¦   ¦       ¦   ¦   ¦   varma_process.py
+¦   ¦       ¦   ¦   ¦   x13.py
+¦   ¦       ¦   ¦   ¦   _bds.py
+¦   ¦       ¦   ¦   ¦   _innovations.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---ardl
+¦   ¦       ¦   ¦   ¦   ¦   model.py
+¦   ¦       ¦   ¦   ¦   ¦   pss_critical_values.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_ardl.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           test_ardl.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---_pss_critical_values
+¦   ¦       ¦   ¦   ¦   ¦   ¦   pss-process.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   pss.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           pss-process.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           pss.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           model.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           pss_critical_values.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---arima
+¦   ¦       ¦   ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   ¦   model.py
+¦   ¦       ¦   ¦   ¦   ¦   params.py
+¦   ¦       ¦   ¦   ¦   ¦   specification.py
+¦   ¦       ¦   ¦   ¦   ¦   tools.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---datasets
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---brockwell_davis_2002
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   ¦   +---data
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   dowj.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   lake.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   oshorts.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   sbl.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦           dowj.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦           lake.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦           oshorts.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦           sbl.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---estimators
+¦   ¦       ¦   ¦   ¦   ¦   ¦   burg.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   durbin_levinson.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   gls.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   hannan_rissanen.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   innovations.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   statespace.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   yule_walker.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   test_burg.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   test_durbin_levinson.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   test_gls.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   test_hannan_rissanen.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   test_innovations.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   test_statespace.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   test_yule_walker.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦   ¦           test_burg.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           test_durbin_levinson.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           test_gls.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           test_hannan_rissanen.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           test_innovations.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           test_statespace.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           test_yule_walker.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           burg.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           durbin_levinson.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           gls.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           hannan_rissanen.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           innovations.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           statespace.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           yule_walker.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_model.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_params.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_specification.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_tools.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           test_model.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_params.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_specification.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_tools.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           model.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           params.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           specification.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           tools.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---base
+¦   ¦       ¦   ¦   ¦   ¦   datetools.py
+¦   ¦       ¦   ¦   ¦   ¦   prediction.py
+¦   ¦       ¦   ¦   ¦   ¦   tsa_model.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_base.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_datetools.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_prediction.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_tsa_indexes.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           test_base.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_datetools.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_prediction.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_tsa_indexes.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           datetools.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           prediction.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           tsa_model.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---exponential_smoothing
+¦   ¦       ¦   ¦   ¦   ¦   base.py
+¦   ¦       ¦   ¦   ¦   ¦   ets.py
+¦   ¦       ¦   ¦   ¦   ¦   initialization.py
+¦   ¦       ¦   ¦   ¦   ¦   _ets_smooth.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           base.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           ets.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           initialization.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---filters
+¦   ¦       ¦   ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   ¦   bk_filter.py
+¦   ¦       ¦   ¦   ¦   ¦   cf_filter.py
+¦   ¦       ¦   ¦   ¦   ¦   filtertools.py
+¦   ¦       ¦   ¦   ¦   ¦   hp_filter.py
+¦   ¦       ¦   ¦   ¦   ¦   _utils.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_filters.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   filter_results.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦   ¦           filter_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           test_filters.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           bk_filter.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           cf_filter.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           filtertools.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           hp_filter.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           _utils.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---forecasting
+¦   ¦       ¦   ¦   ¦   ¦   stl.py
+¦   ¦       ¦   ¦   ¦   ¦   theta.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_stl.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_theta.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           test_stl.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_theta.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           stl.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           theta.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---holtwinters
+¦   ¦       ¦   ¦   ¦   ¦   model.py
+¦   ¦       ¦   ¦   ¦   ¦   results.py
+¦   ¦       ¦   ¦   ¦   ¦   _exponential_smoothers.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   _smoothers.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_holtwinters.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   housing-data.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           test_holtwinters.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           model.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           _smoothers.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---innovations
+¦   ¦       ¦   ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   ¦   arma_innovations.py
+¦   ¦       ¦   ¦   ¦   ¦   _arma_innovations.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_arma_innovations.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_cython_arma_innovations_fast.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           test_arma_innovations.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_cython_arma_innovations_fast.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           arma_innovations.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---interp
+¦   ¦       ¦   ¦   ¦   ¦   denton.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_denton.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           test_denton.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           denton.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---regime_switching
+¦   ¦       ¦   ¦   ¦   ¦   markov_autoregression.py
+¦   ¦       ¦   ¦   ¦   ¦   markov_regression.py
+¦   ¦       ¦   ¦   ¦   ¦   markov_switching.py
+¦   ¦       ¦   ¦   ¦   ¦   _hamilton_filter.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   _kim_smoother.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_markov_autoregression.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_markov_regression.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_markov_switching.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   mar_filardo.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_predict_fedfunds.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_predict_rgnp.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           test_markov_autoregression.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_markov_regression.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_markov_switching.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           markov_autoregression.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           markov_regression.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           markov_switching.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---statespace
+¦   ¦       ¦   ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   ¦   cfa_simulation_smoother.py
+¦   ¦       ¦   ¦   ¦   ¦   dynamic_factor.py
+¦   ¦       ¦   ¦   ¦   ¦   dynamic_factor_mq.py
+¦   ¦       ¦   ¦   ¦   ¦   exponential_smoothing.py
+¦   ¦       ¦   ¦   ¦   ¦   initialization.py
+¦   ¦       ¦   ¦   ¦   ¦   kalman_filter.py
+¦   ¦       ¦   ¦   ¦   ¦   kalman_smoother.py
+¦   ¦       ¦   ¦   ¦   ¦   mlemodel.py
+¦   ¦       ¦   ¦   ¦   ¦   news.py
+¦   ¦       ¦   ¦   ¦   ¦   representation.py
+¦   ¦       ¦   ¦   ¦   ¦   sarimax.py
+¦   ¦       ¦   ¦   ¦   ¦   simulation_smoother.py
+¦   ¦       ¦   ¦   ¦   ¦   structural.py
+¦   ¦       ¦   ¦   ¦   ¦   tools.py
+¦   ¦       ¦   ¦   ¦   ¦   varmax.py
+¦   ¦       ¦   ¦   ¦   ¦   _cfa_simulation_smoother.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   _initialization.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   _kalman_filter.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   _kalman_smoother.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   _pykalman_smoother.py
+¦   ¦       ¦   ¦   ¦   ¦   _quarterly_ar1.py
+¦   ¦       ¦   ¦   ¦   ¦   _representation.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   _simulation_smoother.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   _tools.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   kfas_helpers.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_cfa_simulation_smoothing.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_cfa_tvpvar.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_chandrasekhar.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_collapsed.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_concentrated.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_conserve_memory.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_decompose.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_dynamic_factor.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_dynamic_factor_mq.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_dynamic_factor_mq_frbny_nowcast.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_dynamic_factor_mq_monte_carlo.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_exact_diffuse_filtering.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_exponential_smoothing.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_fixed_params.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_forecasting.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_impulse_responses.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_initialization.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_kalman.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_mlemodel.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_models.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_multivariate_switch_univariate.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_news.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_options.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_pickle.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_prediction.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_representation.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_sarimax.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_save.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_simulate.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_simulation_smoothing.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_smoothing.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_structural.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_tools.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_univariate.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_var.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_varmax.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_weights.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   cfa_tvpvar_beta.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   cfa_tvpvar_invP.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   cfa_tvpvar_Omega_11.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   cfa_tvpvar_Omega_22.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   cfa_tvpvar_posterior_mean.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   cfa_tvpvar_S10.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   cfa_tvpvar_Si0.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   cfa_tvpvar_state_variates.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   cfa_tvpvar_v10.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   cfa_tvpvar_vi0.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   clark1989.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   exponential_smoothing_params.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   exponential_smoothing_predict.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   exponential_smoothing_states.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   manufac.dta
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_clark1989_R.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_dynamic_factor.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_dynamic_factor_stata.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_exact_initial_common_level_R.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_exact_initial_common_level_restricted_R.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_exact_initial_dfm_R.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_exact_initial_local_level_R.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_exact_initial_local_linear_trend_missing_R.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_exact_initial_local_linear_trend_R.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_exact_initial_var1_measurement_error_R.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_exact_initial_var1_missing_R.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_exact_initial_var1_mixed_R.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_exact_initial_var1_R.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_intercepts_R.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_kalman_filter.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_realgdpar_stata.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_sarimax.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_sarimax_coverage.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_simulation_smoothing0.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_simulation_smoothing1.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_simulation_smoothing2.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_simulation_smoothing3.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_simulation_smoothing3_variates.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_simulation_smoothing4.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_simulation_smoothing5.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_simulation_smoothing6.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_smoothing2_R.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_smoothing3_R.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_smoothing_generalobscov_R.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_smoothing_R.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_structural.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_varmax.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_varmax_stata.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_var_misc.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_var_R.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_var_R_output.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_var_stata.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_wpi1_ar3_matlab_ssm.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_wpi1_ar3_stata.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_wpi1_missing_ar3_matlab_ssm.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   sm-0.9-sarimax.pkl
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   ¦   +---frbny_nowcast
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   test_dfm_111.mat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   test_dfm_112.mat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   test_dfm_11F.mat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   test_dfm_221.mat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   test_dfm_222.mat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   test_dfm_22F.mat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   test_dfm_blocks_111.mat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   test_dfm_blocks_112.mat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   test_dfm_blocks_221.mat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   test_dfm_blocks_222.mat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   test_news_112.mat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   test_news_222.mat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   test_news_blocks_112.mat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   test_news_blocks_222.mat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   +---Nowcasting
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---data
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---US
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   2016-06-29.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   2016-07-29.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---functions
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦   ¦           results_dynamic_factor.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           results_kalman_filter.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           results_sarimax.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           results_structural.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           results_varmax.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           results_var_misc.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           results_var_R.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           kfas_helpers.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_cfa_simulation_smoothing.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_cfa_tvpvar.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_chandrasekhar.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_collapsed.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_concentrated.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_conserve_memory.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_decompose.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_dynamic_factor.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_dynamic_factor_mq.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_dynamic_factor_mq_frbny_nowcast.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_dynamic_factor_mq_monte_carlo.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_exact_diffuse_filtering.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_exponential_smoothing.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_fixed_params.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_forecasting.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_impulse_responses.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_initialization.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_kalman.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_mlemodel.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_models.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_multivariate_switch_univariate.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_news.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_options.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_pickle.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_prediction.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_representation.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_sarimax.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_save.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_simulate.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_simulation_smoothing.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_smoothing.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_structural.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_tools.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_univariate.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_var.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_varmax.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_weights.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---_filters
+¦   ¦       ¦   ¦   ¦   ¦   ¦   _conventional.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   ¦   _inversions.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   ¦   _univariate.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   ¦   _univariate_diffuse.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---_smoothers
+¦   ¦       ¦   ¦   ¦   ¦   ¦   _alternative.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   ¦   _classical.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   ¦   _conventional.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   ¦   _univariate.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   ¦   _univariate_diffuse.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           cfa_simulation_smoother.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           dynamic_factor.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           dynamic_factor_mq.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           exponential_smoothing.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           initialization.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           kalman_filter.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           kalman_smoother.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           mlemodel.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           news.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           representation.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           sarimax.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           simulation_smoother.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           structural.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           tools.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           varmax.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           _pykalman_smoother.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           _quarterly_ar1.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---stl
+¦   ¦       ¦   ¦   ¦   ¦   mstl.py
+¦   ¦       ¦   ¦   ¦   ¦   _stl.cp313-win_amd64.pyd
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_mstl.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_stl.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   mstl_elec_vic.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   mstl_test_results.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   stl_co2.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   stl_test_results.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           test_mstl.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_stl.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           mstl.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   test_adfuller_lag.py
+¦   ¦       ¦   ¦   ¦   ¦   test_ar.py
+¦   ¦       ¦   ¦   ¦   ¦   test_arima_process.py
+¦   ¦       ¦   ¦   ¦   ¦   test_bds.py
+¦   ¦       ¦   ¦   ¦   ¦   test_deterministic.py
+¦   ¦       ¦   ¦   ¦   ¦   test_exponential_smoothing.py
+¦   ¦       ¦   ¦   ¦   ¦   test_seasonal.py
+¦   ¦       ¦   ¦   ¦   ¦   test_stattools.py
+¦   ¦       ¦   ¦   ¦   ¦   test_tsa_tools.py
+¦   ¦       ¦   ¦   ¦   ¦   test_x13.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   arima111nc_css_results.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   arima111nc_results.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   arima111_css_results.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   arima111_forecasts.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   arima111_results.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   arima112nc_css_results.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   arima112nc_results.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   arima112_css_results.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   arima112_results.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   arima211nc_css_results.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   arima211nc_results.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   arima211_css_results.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   arima211_results.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   arima212_forecast.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ARMLEConstantPredict.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   AROLSConstantPredict.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   AROLSNoConstantPredict.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   bds_data.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   bds_results.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   datamlw_tls.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   fit_ets_results.json
+¦   ¦       ¦   ¦   ¦   ¦   ¦   fit_ets_results_nonseasonal.json
+¦   ¦       ¦   ¦   ¦   ¦   ¦   fit_ets_results_seasonal.json
+¦   ¦       ¦   ¦   ¦   ¦   ¦   gnpdef.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   lutkepohl2.dta
+¦   ¦       ¦   ¦   ¦   ¦   ¦   make_arma.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   rand10000.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   resids_css_c.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   resids_css_nc.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   resids_exact_c.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   resids_exact_nc.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_ar.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_arima.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_arima_exog_forecasts_css.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_arima_exog_forecasts_mle.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_arima_forecasts.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_arima_forecasts_all_css.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_arima_forecasts_all_css_diff.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_arima_forecasts_all_mle.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_arima_forecasts_all_mle_diff.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_arma.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_arma_acf.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_arma_forecasts.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_ar_forecast_mle_dynamic.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_ccf.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_corrgram.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   results_process.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   rgnp.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   rgnpq.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   savedrvs.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   stkprc.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   yhat_css_c.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   yhat_css_nc.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   yhat_exact_c.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   yhat_exact_nc.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   y_arma_data.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           arima111nc_css_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           arima111nc_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           arima111_css_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           arima111_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           arima112nc_css_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           arima112nc_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           arima112_css_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           arima112_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           arima211nc_css_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           arima211nc_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           arima211_css_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           arima211_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           datamlw_tls.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           make_arma.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_ar.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_arima.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_arma.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_arma_acf.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           results_process.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           savedrvs.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           test_adfuller_lag.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_ar.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_arima_process.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_bds.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_deterministic.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_exponential_smoothing.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_seasonal.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_stattools.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_tsa_tools.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           test_x13.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---vector_ar
+¦   ¦       ¦   ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   ¦   hypothesis_test_results.py
+¦   ¦       ¦   ¦   ¦   ¦   irf.py
+¦   ¦       ¦   ¦   ¦   ¦   output.py
+¦   ¦       ¦   ¦   ¦   ¦   plotting.py
+¦   ¦       ¦   ¦   ¦   ¦   svar_model.py
+¦   ¦       ¦   ¦   ¦   ¦   util.py
+¦   ¦       ¦   ¦   ¦   ¦   var_model.py
+¦   ¦       ¦   ¦   ¦   ¦   vecm.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦       ¦   ¦   ¦   ¦   ¦   example_svar.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_coint.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_svar.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_var.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_var_jmulti.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   test_vecm.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---JMulTi_results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_c.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cs.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cst.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cst_diag.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cst_fc5.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cst_granger_causality_realcons.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cst_granger_causality_realcons_realgdp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cst_granger_causality_realcons_realinv.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cst_granger_causality_realgdp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cst_granger_causality_realgdp_realinv.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cst_granger_causality_realinv.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cst_ir.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cst_lagorder.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cst_Sigmau.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cs_diag.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cs_fc5.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cs_granger_causality_realcons.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cs_granger_causality_realcons_realgdp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cs_granger_causality_realcons_realinv.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cs_granger_causality_realgdp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cs_granger_causality_realgdp_realinv.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cs_granger_causality_realinv.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cs_ir.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cs_lagorder.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_cs_Sigmau.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ct.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ct_diag.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ct_fc5.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ct_granger_causality_realcons.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ct_granger_causality_realcons_realgdp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ct_granger_causality_realcons_realinv.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ct_granger_causality_realgdp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ct_granger_causality_realgdp_realinv.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ct_granger_causality_realinv.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ct_ir.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ct_lagorder.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ct_Sigmau.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_c_diag.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_c_fc5.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_c_granger_causality_realcons.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_c_granger_causality_realcons_realgdp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_c_granger_causality_realcons_realinv.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_c_granger_causality_realgdp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_c_granger_causality_realgdp_realinv.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_c_granger_causality_realinv.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_c_ir.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_c_lagorder.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_c_Sigmau.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_nc.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ncs.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ncs_diag.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ncs_fc5.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ncs_granger_causality_realcons.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ncs_granger_causality_realcons_realgdp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ncs_granger_causality_realcons_realinv.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ncs_granger_causality_realgdp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ncs_granger_causality_realgdp_realinv.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ncs_granger_causality_realinv.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ncs_ir.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ncs_lagorder.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_ncs_Sigmau.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_nc_diag.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_nc_fc5.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_nc_granger_causality_realcons.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_nc_granger_causality_realcons_realgdp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_nc_granger_causality_realcons_realinv.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_nc_granger_causality_realgdp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_nc_granger_causality_realgdp_realinv.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_nc_granger_causality_realinv.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_nc_ir.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_nc_lagorder.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   macrodata_jmulti_nc_Sigmau.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   parse_jmulti_var_output.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   parse_jmulti_vecm_output.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ci.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cili.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cili_diag.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cili_fc5.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cili_granger_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cili_granger_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cili_inst_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cili_inst_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cili_ir.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cili_lagorder.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cili_Sigmau.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cis.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cisli.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cisli_diag.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cisli_fc5.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cisli_granger_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cisli_granger_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cisli_inst_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cisli_inst_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cisli_ir.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cisli_lagorder.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cisli_Sigmau.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cis_diag.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cis_fc5.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cis_granger_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cis_granger_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cis_inst_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cis_inst_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cis_ir.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cis_lagorder.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cis_Sigmau.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ci_diag.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ci_fc5.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ci_granger_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ci_granger_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ci_inst_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ci_inst_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ci_ir.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ci_lagorder.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ci_Sigmau.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_co.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_colo.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_colo_diag.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_colo_fc5.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_colo_granger_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_colo_granger_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_colo_inst_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_colo_inst_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_colo_ir.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_colo_lagorder.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_colo_Sigmau.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cos.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_coslo.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_coslo_diag.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_coslo_fc5.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_coslo_granger_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_coslo_granger_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_coslo_inst_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_coslo_inst_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_coslo_ir.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_coslo_lagorder.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_coslo_Sigmau.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cos_diag.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cos_fc5.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cos_granger_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cos_granger_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cos_inst_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cos_inst_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cos_ir.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cos_lagorder.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_cos_Sigmau.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_co_diag.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_co_fc5.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_co_granger_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_co_granger_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_co_inst_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_co_inst_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_co_ir.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_co_lagorder.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_co_Sigmau.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_nc.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ncs.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ncs_diag.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ncs_fc5.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ncs_granger_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ncs_granger_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ncs_inst_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ncs_inst_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ncs_ir.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ncs_lagorder.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_ncs_Sigmau.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_nc_diag.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_nc_fc5.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_nc_granger_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_nc_granger_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_nc_inst_causality_dp_r.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_nc_inst_causality_r_dp.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_nc_ir.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_nc_lagorder.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vecm_e6_jmulti_nc_Sigmau.txt
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦   ¦           parse_jmulti_var_output.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           parse_jmulti_vecm_output.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   ¦   +---Matlab_results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   test_coint.csv
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   ¦   +---results
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   e1.dat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   e2.dat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   e3.dat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   e4.dat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   e5.dat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   e6.dat
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_svar.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_svar_st.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_var.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   results_var_data.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   vars_results.npz
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦   ¦           results_svar.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           results_svar_st.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           results_var.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           results_var_data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           example_svar.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_coint.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_svar.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_var.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_var_jmulti.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           test_vecm.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           hypothesis_test_results.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           irf.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           output.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           plotting.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           svar_model.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           util.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           var_model.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           vecm.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           adfvalues.cpython-313.pyc
+¦   ¦       ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦           arima_model.cpython-313.pyc
+¦   ¦       ¦   ¦           arima_process.cpython-313.pyc
+¦   ¦       ¦   ¦           arma_mle.cpython-313.pyc
+¦   ¦       ¦   ¦           ar_model.cpython-313.pyc
+¦   ¦       ¦   ¦           coint_tables.cpython-313.pyc
+¦   ¦       ¦   ¦           descriptivestats.cpython-313.pyc
+¦   ¦       ¦   ¦           deterministic.cpython-313.pyc
+¦   ¦       ¦   ¦           mlemodel.cpython-313.pyc
+¦   ¦       ¦   ¦           seasonal.cpython-313.pyc
+¦   ¦       ¦   ¦           stattools.cpython-313.pyc
+¦   ¦       ¦   ¦           tsatools.cpython-313.pyc
+¦   ¦       ¦   ¦           varma_process.cpython-313.pyc
+¦   ¦       ¦   ¦           x13.cpython-313.pyc
+¦   ¦       ¦   ¦           _bds.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---__pycache__
+¦   ¦       ¦           api.cpython-313.pyc
+¦   ¦       ¦           conftest.cpython-313.pyc
+¦   ¦       ¦           _version.cpython-313.pyc
+¦   ¦       ¦           __init__.cpython-313.pyc
+¦   ¦       ¦           
+¦   ¦       +---statsmodels-0.14.5.dist-info
+¦   ¦       ¦   ¦   INSTALLER
+¦   ¦       ¦   ¦   METADATA
+¦   ¦       ¦   ¦   RECORD
+¦   ¦       ¦   ¦   REQUESTED
+¦   ¦       ¦   ¦   top_level.txt
+¦   ¦       ¦   ¦   WHEEL
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---licenses
+¦   ¦       ¦           LICENSE.txt
+¦   ¦       ¦           
 ¦   ¦       +---terminado
 ¦   ¦       ¦   ¦   management.py
 ¦   ¦       ¦   ¦   py.typed
@@ -32278,6 +35377,108 @@ C:.
 ¦   ¦       ¦           ptyprocess.cpython-313.pyc
 ¦   ¦       ¦           __init__.cpython-313.pyc
 ¦   ¦       ¦           
+¦   ¦       +---xgboost
+¦   ¦       ¦   ¦   callback.py
+¦   ¦       ¦   ¦   collective.py
+¦   ¦       ¦   ¦   compat.py
+¦   ¦       ¦   ¦   config.py
+¦   ¦       ¦   ¦   core.py
+¦   ¦       ¦   ¦   data.py
+¦   ¦       ¦   ¦   federated.py
+¦   ¦       ¦   ¦   libpath.py
+¦   ¦       ¦   ¦   plotting.py
+¦   ¦       ¦   ¦   py.typed
+¦   ¦       ¦   ¦   sklearn.py
+¦   ¦       ¦   ¦   tracker.py
+¦   ¦       ¦   ¦   training.py
+¦   ¦       ¦   ¦   VERSION
+¦   ¦       ¦   ¦   _data_utils.py
+¦   ¦       ¦   ¦   _typing.py
+¦   ¦       ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---dask
+¦   ¦       ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   utils.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦           utils.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---lib
+¦   ¦       ¦   ¦       xgboost.dll
+¦   ¦       ¦   ¦       
+¦   ¦       ¦   +---spark
+¦   ¦       ¦   ¦   ¦   core.py
+¦   ¦       ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   estimator.py
+¦   ¦       ¦   ¦   ¦   params.py
+¦   ¦       ¦   ¦   ¦   summary.py
+¦   ¦       ¦   ¦   ¦   utils.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           core.cpython-313.pyc
+¦   ¦       ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦           estimator.cpython-313.pyc
+¦   ¦       ¦   ¦           params.cpython-313.pyc
+¦   ¦       ¦   ¦           summary.cpython-313.pyc
+¦   ¦       ¦   ¦           utils.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---testing
+¦   ¦       ¦   ¦   ¦   continuation.py
+¦   ¦       ¦   ¦   ¦   dask.py
+¦   ¦       ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   data_iter.py
+¦   ¦       ¦   ¦   ¦   federated.py
+¦   ¦       ¦   ¦   ¦   metrics.py
+¦   ¦       ¦   ¦   ¦   params.py
+¦   ¦       ¦   ¦   ¦   quantile_dmatrix.py
+¦   ¦       ¦   ¦   ¦   ranking.py
+¦   ¦       ¦   ¦   ¦   shared.py
+¦   ¦       ¦   ¦   ¦   updater.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           continuation.cpython-313.pyc
+¦   ¦       ¦   ¦           dask.cpython-313.pyc
+¦   ¦       ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦           data_iter.cpython-313.pyc
+¦   ¦       ¦   ¦           federated.cpython-313.pyc
+¦   ¦       ¦   ¦           metrics.cpython-313.pyc
+¦   ¦       ¦   ¦           params.cpython-313.pyc
+¦   ¦       ¦   ¦           quantile_dmatrix.cpython-313.pyc
+¦   ¦       ¦   ¦           ranking.cpython-313.pyc
+¦   ¦       ¦   ¦           shared.cpython-313.pyc
+¦   ¦       ¦   ¦           updater.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---__pycache__
+¦   ¦       ¦           callback.cpython-313.pyc
+¦   ¦       ¦           collective.cpython-313.pyc
+¦   ¦       ¦           compat.cpython-313.pyc
+¦   ¦       ¦           config.cpython-313.pyc
+¦   ¦       ¦           core.cpython-313.pyc
+¦   ¦       ¦           data.cpython-313.pyc
+¦   ¦       ¦           federated.cpython-313.pyc
+¦   ¦       ¦           libpath.cpython-313.pyc
+¦   ¦       ¦           plotting.cpython-313.pyc
+¦   ¦       ¦           sklearn.cpython-313.pyc
+¦   ¦       ¦           tracker.cpython-313.pyc
+¦   ¦       ¦           training.cpython-313.pyc
+¦   ¦       ¦           _data_utils.cpython-313.pyc
+¦   ¦       ¦           _typing.cpython-313.pyc
+¦   ¦       ¦           __init__.cpython-313.pyc
+¦   ¦       ¦           
+¦   ¦       +---xgboost-3.0.5.dist-info
+¦   ¦       ¦       INSTALLER
+¦   ¦       ¦       METADATA
+¦   ¦       ¦       RECORD
+¦   ¦       ¦       REQUESTED
+¦   ¦       ¦       WHEEL
+¦   ¦       ¦       
 ¦   ¦       +---yaml
 ¦   ¦       ¦   ¦   composer.py
 ¦   ¦       ¦   ¦   constructor.py
@@ -32551,22 +35752,74 @@ C:.
 ¦   ¦       ¦           __init__.cpython-313.pyc
 ¦   ¦       ¦           
 ¦   ¦       +---__pycache__
-¦   ¦               decorator.cpython-313.pyc
-¦   ¦               ipykernel_launcher.cpython-313.pyc
-¦   ¦               ipython_pygments_lexers.cpython-313.pyc
-¦   ¦               jsonpointer.cpython-313.pyc
-¦   ¦               jupyter.cpython-313.pyc
-¦   ¦               mypy_extensions.cpython-313.pyc
-¦   ¦               nest_asyncio.cpython-313.pyc
-¦   ¦               pandocfilters.cpython-313.pyc
-¦   ¦               pylab.cpython-313.pyc
-¦   ¦               pythoncom.cpython-313.pyc
-¦   ¦               rfc3339_validator.cpython-313.pyc
-¦   ¦               rfc3986_validator.cpython-313.pyc
-¦   ¦               six.cpython-313.pyc
-¦   ¦               threadpoolctl.cpython-313.pyc
-¦   ¦               typing_extensions.cpython-313.pyc
-¦   ¦               typing_inspect.cpython-313.pyc
+¦   ¦       ¦       decorator.cpython-313.pyc
+¦   ¦       ¦       ipykernel_launcher.cpython-313.pyc
+¦   ¦       ¦       ipython_pygments_lexers.cpython-313.pyc
+¦   ¦       ¦       jsonpointer.cpython-313.pyc
+¦   ¦       ¦       jupyter.cpython-313.pyc
+¦   ¦       ¦       mypy_extensions.cpython-313.pyc
+¦   ¦       ¦       nest_asyncio.cpython-313.pyc
+¦   ¦       ¦       pandocfilters.cpython-313.pyc
+¦   ¦       ¦       pylab.cpython-313.pyc
+¦   ¦       ¦       pythoncom.cpython-313.pyc
+¦   ¦       ¦       rfc3339_validator.cpython-313.pyc
+¦   ¦       ¦       rfc3986_validator.cpython-313.pyc
+¦   ¦       ¦       six.cpython-313.pyc
+¦   ¦       ¦       threadpoolctl.cpython-313.pyc
+¦   ¦       ¦       typing_extensions.cpython-313.pyc
+¦   ¦       ¦       typing_inspect.cpython-313.pyc
+¦   ¦       ¦       
+¦   ¦       +---~andas
+¦   ¦       ¦   +---_libs
+¦   ¦       ¦       ¦   algos.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   arrays.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   groupby.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   hashing.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   hashtable.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   index.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   indexing.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   internals.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   interval.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   join.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   json.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   lib.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   missing.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   ops.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   ops_dispatch.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   pandas_datetime.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   pandas_parser.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   parsers.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   properties.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   reshape.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   sparse.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   testing.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   tslib.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   writers.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦   
+¦   ¦       ¦       +---tslibs
+¦   ¦       ¦       ¦       base.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦       ccalendar.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦       conversion.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦       dtypes.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦       fields.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦       nattype.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦       np_datetime.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦       offsets.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦       parsing.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦       period.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦       strptime.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦       timedeltas.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦       timestamps.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦       timezones.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦       tzconversion.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦       vectorized.cp313-win_amd64.pyd
+¦   ¦       ¦       ¦       
+¦   ¦       ¦       +---window
+¦   ¦       ¦               aggregations.cp313-win_amd64.pyd
+¦   ¦       ¦               indexers.cp313-win_amd64.pyd
+¦   ¦       ¦               
+¦   ¦       +---~andas.libs
+¦   ¦               msvcp140-1a0962f2a91a74c6d7136a768987a591.dll
 ¦   ¦               
 ¦   +---Scripts
 ¦   ¦   ¦   activate
@@ -33346,6 +36599,8 @@ C:.
 ¦   ¦       
 ¦   +---processed
 ¦   ¦   ¦   .gitkeep
+¦   ¦   ¦   dataset_ml_ready.parquet
+¦   ¦   ¦   dataset_modelado_ready.parquet
 ¦   ¦   ¦   demanda_all_adjusted.parquet
 ¦   ¦   ¦   demanda_all_adjusted_postnoise.parquet
 ¦   ¦   ¦   demanda_con_catalogo.csv
@@ -33367,6 +36622,10 @@ C:.
 ¦   ¦   ¦   demanda_unificada.csv
 ¦   ¦   ¦   outliers.csv
 ¦   ¦   ¦   outliers.parquet
+¦   ¦   ¦   predicciones_2025.parquet
+¦   ¦   ¦   predicciones_2025_estacional.parquet
+¦   ¦   ¦   predicciones_2025_optimista.parquet
+¦   ¦   ¦   predicciones_2025_pesimista.parquet
 ¦   ¦   ¦   productos_clusters.csv
 ¦   ¦   ¦   productos_clusters_agglom.csv
 ¦   ¦   ¦   productos_clusters_dbscan.csv
@@ -33376,11 +36635,45 @@ C:.
 ¦   ¦   ¦   productos_features_norm.csv
 ¦   ¦   ¦   subset_modelado.parquet
 ¦   ¦   ¦   
+¦   ¦   +---modelado
+¦   ¦   ¦   +---sarimax
+¦   ¦   ¦       ¦   agg_full.parquet
+¦   ¦   ¦       ¦   
+¦   ¦   ¦       +---cluster_0
+¦   ¦   ¦       ¦       test.csv
+¦   ¦   ¦       ¦       train.csv
+¦   ¦   ¦       ¦       val.csv
+¦   ¦   ¦       ¦       
+¦   ¦   ¦       +---cluster_1
+¦   ¦   ¦       ¦       test.csv
+¦   ¦   ¦       ¦       train.csv
+¦   ¦   ¦       ¦       val.csv
+¦   ¦   ¦       ¦       
+¦   ¦   ¦       +---cluster_2
+¦   ¦   ¦       ¦       test.csv
+¦   ¦   ¦       ¦       train.csv
+¦   ¦   ¦       ¦       val.csv
+¦   ¦   ¦       ¦       
+¦   ¦   ¦       +---cluster_3
+¦   ¦   ¦               test.csv
+¦   ¦   ¦               train.csv
+¦   ¦   ¦               val.csv
+¦   ¦   ¦               
 ¦   ¦   +---pca
-¦   ¦           categoria_features.csv
-¦   ¦           categoria_scores.csv
-¦   ¦           pca_componentes.csv
-¦   ¦           
+¦   ¦   ¦       categoria_features.csv
+¦   ¦   ¦       categoria_scores.csv
+¦   ¦   ¦       pca_componentes.csv
+¦   ¦   ¦       
+¦   ¦   +---preds
+¦   ¦       +---baselines
+¦   ¦           +---holt_winters
+¦   ¦           ¦       preds_test.parquet
+¦   ¦           ¦       preds_val.parquet
+¦   ¦           ¦       
+¦   ¦           +---seasonal_naive
+¦   ¦                   preds_test.parquet
+¦   ¦                   preds_val.parquet
+¦   ¦                   
 ¦   +---raw
 ¦   ¦       .gitkeep
 ¦   ¦       Catalogo_Productos_Con_Estado.xlsx
@@ -33406,11 +36699,24 @@ C:.
 ¦           standard_scaler_productos.pkl
 ¦           
 +---notebooks
-¦       PFM2..ipynb
-¦       PFM2_Fase2_validacion_calendario.ipynb
-¦       PFM2_Fase3_pruebas_clustering.ipynb
-¦       PFM2_Modelado_y_app.ipynb
-¦       
+¦   ¦   PFM2..ipynb
+¦   ¦   PFM2_Fase2_validacion_calendario.ipynb
+¦   ¦   PFM2_Fase3_pruebas_clustering.ipynb
+¦   ¦   PFM2_Modelado_y_app.ipynb
+¦   ¦   
+¦   +---data
+¦   ¦   +---processed
+¦   ¦       +---preds
+¦   ¦           +---baselines
+¦   ¦               +---holt_winters
+¦   ¦               +---seasonal_naive
+¦   +---outputs
+¦   ¦   +---modeling
+¦   ¦       +---sarimax
+¦   +---reports
+¦       +---baselines
+¦           +---holt_winters
+¦           +---seasonal_naive
 +---outputs
 ¦   ¦   calendario_estacional_2022.csv
 ¦   ¦   calendario_estacional_2023.csv
@@ -33421,6 +36727,16 @@ C:.
 ¦   ¦   validacion_calendario_real_2024.csv
 ¦   ¦   validacion_calendario_real_resumen.csv
 ¦   ¦   
+¦   +---controles_escenarios
+¦   ¦       control_por_cluster_optimista.csv
+¦   ¦       control_por_cluster_pesimista.csv
+¦   ¦       control_totales_optimista.csv
+¦   ¦       control_totales_pesimista.csv
+¦   ¦       factores_optimista.csv
+¦   ¦       factores_pesimista.csv
+¦   ¦       meta_optimista.json
+¦   ¦       meta_pesimista.json
+¦   ¦       
 ¦   +---figures
 ¦   ¦       boxplot_media_diaria_por_producto.png
 ¦   ¦       evolucion_2024_con_eventos_SHIFT_k7_s3.png
@@ -33433,6 +36749,29 @@ C:.
 ¦   ¦       evolucion_mensual.png
 ¦   ¦       evolucion_mensual_media.png
 ¦   ¦       
+¦   +---modeling
+¦   ¦   +---ml
+¦   ¦   ¦   ¦   metrics_val_2024_ml.csv
+¦   ¦   ¦   ¦   preds_val_2024_ml.csv
+¦   ¦   ¦   ¦   
+¦   ¦   ¦   +---feature_importance
+¦   ¦   ¦           fi_families_RF.csv
+¦   ¦   ¦           fi_families_XGB.csv
+¦   ¦   ¦           fi_long_RF.csv
+¦   ¦   ¦           fi_long_XGB.csv
+¦   ¦   ¦           fi_summary_RF.csv
+¦   ¦   ¦           fi_summary_XGB.csv
+¦   ¦   ¦           fi_top12_RF.csv
+¦   ¦   ¦           fi_top12_XGB.csv
+¦   ¦   ¦           rf_top12_summary.png
+¦   ¦   ¦           xgb_top12_summary.png
+¦   ¦   ¦           
+¦   ¦   +---sarimax
+¦   ¦           metrics_val_2024.csv
+¦   ¦           metrics_val_2024_partial.csv
+¦   ¦           preds_val_2024.csv
+¦   ¦           preds_val_2024_partial.csv
+¦   ¦           
 ¦   +---tables
 ¦           calendar_externos.parquet
 ¦           calendar_externos_completo.parquet
@@ -33478,7 +36817,9 @@ C:.
 ¦   ¦   davies_bouldin_vs_k_agglom.csv
 ¦   ¦   davies_bouldin_vs_k_gmm.csv
 ¦   ¦   dbscan_exploracion.csv
+¦   ¦   ganadores_por_cluster.csv
 ¦   ¦   inercia_vs_k.csv
+¦   ¦   metrics_unificados.csv
 ¦   ¦   outliers_dbscan.csv
 ¦   ¦   outliers_dbscan_resumen.csv
 ¦   ¦   outliers_report.txt
@@ -33496,9 +36837,32 @@ C:.
 ¦   ¦   unir_subset_y_outliers.txt
 ¦   ¦   validacion_subset_final.txt
 ¦   ¦   
+¦   +---backtests
+¦   ¦   ¦   metrics_all.csv
+¦   ¦   ¦   
+¦   ¦   +---summary
+¦   ¦           metrics_global.csv
+¦   ¦           
+¦   +---baselines
+¦   ¦   +---holt_winters
+¦   ¦   ¦       metrics_validation.csv
+¦   ¦   ¦       
+¦   ¦   +---seasonal_naive
+¦   ¦           metrics_validation.csv
+¦   ¦           
 ¦   +---figures
 ¦   ¦       pca_scree.png
 ¦   ¦       
+¦   +---modelado
+¦   ¦   +---sarimax
+¦   ¦           catalogo_series.csv
+¦   ¦           
+¦   +---modeling
+¦   ¦   ¦   modelo_ganador_por_cluster.csv
+¦   ¦   ¦   
+¦   ¦   +---ml
+¦   ¦           winners_por_cluster_ml.csv
+¦   ¦           
 ¦   +---outliers
 ¦   ¦       outliers_candidatos_nuevos_dias.csv
 ¦   ¦       outliers_candidatos_nuevos_productos.csv
@@ -33513,6 +36877,13 @@ C:.
 ¦   ¦       outliers_picos_aislados_resumen_calendario.csv
 ¦   ¦       outliers_resumen.csv
 ¦   ¦       outliers_resumen_metricas.csv
+¦   ¦       
+¦   +---predicciones
+¦   ¦       summary_2025.csv
+¦   ¦       
+¦   +---seasonality
+¦   ¦       control_totales_2025.csv
+¦   ¦       factores_estacionales_2022_2024.csv
 ¦   ¦       
 ¦   +---validation
 ¦           categorias_finales.csv
@@ -33566,23 +36937,48 @@ C:.
 ¦   +---eda
 ¦   ¦       .gitkeep
 ¦   ¦       analisis_coherencia_historicos.py
+¦   ¦       check_outliers_cluster.py
 ¦   ¦       comparativa_estacional.py
 ¦   ¦       validacion_calendario_real.py
+¦   ¦       validacion_dataset_modelado.py
 ¦   ¦       validacion_demanda_con_catalogo.py
 ¦   ¦       
 ¦   +---modeling
-¦   ¦       clustering_productos.py
-¦   ¦       clustering_productos_agglomerative.py
-¦   ¦       clustering_productos_DBSCAN.py
-¦   ¦       clustering_productos_gmm.py
-¦   ¦       
+¦   ¦   ¦   clustering_productos.py
+¦   ¦   ¦   clustering_productos_agglomerative.py
+¦   ¦   ¦   clustering_productos_DBSCAN.py
+¦   ¦   ¦   clustering_productos_gmm.py
+¦   ¦   ¦   holt_winters_ets.py
+¦   ¦   ¦   preparar_datos_sarimax.py
+¦   ¦   ¦   sarimax_por_cluster.py
+¦   ¦   ¦   seasonal_naive.py
+¦   ¦   ¦   simular_escenario_optimista.py
+¦   ¦   ¦   simular_escenario_pesimista.py
+¦   ¦   ¦   
+¦   ¦   +---eval
+¦   ¦   ¦       aplicar_estacionalidad.py
+¦   ¦   ¦       backtesting.py
+¦   ¦   ¦       predicciones_finales.py
+¦   ¦   ¦       
+¦   ¦   +---ml
+¦   ¦   ¦       feature_importance.py
+¦   ¦   ¦       fi_reprocess.py
+¦   ¦   ¦       train_regressors.py
+¦   ¦   ¦       
+¦   ¦   +---__pycache__
+¦   ¦           holt_winters_ets.cpython-313.pyc
+¦   ¦           
+¦   +---reports
+¦   ¦   +---estacionalidad
 ¦   +---transform
 ¦   ¦   ¦   .gitkeep
 ¦   ¦   ¦   ajuste_ruido_por_cluster.py
 ¦   ¦   ¦   aplicar_efecto_precio.py
 ¦   ¦   ¦   aplicar_factores.py
+¦   ¦   ¦   aplicar_feature_engineering_ml.py
 ¦   ¦   ¦   asignar_clusters_a_demanda.py
 ¦   ¦   ¦   construir_features_productos.py
+¦   ¦   ¦   construir_metricas_unificadas.py
 ¦   ¦   ¦   desagregar_demanda_2022.py
 ¦   ¦   ¦   desagregar_demanda_2023.py
 ¦   ¦   ¦   desagregar_demanda_2024.py
@@ -33597,6 +36993,7 @@ C:.
 ¦   ¦   ¦   listar_categorias_pca.py
 ¦   ¦   ¦   normalizar_features_productos.py
 ¦   ¦   ¦   pca_categoria.py
+¦   ¦   ¦   preparacion_dataset_modelado.py
 ¦   ¦   ¦   unificar_demandas.py
 ¦   ¦   ¦   __init__.py
 ¦   ¦   ¦   
@@ -33612,9 +37009,16 @@ C:.
 ¦   +---utils
 ¦   ¦   ¦   .gitkeep
 ¦   ¦   ¦   ajustar_ruido.py
+¦   ¦   ¦   datautils.py
 ¦   ¦   ¦   desagregar_demanda_anual.py
+¦   ¦   ¦   feature_engineering.py
 ¦   ¦   ¦   generar_calendario_estacional.py
 ¦   ¦   ¦   generar_historicos.py
+¦   ¦   ¦   integrar_metricas.py
+¦   ¦   ¦   metrics.py
+¦   ¦   ¦   model_registry.py
+¦   ¦   ¦   preprocesamiento.py
+¦   ¦   ¦   simular_escenario.py
 ¦   ¦   ¦   template_script.py
 ¦   ¦   ¦   validar_calendario_estacional.py
 ¦   ¦   ¦   __init__.py
@@ -33622,8 +37026,14 @@ C:.
 ¦   ¦   +---__pycache__
 ¦   ¦           ajustar_ruido.cpython-313.pyc
 ¦   ¦           desagregar_demanda_anual.cpython-313.pyc
+¦   ¦           feature_engineering.cpython-313.pyc
 ¦   ¦           generar_calendario_estacional.cpython-313.pyc
 ¦   ¦           generar_historicos.cpython-313.pyc
+¦   ¦           integrar_metricas.cpython-313.pyc
+¦   ¦           metrics.cpython-313.pyc
+¦   ¦           model_registry.cpython-313.pyc
+¦   ¦           preprocesamiento.cpython-313.pyc
+¦   ¦           simular_escenario.cpython-313.pyc
 ¦   ¦           validar_calendario_estacional.cpython-313.pyc
 ¦   ¦           __init__.cpython-313.pyc
 ¦   ¦           
