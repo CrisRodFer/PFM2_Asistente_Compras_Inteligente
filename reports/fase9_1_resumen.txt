@@ -1,0 +1,6 @@
+FASE 9.1 · Resumen consolidación catálogo
+- Total catálogo original: 11398
+- Con Product_ID: 8999
+- Sin Product_ID (novedades): 2399
+- Catalogo canónico final: 0
+- Descartados: 8999
