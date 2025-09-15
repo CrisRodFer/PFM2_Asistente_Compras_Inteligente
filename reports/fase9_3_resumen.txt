@@ -1,0 +1,7 @@
+FASE 9.3 · Resumen proveedor preferente y alternativas internas
+- Productos en catálogo canónico: 3562
+- Productos con proveedor (supplier_catalog): 3562
+- Productos con proveedor preferente asignado: 3562
+- Productos con >1 proveedor: 0
+- Productos con alternativas internas generadas: 0
+- Incidencias (WARN) en QC: 0
