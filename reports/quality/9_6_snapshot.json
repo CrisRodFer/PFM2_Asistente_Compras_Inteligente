@@ -1,0 +1,12 @@
+{
+  "timestamp": "2025-09-16T17:03:33.970693Z",
+  "n_rows": 2453,
+  "n_products": 1221,
+  "counts_tipo": {
+    "externo": 2403,
+    "interno": 50
+  },
+  "duplicados": 0,
+  "asimetricos_externos": 2403,
+  "raros": 0
+}

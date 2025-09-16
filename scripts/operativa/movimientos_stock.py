@@ -1,72 +1,47 @@
-# scripts/operativa/script_movimientos_stock.py
 # =====================================================================
-# Nombre: script_movimientos_stock.py
+# Script: movimientos_stock.py
 # Descripción:
 #   Procesa pedidos de cliente y ajusta el inventario. Deja trazabilidad
-#   en un ledger, etiqueta roturas/bajo stock, calcula ROP/cobertura,
-#   genera sugerencias de compra y órdenes por proveedor (si hay catálogo).
-#   NO genera pedidos por defecto. La autogeneración queda disponible
-#   sólo si se pasa el flag --autogen-demo.
+#   (ledger), calcula DMD/ROP, etiqueta roturas/bajo stock, construye
+#   sugerencias de compra, agrupa OC por proveedor y GENERA sugerencias
+#   de SUSTITUTOS (si se aporta substitutes.csv).
 #
-# Flujo del pipeline:
-#   0) CONFIG (rutas, parámetros)
-#   1) IMPORTS + LOGGING
-#   2) UTILIDADES (lectura/validación/helpers)
-#   3) LÓGICA PRINCIPAL:
-#        - Cargar inventario y pedidos (obligatorios)
-#        - Enriquecer con catálogo/política (opcionales)
-#        - Calcular DMD y ROP
-#        - Aplicar pedidos secuencialmente → ledger + stock actualizado
-#        - Etiquetar rotura/bajo stock
-#        - Construir sugerencias y ajustar por MOQ/múltiplos
-#        - Agrupar por proveedor → órdenes de compra
-#        - Generar alertas
-#   4) EXPORTACIÓN / I-O (CSV)
-#   5) CLI / MAIN
+#   - No genera pedidos por defecto; usa --autogen-demo sólo para pruebas.
+#   - Funciona en consola (argparse) y en notebook (llamar run(...)).
 #
-# Entradas:
-#   --inventario (CSV ';'): Product_ID;Proveedor;Nombre;Categoria;Stock Real
-#   --orders (CSV): date,item_id,qty   (o generado con --autogen-demo)
-#   --supplier-catalog (OPC)
-#   --service-policy  (OPC)
-#   --substitutes     (RESERVADO para fases posteriores)
+# Entradas (mínimas):
+#   --inventario  CSV ';' con: Product_ID;Proveedor;Nombre;Categoria;Stock Real
+#   --orders      CSV con: date,item_id,qty
+# Opcionales:
+#   --supplier-catalog  CSV: item_id,supplier_id|supplier_name,precio,lead_time,moq,multiplo
+#   --service-policy    CSV: category,objetivo_cobertura_dias,stock_seguridad,lead_time_policy
+#   --substitutes       CSV: Product_ID,tipo,Substitute_Product_ID,Substitute_Supplier_ID,
+#                              score,precio,disponibilidad,lead_time,prioridad,lead_time_bucket
 #
-# Salidas (en --outdir):
-#   inventory_updated.csv
-#   ledger_movimientos.csv
-#   alerts.csv
+# Salidas:
+#   inventory_updated.csv | ledger_movimientos.csv | alerts.csv
 #   sugerencias_compra.csv
-#   ordenes_compra.csv
-#   ordenes_compra_lineas.csv
+#   ordenes_compra.csv | ordenes_compra_lineas.csv
+#   sugerencias_sustitutos.csv   <-- NUEVO (si hay sustitutos)
 #
-# Dependencias:
-#   Python 3.10+ | pandas, numpy, python-dateutil
-#   pip install pandas numpy python-dateutil
+# Dependencias: pandas, numpy, python-dateutil
 # =====================================================================
 
-# ----------------------------
-# 0. CONFIG (rutas + params)
-# ----------------------------
 from pathlib import Path
-ROOT_DIR = Path(__file__).resolve().parents[2] if "__file__" in globals() else Path(".")
-DATA_DIR = ROOT_DIR / "data"
-PROCESSED_DIR = DATA_DIR / "processed"
-
-DEFAULT_OBJECTIVE_COVERAGE = 14      # días si no hay policy
-DEFAULT_LEAD_TIME = 5                # días si no hay supplier/policy
-DEFAULT_SAFETY_STOCK = 0             # uds si no hay policy
-SEED = 42
-
-# ----------------------------
-# 1. IMPORTS + LOGGING
-# ----------------------------
 import argparse
 import sys
 import logging
 import numpy as np
 import pandas as pd
 from datetime import datetime
-from dateutil.parser import parse as parse_dt
+
+# ----------------------------
+# CONFIG (valores por defecto)
+# ----------------------------
+DEFAULT_OBJECTIVE_COVERAGE = 14   # días si no hay policy
+DEFAULT_LEAD_TIME = 5             # días si no hay supplier/policy
+DEFAULT_SAFETY_STOCK = 0          # uds si no hay policy
+SEED = 42
 
 logging.basicConfig(
     level=logging.INFO,
@@ -76,16 +51,16 @@ logging.basicConfig(
 log = logging.getLogger("fase10.movimientos")
 
 # ----------------------------
-# 2. UTILIDADES
+# UTILIDADES
 # ----------------------------
 def ensure_dir(p: Path) -> None:
     p.mkdir(parents=True, exist_ok=True)
 
 def read_inventory_csv(path: Path) -> pd.DataFrame:
     """
-    Lee Inventario.csv (separador ';') y normaliza nombres/Tipos:
+    Lee Inventario.csv (separador ';') y normaliza:
       Product_ID;Proveedor;Nombre;Categoria;Stock Real
-    → item_id, supplier_name, item_name, category, stock_actual
+    -> item_id, supplier_name, item_name, category, stock_actual
     """
     df = pd.read_csv(path, sep=';')
     rename = {
@@ -111,20 +86,15 @@ def read_orders_csv(path: Path) -> pd.DataFrame:
     miss = need - set(df.columns)
     if miss:
         raise ValueError(f"Orders CSV missing columns: {miss}")
-    # aceptar tanto 'YYYY-MM-DD' como 'YYYY-MM-DD HH:MM:SS'
     df["date"] = pd.to_datetime(df["date"].astype(str), errors="raise")
     df["item_id"] = df["item_id"].astype(int)
     df["qty"] = df["qty"].astype(int)
-    # qty debe ser >0
     if (df["qty"] <= 0).any():
         raise ValueError("Orders contiene qty <= 0")
     return df.sort_values("date").reset_index(drop=True)
 
 def gen_demo_orders(inv: pd.DataFrame, n_lines=10) -> pd.DataFrame:
-    """
-    Genera pedidos de demo (deterministas con SEED).
-    Sólo se usa si --autogen-demo está activo.
-    """
+    """Genera pedidos DEMO (sólo si --autogen-demo)."""
     rng = np.random.default_rng(SEED)
     pick = inv.sample(min(n_lines, len(inv)), random_state=SEED).copy()
     start = pd.Timestamp.today().normalize() - pd.Timedelta(days=3)
@@ -135,25 +105,25 @@ def gen_demo_orders(inv: pd.DataFrame, n_lines=10) -> pd.DataFrame:
     return pick[["date", "item_id", "qty"]].reset_index(drop=True)
 
 def ceil_to_multiple(x: pd.Series, multiple: pd.Series) -> pd.Series:
-    """Redondea hacia arriba x al múltiplo indicado (1 si NaN/0)."""
+    """Redondea hacia arriba x al múltiplo indicado (usa 1 si NaN/0)."""
     mult = multiple.fillna(1).replace(0, 1).astype(int)
     return (np.ceil(x / mult) * mult).astype(int)
 
 # ----------------------------
-# 3. LÓGICA PRINCIPAL
+# PROCESADOR PRINCIPAL
 # ----------------------------
 def run(
     inventario: Path,
     orders_path: Path | None,
     supplier_catalog: Path | None,
     service_policy: Path | None,
-    substitutes: Path | None,  # reservado (no se usa aún)
+    substitutes: Path | None,     # NUEVO: fichero de sustitutos
     outdir: Path,
     autogen_demo: bool = False,
 ):
     ensure_dir(outdir)
 
-    # 3.1 Carga base
+    # 1) Carga inventario y pedidos
     log.info("Cargando inventario: %s", inventario)
     inv = read_inventory_csv(inventario)
 
@@ -162,15 +132,12 @@ def run(
             log.warning("No se pasó --orders. Generando pedidos DEMO (modo laboratorio).")
             orders = gen_demo_orders(inv)
         else:
-            raise SystemExit(
-                "Falta --orders. Este script NO genera pedidos por defecto. "
-                "Usa --autogen-demo sólo para pruebas."
-            )
+            raise SystemExit("Falta --orders. Este script NO genera pedidos por defecto.")
     else:
         log.info("Cargando pedidos: %s", orders_path)
         orders = read_orders_csv(orders_path)
 
-    # 3.2 Enriquecimiento opcional
+    # 2) Enriquecimiento opcional (supplier/policy)
     df = inv.copy()
 
     if supplier_catalog and Path(supplier_catalog).exists():
@@ -208,10 +175,10 @@ def run(
             "stock_seguridad": "stock_seguridad",
             "lead_time_policy": "lead_time_policy",
         })
-        if "category" not in pol.columns:
-            log.warning("service_policy sin 'category': se ignora.")
-        else:
+        if "category" in pol.columns:
             df = df.merge(pol, on="category", how="left")
+        else:
+            log.warning("service_policy sin 'category': se ignora.")
 
     # Fallbacks de política
     df["objetivo_cobertura_dias"] = df.get("objetivo_cobertura_dias", pd.Series([np.nan]*len(df))).fillna(DEFAULT_OBJECTIVE_COVERAGE)
@@ -219,7 +186,7 @@ def run(
     df["lead_time_policy"] = df.get("lead_time_policy", pd.Series([np.nan]*len(df))).fillna(DEFAULT_LEAD_TIME)
     df["lead_time_eff"] = df["lead_time"].fillna(df["lead_time_policy"]).fillna(DEFAULT_LEAD_TIME)
 
-    # 3.3 DMD y ROP
+    # 3) DMD y ROP
     if not orders.empty:
         horizon_days = max(1, (orders["date"].max() - orders["date"].min()).days + 1)
         dem = orders.groupby("item_id")["qty"].sum().rename("consumo_total").to_frame()
@@ -228,7 +195,7 @@ def run(
     df["demanda_media_diaria"] = df["demanda_media_diaria"].fillna(0.0)
     df["ROP"] = (df["demanda_media_diaria"] * df["lead_time_eff"]) + df["stock_seguridad"]
 
-    # 3.4 Ledger y alertas
+    # 4) Ledger y alertas
     ledger_rows: list[dict] = []
     alerts: list[dict] = []
 
@@ -244,7 +211,7 @@ def run(
             "item_id": item_id, "supplier_id": supplier_id
         })
 
-    # 3.5 Aplicar pedidos
+    # 5) Aplicar pedidos (secuencialmente por fecha)
     items_set = set(df["item_id"])
     for _, row in orders.sort_values("date").iterrows():
         item = int(row["item_id"]); qty = int(row["qty"]); ts = row["date"]
@@ -255,20 +222,19 @@ def run(
         prev = int(df.at[i, "stock_actual"])
         new = prev - qty
         df.at[i, "stock_actual"] = new
-        # cobertura_dias recalculada
+        # cobertura_dias (informativa)
         dmd = float(df.at[i, "demanda_media_diaria"])
         df.at[i, "cobertura_dias"] = (new / dmd) if dmd > 0 else np.inf
         log_move(ts, item, "venta", -qty, new)
         if new <= 0:
             alert("CRIT", f"Rotura detectada tras pedido (item {item})", item_id=item,
                   supplier_id=(df.at[i, "supplier_id"] if "supplier_id" in df.columns else None))
-            # Nota: alerta "sin sustitutos" se añadirá cuando activemos el módulo de sustitutos.
 
-    # 3.6 Etiquetas post-venta
+    # 6) Etiquetas post-venta
     df["flag_rotura"] = df["stock_actual"] <= 0
     df["flag_bajo"] = df["stock_actual"] < df["ROP"]
 
-    # 3.7 Sugerencias de compra
+    # 7) Sugerencias de compra
     df["stock_obj"] = df["demanda_media_diaria"] * df["objetivo_cobertura_dias"]
     cands = df[(df["flag_rotura"] | df["flag_bajo"])].copy()
     cands["qty_sugerida"] = (cands["stock_obj"] - cands["stock_actual"]).clip(lower=0).round().astype(int)
@@ -283,10 +249,85 @@ def run(
         cands["precio"] = cands["precio"].fillna(0.0)
         cands["importe"] = (cands["qty_sugerida"] * cands["precio"]).round(2)
 
-    # 3.8 Órdenes por proveedor
+    # 7.bis) Sugerencias de SUSTITUTOS (solo para roturas)
+    sug_subs = pd.DataFrame()
+    rot_ids = set(cands.loc[cands["flag_rotura"], "item_id"])
+    if substitutes and Path(substitutes).exists() and rot_ids:
+        subs_df = pd.read_csv(substitutes)
+        subs_df = subs_df.rename(columns={
+            "Product_ID": "item_id",
+            "Substitute_Product_ID": "item_id_sub",
+            "Substitute_Supplier_ID": "supplier_id_sub",
+            "precio": "precio_sub",
+            "lead_time": "lead_time_sub"
+        })
+        s = subs_df[subs_df["item_id"].isin(rot_ids)].copy()
+
+        ext_mask = s["item_id_sub"].notna()
+        s_ext = s[ext_mask].copy()
+        if not s_ext.empty:
+            inv_min = df[["item_id", "stock_actual", "category", "supplier_name"]].rename(
+                columns={"item_id": "item_id_sub",
+                         "stock_actual": "stock_sub",
+                         "supplier_name": "supplier_name_sub"}
+            )
+            s_ext = s_ext.merge(inv_min, on="item_id_sub", how="left")
+
+        int_mask = ~ext_mask
+        s_int = s[int_mask].copy()
+        if not s_int.empty:
+            s_int["item_id_sub"] = s_int["item_id"]       # mismo SKU
+            s_int["stock_sub"] = np.nan
+            s_int["supplier_name_sub"] = s_int.get("supplier_id_sub", np.nan)
+
+        sug_subs = pd.concat([s_ext, s_int], ignore_index=True)
+
+        if not sug_subs.empty:
+            has_stock = sug_subs["stock_sub"].fillna(0) > 0
+            has_disp  = sug_subs["disponibilidad"].fillna(0) > 0
+            keep_mask = has_stock | has_disp
+            sug_subs = sug_subs[keep_mask].copy()
+
+            # columnas que pueden no existir
+            for col in ["score","disponibilidad","lead_time_sub","precio_sub","prioridad","lead_time_bucket"]:
+                if col not in sug_subs.columns: sug_subs[col] = np.nan
+
+            # ranking y Top-3 por item
+            sug_subs = (sug_subs
+                        .sort_values(["item_id","score","disponibilidad"], ascending=[True, False, False])
+                        .groupby("item_id", as_index=False)
+                        .head(3))
+
+            out_cols = [
+                "item_id","tipo","item_id_sub","supplier_id_sub","supplier_name_sub",
+                "score","disponibilidad","lead_time_sub","precio_sub",
+                "lead_time_bucket","prioridad","stock_sub"
+            ]
+            for c in out_cols:
+                if c not in sug_subs.columns: sug_subs[c] = np.nan
+            sug_subs = sug_subs[out_cols]
+
+            # Alertas por SKU
+            found_ids = set(sug_subs["item_id"].unique())
+            for it in rot_ids:
+                if it in found_ids:
+                    n = (sug_subs["item_id"] == it).sum()
+                    alert("WARN", f"Sustitutos sugeridos ({n}) para item {it}", item_id=it)
+                else:
+                    alert("CRIT", f"Sin sustitutos disponibles para item {it}", item_id=it)
+        else:
+            for it in rot_ids:
+                alert("CRIT", f"Sin sustitutos definidos para item {it}", item_id=it)
+    else:
+        # No hay fichero o no hay roturas
+        if rot_ids and not (substitutes and Path(substitutes).exists()):
+            for it in rot_ids:
+                alert("CRIT", f"Sin sustitutos (no se proporcionó fichero) para item {it}", item_id=it)
+
+    # 8) Órdenes por proveedor
     prov_key = "supplier_name" if "supplier_name" in cands.columns else ("supplier_id" if "supplier_id" in cands.columns else None)
     oc_header, oc_lines = pd.DataFrame(), pd.DataFrame()
-    if prov_key:
+    if prov_key and not cands.empty:
         oc_lines = cands.copy()
         oc_lines["motivo"] = np.where(oc_lines["flag_rotura"], "rotura", "bajo_stock")
         base_cols = ["item_id","item_name","category",prov_key,"qty_sugerida","motivo","stock_actual","ROP"]
@@ -308,7 +349,7 @@ def run(
             alert("INFO", f"Pedido generado para {r['proveedor']} ({r['num_lineas']} líneas)", supplier_id=r['proveedor'])
 
     # ----------------------------
-    # 4. EXPORTACIÓN / I-O
+    # EXPORTACIÓN
     # ----------------------------
     inventory_out = outdir / "inventory_updated.csv"
     ledger_out    = outdir / "ledger_movimientos.csv"
@@ -316,6 +357,7 @@ def run(
     cands_out     = outdir / "sugerencias_compra.csv"
     oc_head_out   = outdir / "ordenes_compra.csv"
     oc_lines_out  = outdir / "ordenes_compra_lineas.csv"
+    subs_out      = outdir / "sugerencias_sustitutos.csv"
 
     df.to_csv(inventory_out, index=False)
     pd.DataFrame(ledger_rows).to_csv(ledger_out, index=False)
@@ -324,47 +366,55 @@ def run(
     if not oc_header.empty:
         oc_header.to_csv(oc_head_out, index=False)
         oc_lines.to_csv(oc_lines_out, index=False)
+    # export sustitutos si existen
+    if 'sug_subs' in locals() and isinstance(sug_subs, pd.DataFrame) and not sug_subs.empty:
+        sug_subs.to_csv(subs_out, index=False)
 
     log.info("Inventario actualizado → %s", inventory_out)
     log.info("Ledger → %s | Alertas → %s | Candidatas → %s", ledger_out, alerts_out, cands_out)
     if not oc_header.empty:
         log.info("Órdenes → %s (cab) y %s (líneas)", oc_head_out, oc_lines_out)
+    if 'sug_subs' in locals() and isinstance(sug_subs, pd.DataFrame):
+        log.info("Sugerencias de sustitutos → %s (filas: %s)", subs_out, 0 if sug_subs is None else len(sug_subs))
 
 # ----------------------------
-# 5. CLI / MAIN
+# CLI o Notebook
 # ----------------------------
 def parse_args(argv=None):
-    p = argparse.ArgumentParser(description="Fase 10 · Procesador de movimientos de stock (sin generación de pedidos por defecto).")
-    p.add_argument("--inventario", type=Path, required=True,
-                   help="Ruta a Inventario.csv (separador ';').")
-    p.add_argument("--orders", type=Path, default=None,
-                   help="CSV de pedidos de cliente con columnas: date,item_id,qty.")
-    p.add_argument("--supplier-catalog", type=Path, default=None,
-                   help="(OPC) CSV: item_id,supplier_id|supplier_name,precio,lead_time,moq,multiplo.")
-    p.add_argument("--service-policy", type=Path, default=None,
-                   help="(OPC) CSV: category,objetivo_cobertura_dias,stock_seguridad,lead_time_policy.")
-    p.add_argument("--substitutes", type=Path, default=None,
-                   help="(RESERVADO) CSV: item_id,item_id_sub,score.")
-    p.add_argument("--outdir", type=Path, default=PROCESSED_DIR / "fase10_stock",
-                   help="Carpeta de salida.")
-    p.add_argument("--autogen-demo", action="store_true",
-                   help="Genera pedidos DEMO sólo si NO se pasa --orders. DESACTIVADO por defecto.")
+    p = argparse.ArgumentParser(description="Fase 10 · Procesador de movimientos de stock (con sustitutos).")
+    p.add_argument("--inventario", type=Path, required=True)
+    p.add_argument("--orders", type=Path, default=None)
+    p.add_argument("--supplier-catalog", type=Path, default=None)
+    p.add_argument("--service-policy", type=Path, default=None)
+    p.add_argument("--substitutes", type=Path, default=None)
+    p.add_argument("--outdir", type=Path, default=Path("data/processed/fase10_stock"))
+    p.add_argument("--autogen-demo", action="store_true")
     return p.parse_args(argv)
 
-if __name__ == "__main__":
-    args = parse_args()
+def _is_notebook():
     try:
-        ensure_dir(args.outdir)
-        run(
-            inventario=args.inventario,
-            orders_path=args.orders,
-            supplier_catalog=args.supplier_catalog,
-            service_policy=args.service_policy,
-            substitutes=args.substitutes,
-            outdir=args.outdir,
-            autogen_demo=args.autogen_demo,
-        )
-    except Exception as e:
-        log.exception("Error en la simulación: %s", e)
-        sys.exit(1)
+        from IPython import get_ipython
+        ip = get_ipython()
+        return ip is not None and "IPKernelApp" in ip.config
+    except Exception:
+        return False
 
+if __name__ == "__main__":
+    if _is_notebook():
+        print("Notebook detectado → llama a run(...) manualmente desde una celda.")
+    else:
+        args = parse_args()
+        try:
+            ensure_dir(args.outdir)
+            run(
+                inventario=args.inventario,
+                orders_path=args.orders,
+                supplier_catalog=args.supplier_catalog,
+                service_policy=args.service_policy,
+                substitutes=args.substitutes,
+                outdir=args.outdir,
+                autogen_demo=args.autogen_demo,
+            )
+        except Exception as e:
+            log.exception("Error en la simulación: %s", e)
+            sys.exit(1)
