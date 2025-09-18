@@ -1,8 +1,10 @@
-
 # app/streamlit_app.py
 
 import sys
 from pathlib import Path
+from datetime import datetime
+import io
+
 import streamlit as st
 import pandas as pd
 
@@ -16,7 +18,6 @@ ROUTES = {
     "movimientos": "📦 Movimientos de stock",
     "reapro": "🧾 Reapro / Pedidos",
 }
-
 if "route" not in st.session_state:
     st.session_state["route"] = "home"
 
@@ -52,40 +53,37 @@ except Exception:
             unsafe_allow_html=True,
         )
 
-# Permitir importar desde scripts/…
+# Permitir importar desde scripts/… (raíz del proyecto)
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 from scripts.export.construir_vistas import construir_vistas
-
 
 
 # ==================================================
 # 1). Utils y rutas de datos
 # ==================================================
-
 ROOT  = Path.cwd()
-UNIF  = ROOT / "data" / "processed" / "substitutes_unified.csv"
-MULTI = ROOT / "data" / "clean" / "supplier_catalog_multi.csv"
-CAT   = ROOT / "data" / "processed" / "catalog_items_enriquecido.csv"
-STOCK = ROOT / "data" / "processed" / "stock_positions.csv"
+DATA  = ROOT / "data"
+RAW   = DATA / "raw"
+CLEAN = DATA / "clean"
+PROC  = DATA / "processed"
+
+UNIF  = PROC  / "substitutes_unified.csv"
+MULTI = CLEAN / "supplier_catalog_multi.csv"
+CAT   = PROC  / "catalog_items_enriquecido.csv"
+STOCK = PROC  / "stock_positions.csv"
+
+OUT10 = PROC / "fase10_stock"              # outputs del procesador de movimientos
+ORD_UI = RAW / "customer_orders_ui.csv"    # pedidos añadidos desde la UI
+ORD_AE = RAW / "customer_orders_AE.csv"    # escenarios A–E (si quieres sumarlos)
+SUPPLIER_DEMO = RAW / "supplier_catalog_demo.csv"  # demo de proveedores para Fase 10
 
 def _mtime(p: Path) -> float:
     return p.stat().st_mtime if p.exists() else 0.0
 
-@st.cache_data(ttl=60)
-def load_views(min_score: float, m_unif: float, m_multi: float, m_cat: float, m_stock: float):
-    return construir_vistas(
-        path_unificado=UNIF,
-        path_multi=MULTI,
-        path_catalogo=(CAT if CAT.exists() else None),
-        path_stock=(STOCK if STOCK.exists() else None),
-        path_consumo=None,
-        min_score=min_score,
-    )
-
 # =================================================================
-# 2). Normalizadores para pasar CSVs “como le gustan” a construir_vistas
+# 2). Normalizadores y helpers de carga
 # =================================================================
-TMP_VISTAS = (ROOT / "data" / "processed" / "_tmp_views")
+TMP_VISTAS = PROC / "_tmp_views"
 TMP_VISTAS.mkdir(parents=True, exist_ok=True)
 
 def _read_csv_smart(p: Path) -> pd.DataFrame | None:
@@ -94,51 +92,129 @@ def _read_csv_smart(p: Path) -> pd.DataFrame | None:
     try:
         return pd.read_csv(p)
     except Exception:
+        # separador desconocido / encoding
         return pd.read_csv(p, sep=None, engine="python", encoding="utf-8")
+
+def _to_str_safe(s: pd.Series) -> pd.Series:
+    return s.astype(str).str.strip()
+
+def _to_pid_str(s: pd.Series) -> pd.Series:
+    # 2141.0 -> '2141' ; preserva vacíos
+    s_num = pd.to_numeric(s, errors="coerce")
+    out = s_num.astype("Int64").astype(str)
+    return out.replace("<NA>", "")
+
+def _find_col(df: pd.DataFrame, candidates: list[str]) -> str | None:
+    low = {c.lower(): c for c in df.columns}
+    for c in candidates:
+        if c.lower() in low:
+            return low[c.lower()]
+    return None
 
 def _normalize_multi_for_vistas(src: Path) -> Path:
     """
     supplier_catalog_multi.csv -> garantiza columnas:
-    Product_ID, supplier_id, price, lead_time, moq, multiplo
+    Product_ID, supplier_id, precio, lead_time, disponibilidad, moq, multiplo
+    (nombres exactos que espera construir_vistas)
     """
     if not src.exists():
         return src
+
     df = _read_csv_smart(src)
     if df is None or df.empty:
         return src
 
     low = {c.lower(): c for c in df.columns}
     ren = {}
-    if "item_id" in low:  ren[low["item_id"]]  = "Product_ID"   # clave para el fallo
-    if "precio"  in low:  ren[low["precio"]]   = "price"        # opcional, por si tu multi usa "precio"
+
+    # IDs de producto
+    for cand in ["product_id", "item_id", "id_producto"]:
+        if cand in low:
+            ren[low[cand]] = "Product_ID"
+            break
+
+    # Proveedor
+    for cand in ["supplier_id", "id_proveedor", "proveedor"]:
+        if cand in low:
+            ren[low[cand]] = "supplier_id"
+            break
+
+    # Precio -> *precio* (NO 'price')
+    if "precio" in low:
+        pass
+    elif "price" in low:
+        ren[low["price"]] = "precio"
+
+    # Lead time
+    if "lead_time" in low:
+        pass
+    elif "lt" in low:
+        ren[low["lt"]] = "lead_time"
+
+    # Disponibilidad
+    if "disponibilidad" in low:
+        pass
+    elif "availability" in low:
+        ren[low["availability"]] = "disponibilidad"
+    elif "stock" in low:
+        ren[low["stock"]] = "disponibilidad"
+
+    # MOQ y múltiplos (si existen)
+    for cand in ["moq", "min_qty", "minimo_pedido"]:
+        if cand in low:
+            ren[low[cand]] = "moq"
+            break
+    for cand in ["multiplo", "multiple", "pack_size"]:
+        if cand in low:
+            ren[low[cand]] = "multiplo"
+            break
 
     df = df.rename(columns=ren)
+
+    # Exportar a tmp con los nombres normalizados
     out = TMP_VISTAS / "supplier_catalog_multi_norm.csv"
     df.to_csv(out, index=False)
     return out
 
 def _normalize_unif_for_vistas(src: Path) -> Path:
     """
-    substitutes_unified.csv -> garantiza:
-    Product_ID, Substitute_Product_ID, (rank, score, tipo si existen)
+    Normaliza el CSV de sustitutos unificado para construir_vistas:
+    columnas clave -> Product_ID, Substitute_Product_ID, tipo (externo/interno).
+    Mantiene el resto de columnas (rank, score, etc.) si existen.
     """
     if not src.exists():
         return src
+
     df = _read_csv_smart(src)
     if df is None or df.empty:
         return src
 
     low = {c.lower(): c for c in df.columns}
-    # candidatos de ID principal y del sustituto
-    for candidates, target in (
-        (["product_id","Product_ID","id_producto","item_id"], "Product_ID"),
-        (["Substitute_Product_ID","substitute_product_id","alt_product_id","item_id_sub",
-          "id_item_sub","item_id_sustituto"], "Substitute_Product_ID"),
-    ):
-        for c in candidates:
-            if c.lower() in low:
-                df = df.rename(columns={low[c]: target})
-                break
+    ren = {}
+
+    # IDs
+    for cand in ["product_id", "id_producto", "item_id"]:
+        if cand in low:
+            ren[low[cand]] = "Product_ID"
+            break
+    for cand in ["substitute_product_id", "alt_product_id", "sustituto_id", "id_sustituto"]:
+        if cand in low:
+            ren[low[cand]] = "Substitute_Product_ID"
+            break
+
+    # Tipo (externo/interno)
+    if "tipo" not in low and "type" in low:
+        ren[low["type"]] = "tipo"
+
+    df = df.rename(columns=ren)
+
+    # Valores por defecto y tipos
+    if "tipo" not in df.columns:
+        df["tipo"] = "externo"
+    if "Product_ID" in df.columns:
+        df["Product_ID"] = _to_pid_str(df["Product_ID"])
+    if "Substitute_Product_ID" in df.columns:
+        df["Substitute_Product_ID"] = _to_pid_str(df["Substitute_Product_ID"])
 
     out = TMP_VISTAS / "substitutes_unified_norm.csv"
     df.to_csv(out, index=False)
@@ -147,10 +223,24 @@ def _normalize_unif_for_vistas(src: Path) -> Path:
 @st.cache_data(ttl=60)
 def load_views(min_score: float, m_unif: float, m_multi: float, m_cat: float, m_stock: float):
     """
-    Igual que antes, pero pasando rutas “normalizadas” a construir_vistas.
+    Carga vistas de ui_products/ui_substitutes construidas por construir_vistas,
+    pasando rutas normalizadas y manejando ausencias con mensajes claros.
     """
-    unif_path  = _normalize_unif_for_vistas(UNIF)  if UNIF.exists()  else UNIF
-    multi_path = _normalize_multi_for_vistas(MULTI) if MULTI.exists() else MULTI
+    # UNIFICADO
+    unif_path = _normalize_unif_for_vistas(UNIF) if UNIF.exists() else UNIF
+
+    # MULTI
+    if MULTI.exists():
+        multi_path = _normalize_multi_for_vistas(MULTI)
+    else:
+        candidate = TMP_VISTAS / "supplier_catalog_multi_norm.csv"
+        multi_path = candidate if candidate.exists() else None
+
+    if multi_path is None:
+        st.error("No encuentro `supplier_catalog_multi.csv` (ni su versión normalizada).")
+        st.stop()
+
+    # Catálogo & stock
     cat_path   = CAT   if CAT.exists()   else None
     stock_path = STOCK if STOCK.exists() else None
 
@@ -163,103 +253,8 @@ def load_views(min_score: float, m_unif: float, m_multi: float, m_cat: float, m_
         min_score=min_score,
     )
 
-
-# --- Utilidades para el bloque de movimientos ---
-from datetime import datetime
-import io
-
-# Rutas estándar de datos
-DATA   = ROOT / "data"
-RAW    = DATA / "raw"
-CLEAN  = DATA / "clean"
-PROC   = DATA / "processed"
-OUT10  = PROC / "fase10_stock"              # outputs del procesador de movimientos
-
-# Ficheros que ya tienes en el proyecto
-INV    = CLEAN / "Inventario.csv"           # inventario de partida (contracto 10.2)
-ORD_AE = RAW   / "customer_orders_AE.csv"   # escenarios A–E (si quieres sumarlos)
-CAT    = RAW   / "supplier_catalog_demo.csv"
-SUBS   = PROC  / "substitutes_unified.csv"
-
-# Pedidos creados desde la UI (los gestionamos aquí)
-ORD_UI = RAW / "customer_orders_ui.csv"
-
-def _read_csv_smart(path: Path) -> pd.DataFrame | None:
-    if not path or not path.exists(): 
-        return None
-    try:
-        return pd.read_csv(path)
-    except Exception:
-        return pd.read_csv(path, sep=None, engine="python", encoding="utf-8")
-
-def _ensure_orders_ui() -> None:
-    """Crea el CSV de pedidos UI si no existe."""
-    if not ORD_UI.exists():
-        ORD_UI.parent.mkdir(parents=True, exist_ok=True)
-        pd.DataFrame(columns=["date", "item_id", "qty"]).to_csv(ORD_UI, index=False)
-
-def _append_order_row(date_iso: str, item_id: int, qty: int) -> None:
-    _ensure_orders_ui()
-    df = _read_csv_smart(ORD_UI) or pd.DataFrame(columns=["date", "item_id", "qty"])
-    df = pd.concat([df, pd.DataFrame([{"date": date_iso, "item_id": int(item_id), "qty": int(qty)}])], ignore_index=True)
-    df.to_csv(ORD_UI, index=False)
-
-def _combine_orders(include_ae: bool) -> Path:
-    """Devuelve una ruta temporal con los pedidos a procesar (UI +/- A–E)."""
-    _ensure_orders_ui()
-    ui = _read_csv_smart(ORD_UI) or pd.DataFrame(columns=["date","item_id","qty"])
-    frames = [ui]
-    if include_ae and ORD_AE.exists():
-        ae = _read_csv_smart(ORD_AE) or pd.DataFrame(columns=["date","item_id","qty"])
-        frames.append(ae)
-    combo = pd.concat(frames, ignore_index=True)
-    tmp = RAW / "customer_orders_to_process.csv"
-    combo.to_csv(tmp, index=False)
-    return tmp
-
-def _mtime_str(p: Path) -> str:
-    return datetime.fromtimestamp(p.stat().st_mtime).strftime("%Y-%m-%d %H:%M:%S") if p.exists() else "—"
-
-def _safe_df(path: Path) -> pd.DataFrame:
-    df = _read_csv_smart(path)
-    return df if df is not None else pd.DataFrame()
-
-
-
-# ==================================================
-# 3). Helpers para IDs y columnas
-# ==================================================
-def _find_col(df: pd.DataFrame, candidates: list[str]) -> str | None:
-    low = {c.lower(): c for c in df.columns}
-    for c in candidates:
-        if c.lower() in low:
-            return low[c.lower()]
-    return None
-
-def _to_str_safe(s: pd.Series) -> pd.Series:
-    return s.astype(str).str.strip()
-
-def _to_pid_str(s: pd.Series) -> pd.Series:
-    # 2141.0 -> '2141' ; preserva vacíos
-    s_num = pd.to_numeric(s, errors="coerce")
-    out = s_num.astype("Int64").astype(str)
-    return out.replace("<NA>", "")
-
-
-# ==================================================
-# 4). Cargas de ficheros
-# ==================================================
-def _read_csv_smart(p: Path) -> pd.DataFrame | None:
-    if not p or not p.exists():
-        return None
-    try:
-        return pd.read_csv(p)
-    except Exception:
-        # separador desconocido / encoding
-        return pd.read_csv(p, encoding="utf-8", sep=None, engine="python")
-
+# -------------------- Cargas específicas (exploración) --------------------
 def load_catalog_items(root: Path) -> pd.DataFrame | None:
-    # probamos varias rutas/archivos posibles
     posibles = [
         root / "data" / "processed" / "catalog_items_enriquecido.csv",
         root / "data" / "processed" / "catalog_items.csv",
@@ -272,7 +267,6 @@ def load_catalog_items(root: Path) -> pd.DataFrame | None:
     if cat is None or cat.empty:
         return None
 
-    # detectar columnas y estandarizar -> 'cat_*'
     pid  = _find_col(cat, ["Product_ID","product_id","id_producto"])
     name = _find_col(cat, ["Nombre","name","nombre"])
     catg = _find_col(cat, ["Categoría","categoria","category","Categoria"])
@@ -311,7 +305,6 @@ def load_substitutes_unified(root: Path) -> pd.DataFrame | None:
     df = _read_csv_smart(p) if p.exists() else None
     if df is None or df.empty:
         return None
-    # normalizar mínimos esperados
     pid = _find_col(df, ["Product_ID","product_id"])
     sub = _find_col(df, ["Substitute_Product_ID","substitute_product_id","alt_product_id"])
     typ = _find_col(df, ["tipo","type"])
@@ -330,7 +323,6 @@ def load_supplier_catalog_multi(root: Path) -> pd.DataFrame | None:
     df = _read_csv_smart(p) if p.exists() else None
     if df is None or df.empty:
         return None
-    # columnas típicas
     pid  = _find_col(df, ["Product_ID","product_id"])
     sup  = _find_col(df, ["supplier_id","id_proveedor","proveedor"])
     prc  = _find_col(df, ["price","precio"])
@@ -353,7 +345,7 @@ def load_supplier_catalog_multi(root: Path) -> pd.DataFrame | None:
 
 
 # ==================================================
-# 5). Enriquecidos detalle
+# 3). Enriquecidos y helpers de sustitutos
 # ==================================================
 def enrich_external_subs(dfs: pd.DataFrame, ui_products: pd.DataFrame, catalog: pd.DataFrame | None) -> pd.DataFrame:
     out = dfs.copy()
@@ -400,7 +392,6 @@ def enrich_external_subs(dfs: pd.DataFrame, ui_products: pd.DataFrame, catalog: 
         s = out.get(colname)
         if isinstance(s, pd.Series):
             return pd.to_numeric(s, errors="coerce")
-        # si no existe o no es Series, devolvemos Serie nula del mismo largo
         return pd.Series([pd.NA] * len(out), dtype="Float64")
 
     # Campos visibles texto con fallback cat -> ui_products
@@ -508,11 +499,9 @@ def render_home():
     st.markdown("Consejo: usa el **menú lateral** para saltar entre bloques sin volver a la portada.")
 
 
-
 # ==================================================
-# 6) BLOQUE DE PRODUCTOS Y SUSTITUTOS.
+# 4) BLOQUE DE PRODUCTOS Y SUSTITUTOS.
 # ==================================================
-
 def render_exploracion_sustitutos():
     # ====== Parámetros del bloque (laterales comunes) ======
     with st.sidebar:
@@ -532,12 +521,10 @@ def render_exploracion_sustitutos():
         key="explore_subtab",
     )
 
-
     # ------------------------------------------------------------------
     # SUBPESTAÑA: PRODUCTOS
     # ------------------------------------------------------------------
     if subtab == "Productos":
-        # Autorefresh SOLO para Productos
         refresh_secs = st.sidebar.slider("⏱ Auto-refresh Productos (seg)", 0, 300, 60, key="refresh_tab1_secs")
         refresh_on   = st.sidebar.toggle("Activar auto-refresh Productos", True, key="refresh_tab1_on")
         if refresh_on and refresh_secs > 0:
@@ -545,11 +532,8 @@ def render_exploracion_sustitutos():
 
         st.subheader("Productos (resumen)")
 
-        from pathlib import Path
-        root = Path.cwd()
-
         # Catálogo para añadir Nombre/Categoría (si existe)
-        cat_path = root / "data" / "processed" / "catalog_items.csv"
+        cat_path = ROOT / "data" / "processed" / "catalog_items.csv"
         try:
             cat = pd.read_csv(cat_path, encoding="utf-8")
             cat = cat[["Product_ID", "Nombre", "Categoria"]].drop_duplicates("Product_ID")
@@ -653,22 +637,13 @@ def render_exploracion_sustitutos():
     # SUBPESTAÑA: SUSTITUTOS POR PRODUCTO
     # ------------------------------------------------------------------
     else:
-        from pathlib import Path
         import numpy as np
 
         st.subheader("Sustitutos por producto")
 
-        # 🔁 Autorefresh SOLO para Sustitutos
-        refresh_secs = st.sidebar.slider(
-            "⏱ Auto-refresh Sustitutos (seg)",
-            0, 300, 60,
-            key="refresh_tab2_secs"
-        )
-        refresh_on = st.sidebar.toggle(
-            "Activar auto-refresh Sustitutos",
-            True,
-            key="refresh_tab2_on"
-        )
+        # Autorefresh SOLO Sustitutos
+        refresh_secs = st.sidebar.slider("⏱ Auto-refresh Sustitutos (seg)", 0, 300, 60, key="refresh_tab2_secs")
+        refresh_on   = st.sidebar.toggle("Activar auto-refresh Sustitutos", True, key="refresh_tab2_on")
         if refresh_on and refresh_secs > 0:
             st_autorefresh(interval=int(refresh_secs * 1000), key="auto_refresh_tab2")
 
@@ -681,12 +656,10 @@ def render_exploracion_sustitutos():
             st.exception(e)
             st.stop()
 
-        root = Path.cwd()
-        cat  = load_catalog_items(root)             # catálogo (nombre/categoría/proveedor/price/lt/disp)
-        uni  = load_substitutes_unified(root)       # sustitutos externos (si lo tienes)
-        scm  = load_supplier_catalog_multi(root)    # multi-catálogo para internos
+        cat  = load_catalog_items(ROOT)           # catálogo (nombre/categoría/proveedor/price/lt/disp)
+        uni  = load_substitutes_unified(ROOT)     # sustitutos externos (si lo tienes)
+        scm  = load_supplier_catalog_multi(ROOT)  # multi-catálogo para internos
 
-        # si existe el unificado, úsalo; si no, la vista ui_substitutes
         ui_subs = uni if uni is not None else ui_subs_views
 
         # --- Normalización de IDs ---
@@ -698,16 +671,11 @@ def render_exploracion_sustitutos():
         if scm is not None and "Product_ID" in scm.columns:
             scm["Product_ID"] = _to_pid_str(scm["Product_ID"])
 
-        # 👇 callback para NO volver a "Productos" al escribir en el buscador
+        # callback para NO volver a "Productos" al escribir en el buscador
         def _stay_on_subs():
             st.session_state["explore_subtab"] = "Sustitutos por producto"
 
-        # --- Buscador ---
-        q2 = st.text_input(
-            "Buscar por ID, nombre o categoría",
-            key="q_tab2",
-            on_change=_stay_on_subs,         # <- clave para evitar el salto
-        )
+        q2 = st.text_input("Buscar por ID, nombre o categoría", key="q_tab2", on_change=_stay_on_subs)
 
         # ---------- RESUMEN ----------
         tipo_col = _find_col(ui_subs, ["tipo","type"])
@@ -715,14 +683,12 @@ def render_exploracion_sustitutos():
             ui_subs["__dummy_tipo__"] = "externo"
             tipo_col = "__dummy_tipo__"
 
-        # externos: cuenta por producto
         ext_counts = (
             ui_subs[ui_subs[tipo_col].eq("externo")]
             .groupby(pid_col, as_index=False)
             .size().rename(columns={"size":"Sustitutos externos"})
         )
 
-        # internos: nº de proveedores alternativos distintos al preferente
         if scm is not None and not scm.empty:
             pref_sup_col = _find_col(dfp, ["preferred_supplier_id"])
             base_int = scm.groupby(pid_col, as_index=False)["scm_supplier_id"].nunique() \
@@ -742,7 +708,6 @@ def render_exploracion_sustitutos():
             if c in resumen.columns:
                 resumen[c] = resumen[c].astype(int)
 
-        # Enriquecer con catálogo (nombre/categoría/proveedor) + preferidos (precio/LT)
         if cat is not None:
             add_cols = [c for c in ["cat_nombre","cat_categoria","cat_proveedor"] if c in cat.columns]
             if add_cols:
@@ -752,7 +717,6 @@ def render_exploracion_sustitutos():
         if len(cols_join) > 1:
             resumen = resumen.merge(dfp[cols_join].drop_duplicates(pid_col), on=pid_col, how="left")
 
-        # Filtrar por buscador
         if q2:
             ql = q2.lower()
             resumen = resumen[
@@ -761,13 +725,11 @@ def render_exploracion_sustitutos():
                 _to_str_safe(resumen.get("cat_categoria","")).str.lower().str.contains(ql, na=False)
             ]
 
-        # Orden por cobertura
         if not resumen.empty:
             sort_cols = [c for c in ["Sustitutos externos","Sustitutos internos"] if c in resumen.columns]
             if sort_cols:
                 resumen = resumen.sort_values(sort_cols, ascending=False)
 
-        # Vista amigable
         resumen_view = resumen.rename(columns={
             "cat_nombre":"Nombre",
             "cat_categoria":"Categoría",
@@ -779,7 +741,6 @@ def render_exploracion_sustitutos():
                         "Sustitutos internos","Sustitutos externos","Precio pref.","Lead time pref."]
         resumen_view = resumen_view[[c for c in cols_resumen if c in resumen_view.columns]].copy()
 
-        # formateo € / strings
         def fmt_eur(x):
             if pd.isna(x): return ""
             try: return f"{float(x):,.2f} €".replace(",", "X").replace(".", ",").replace("X", ".")
@@ -794,13 +755,11 @@ def render_exploracion_sustitutos():
             st.info("Sin datos tras filtrar.")
             st.stop()
 
-        # Asegurar selección válida respecto a lo visible
         visible_pids = resumen_view[pid_col].astype(str).tolist()
         cur_sel = str(st.session_state.get("sel_pid_tab2", ""))
         if cur_sel not in visible_pids:
             st.session_state["sel_pid_tab2"] = visible_pids[0]
 
-        # Tabla resumen (clicable)
         st.caption("Resumen de cobertura de sustitutos (haz clic en una fila para ver el detalle)")
         summary_key = "subs_summary_editor"
         st.data_editor(
@@ -814,23 +773,14 @@ def render_exploracion_sustitutos():
                 "Product_ID": st.column_config.TextColumn("Product_ID", help="ID del producto"),
                 "Nombre": st.column_config.TextColumn("Nombre", help="Nombre del producto (catálogo)"),
                 "Categoría": st.column_config.TextColumn("Categoría", help="Familia/categoría (catálogo)"),
-                "Proveedor principal": st.column_config.TextColumn("Proveedor principal", help="Proveedor principal del catálogo"),
-                "Sustitutos internos": st.column_config.NumberColumn(
-                    "Sustitutos internos",
-                    help="Nº de proveedores alternativos para el MISMO Product_ID (supplier_catalog_multi)",
-                    format="%d"
-                ),
-                "Sustitutos externos": st.column_config.NumberColumn(
-                    "Sustitutos externos",
-                    help="Nº de productos alternativos (ui_substitutes)",
-                    format="%d"
-                ),
-                "Precio pref.": st.column_config.TextColumn("Precio pref.", help="Precio del proveedor preferente (ui_products)"),
-                "Lead time pref.": st.column_config.NumberColumn("Lead time pref.", help="Lead time del preferente (ui_products)", format="%d"),
+                "Proveedor principal": st.column_config.TextColumn("Proveedor principal", help="Proveedor preferente del catálogo"),
+                "Sustitutos internos": st.column_config.NumberColumn("Sustitutos internos", help="Nº de proveedores alternativos", format="%d"),
+                "Sustitutos externos": st.column_config.NumberColumn("Sustitutos externos", help="Nº de productos alternativos", format="%d"),
+                "Precio pref.": st.column_config.TextColumn("Precio pref.", help="Precio del proveedor preferente"),
+                "Lead time pref.": st.column_config.NumberColumn("Lead time pref.", help="LT del preferente", format="%d"),
             },
         )
 
-        # Capturar selección (forzamos subpestaña activa ANTES del rerun)
         sel_rows = (
             st.session_state.get(summary_key, {})
             .get("selection", {})
@@ -841,24 +791,21 @@ def render_exploracion_sustitutos():
             sel_pid = str(resumen_view.iloc[idx][pid_col])
             if st.session_state.get("sel_pid_tab2") != sel_pid:
                 st.session_state["sel_pid_tab2"] = sel_pid
-                st.session_state["explore_subtab"] = "Sustitutos por producto"  # <- fijamos pestaña
+                st.session_state["explore_subtab"] = "Sustitutos por producto"
                 (getattr(st, "rerun", st.experimental_rerun))()
 
         # ---------- DETALLE ----------
         pid = st.session_state["sel_pid_tab2"]
         st.caption(f"Detalle de sustitutos para Product_ID = {pid}")
 
-        # externos
         dfs_ext = ui_subs[(ui_subs[pid_col] == pid) & (ui_subs[tipo_col].eq("externo"))].copy()
         dfs_ext = enrich_external_subs(dfs_ext, dfp, cat) if not dfs_ext.empty else pd.DataFrame(columns=[
             "tipo","Substitute_Product_ID","nombre","categoria","proveedor",
             "rank","score","precio","lead_time","disponibilidad"
         ])
 
-        # internos
         dfs_int = build_internal_subs(pid, scm, dfp, cat)
 
-        # unir y calcular deltas vs preferente
         df_show = pd.concat([dfs_int, dfs_ext], ignore_index=True, sort=False)
 
         row_pref = dfp.loc[dfp[pid_col] == pid].head(1)
@@ -911,8 +858,8 @@ def render_exploracion_sustitutos():
             disabled=True,
             column_config={
                 "Tipo": st.column_config.TextColumn("Tipo", help="interno = mismo Product_ID con otro proveedor; externo = producto alternativo"),
-                "Sustituto (Product_ID)": st.column_config.TextColumn("Sustituto (Product_ID)", help="ID del producto sustituto (externo) o el mismo Product_ID (interno)"),
-                "Nombre": st.column_config.TextColumn("Nombre", help="Nombre del sustituto (catálogo/ui_products) o del original si es interno"),
+                "Sustituto (Product_ID)": st.column_config.TextColumn("Sustituto (Product_ID)", help="ID del sustituto (externo) o el mismo Product_ID (interno)"),
+                "Nombre": st.column_config.TextColumn("Nombre", help="Nombre del sustituto (catálogo/ui_products) o del original si es interno)"),
                 "Categoría": st.column_config.TextColumn("Categoría", help="Categoría del sustituto (o del original si es interno)"),
                 "Proveedor": st.column_config.TextColumn("Proveedor", help="Proveedor del sustituto. En internos es supplier_id del multi-catálogo"),
                 "Rank": st.column_config.NumberColumn("Rank", help="Orden de preferencia (1=mejor)"),
@@ -926,21 +873,16 @@ def render_exploracion_sustitutos():
             },
         )
 
-# ==================================================
-# 7) BLOQUE DE PROVEEDORES. 
-# ==================================================
 
+# ==================================================
+# 5) BLOQUE DE PROVEEDORES. 
+# ==================================================
 def render_proveedores():
     st.title("🏭 Proveedores")
     tab1, tab2 = st.tabs(["Catálogo por proveedor", "KPIs de proveedor"])
 
     with tab1:
         st.subheader("Catálogo por proveedor")
-        # Ejemplo mínimo (rellena con tus dataframes reales)
-        st.caption("Selecciona proveedor y visualiza su catálogo.")
-        # supplier_list = df_suppliers["supplier_id"].unique().tolist()
-        # sup = st.selectbox("Proveedor", supplier_list)
-        # st.dataframe(cat_por_proveedor[sup], use_container_width=True)
         st.info("Pega aquí tu lógica real: selector de proveedor + catálogo (puedes usar supplier_catalog_multi).")
 
     with tab2:
@@ -949,8 +891,39 @@ def render_proveedores():
 
 
 # ==================================================
-# 8) BLOQUE DE MOVIMIENTOS DE STOCK. 
+# 6) BLOQUE DE MOVIMIENTOS DE STOCK. 
 # ==================================================
+def _ensure_orders_ui() -> None:
+    """Crea el CSV de pedidos UI si no existe."""
+    if not ORD_UI.exists():
+        ORD_UI.parent.mkdir(parents=True, exist_ok=True)
+        pd.DataFrame(columns=["date", "item_id", "qty"]).to_csv(ORD_UI, index=False)
+
+def _append_order_row(date_iso: str, item_id: int, qty: int) -> None:
+    _ensure_orders_ui()
+    df = _read_csv_smart(ORD_UI) or pd.DataFrame(columns=["date", "item_id", "qty"])
+    df = pd.concat([df, pd.DataFrame([{"date": date_iso, "item_id": int(item_id), "qty": int(qty)}])], ignore_index=True)
+    df.to_csv(ORD_UI, index=False)
+
+def _combine_orders(include_ae: bool) -> Path:
+    """Devuelve una ruta temporal con los pedidos a procesar (UI +/- A–E)."""
+    _ensure_orders_ui()
+    ui = _read_csv_smart(ORD_UI) or pd.DataFrame(columns=["date","item_id","qty"])
+    frames = [ui]
+    if include_ae and ORD_AE.exists():
+        ae = _read_csv_smart(ORD_AE) or pd.DataFrame(columns=["date","item_id","qty"])
+        frames.append(ae)
+    combo = pd.concat(frames, ignore_index=True)
+    tmp = RAW / "customer_orders_to_process.csv"
+    combo.to_csv(tmp, index=False)
+    return tmp
+
+def _mtime_str(p: Path) -> str:
+    return datetime.fromtimestamp(p.stat().st_mtime).strftime("%Y-%m-%d %H:%M:%S") if p.exists() else "—"
+
+def _safe_df(path: Path) -> pd.DataFrame:
+    df = _read_csv_smart(path)
+    return df if df is not None else pd.DataFrame()
 
 def render_movimientos_stock():
     st.title("📦 Movimientos de stock")
@@ -969,12 +942,11 @@ def render_movimientos_stock():
 
             orders_to_process = _combine_orders(include_ae=use_ae)
 
-            # Ejecutamos con las MISMAS rutas de 10.3 (sin autogeneración)
             run(
-                inventario=INV,
+                inventario=ROOT / "data" / "clean" / "Inventario.csv",
                 orders_path=orders_to_process,
-                supplier_catalog=CAT,
-                substitutes=SUBS,
+                supplier_catalog=SUPPLIER_DEMO,
+                substitutes=PROC / "substitutes_unified.csv",
                 outdir=OUT10,
             )
             st.success("Procesado OK. Revisa ‘Stock actual’, ‘Ledger’ y ‘OC generadas’.")
@@ -1000,13 +972,9 @@ def render_movimientos_stock():
         "🧾 Pedidos cliente", "📦 Stock actual", "📜 Ledger", "🛒 OC generadas", "📈 Demanda histórica"
     ])
 
-    # ------------------------------------------------------------------
     # 1) Pedidos de cliente (formulario + carga CSV + tabla UI)
-    # ------------------------------------------------------------------
     with tab_ped:
         st.subheader("Pedidos de cliente (UI)")
-
-        # Formulario: un pedido (una línea)
         with st.form("form_add_order", clear_on_submit=True):
             c1, c2, c3 = st.columns([1,1,1])
             with c1:
@@ -1024,18 +992,15 @@ def render_movimientos_stock():
                 else:
                     st.warning("Revisa Item ID y Cantidad.")
 
-        # Carga de CSV por fichero (append)
         st.markdown("**Cargar CSV de pedidos (append)**")
         up = st.file_uploader("Sube un CSV con columnas `date,item_id,qty`", type=["csv"])
         if up is not None:
             try:
                 df_up = pd.read_csv(io.BytesIO(up.getvalue()))
-                # validación suave
                 req = {"date","item_id","qty"}
                 if not req.issubset({c.lower() for c in df_up.columns}):
                     st.error("El CSV debe incluir columnas: date, item_id, qty.")
                 else:
-                    # normalizamos nombres
                     low = {c.lower(): c for c in df_up.columns}
                     df_up = df_up.rename(columns={low["date"]:"date", low["item_id"]:"item_id", low["qty"]:"qty"})
                     _ensure_orders_ui()
@@ -1047,38 +1012,30 @@ def render_movimientos_stock():
                 st.error("No se pudo leer el CSV subido.")
                 st.exception(e)
 
-        # Vista de lo que hay en UI (editable opcionalmente)
         _ensure_orders_ui()
         df_ui = _safe_df(ORD_UI)
         st.caption(f"Pedidos en UI ({len(df_ui)} líneas)")
         st.dataframe(df_ui, use_container_width=True, height=320)
 
-        # Botón para vaciar UI
         if st.button("🗑️ Vaciar pedidos UI", use_container_width=True):
             pd.DataFrame(columns=["date","item_id","qty"]).to_csv(ORD_UI, index=False)
             st.info("`customer_orders_ui.csv` vaciado.")
 
-    # ------------------------------------------------------------------
-    # 2) Stock actual (salida del procesador)
-    # ------------------------------------------------------------------
+    # 2) Stock actual
     with tab_stock:
         st.subheader("Stock actual")
         inv_upd = _safe_df(OUT10 / "inventory_updated.csv")
         if inv_upd.empty:
             st.info("Aún no hay `inventory_updated.csv`. Pulsa **Procesar movimientos** en la barra lateral.")
         else:
-            # filtros básicos
             q = st.text_input("Buscar por Item ID o nombre (si existe)", key="search_invupd")
             df_show = inv_upd.copy()
             low = {c.lower(): c for c in df_show.columns}
-            if q:
-                if "item_id" in low:
-                    df_show = df_show[df_show[low["item_id"]].astype(str).str.contains(str(q), na=False)]
+            if q and "item_id" in low:
+                df_show = df_show[df_show[low["item_id"]].astype(str).str.contains(str(q), na=False)]
             st.dataframe(df_show, use_container_width=True, height=420)
 
-    # ------------------------------------------------------------------
-    # 3) Ledger (trazabilidad)
-    # ------------------------------------------------------------------
+    # 3) Ledger
     with tab_ledger:
         st.subheader("Ledger de movimientos")
         led = _safe_df(OUT10 / "ledger_movimientos.csv")
@@ -1087,9 +1044,7 @@ def render_movimientos_stock():
         else:
             st.dataframe(led, use_container_width=True, height=420)
 
-    # ------------------------------------------------------------------
-    # 4) OC generadas (cabeceras + líneas)
-    # ------------------------------------------------------------------
+    # 4) OC generadas
     with tab_oc:
         st.subheader("Órdenes de compra generadas")
         oc_h = _safe_df(OUT10 / "ordenes_compra.csv")
@@ -1106,11 +1061,9 @@ def render_movimientos_stock():
                 st.caption("Líneas")
                 st.dataframe(oc_l, use_container_width=True, height=280)
 
-            st.markdown("> **Recepción forzada**: la implementamos en la siguiente subfase (entrada de mercancía). De momento mostramos las OC generadas por proveedor.")
+            st.markdown("> **Recepción forzada**: la implementamos en la siguiente subfase (entrada de mercancía).")
 
-    # ------------------------------------------------------------------
     # 5) Demanda histórica (derivada del ledger)
-    # ------------------------------------------------------------------
     with tab_dem:
         st.subheader("Demanda histórica (desde ledger)")
         led = _safe_df(OUT10 / "ledger_movimientos.csv")
@@ -1118,7 +1071,6 @@ def render_movimientos_stock():
             st.info("Necesitamos el ledger para calcular demanda por día (tipo='venta').")
             st.stop()
 
-        # normalización nombres
         low = {c.lower(): c for c in led.columns}
         ok = all(k in low for k in ["timestamp","tipo","item_id","qty"])
         if not ok:
@@ -1130,7 +1082,6 @@ def render_movimientos_stock():
                                  low["tipo"]:"tipo",
                                  low["item_id"]:"item_id",
                                  low["qty"]:"qty"})
-        # Ventas como demanda positiva (qty viene negativa por salida)
         df["fecha"] = pd.to_datetime(df["timestamp"]).dt.date
         demanda = (
             df[df["tipo"].astype(str).str.lower().eq("venta")]
@@ -1155,42 +1106,28 @@ def render_movimientos_stock():
 
 
 # ==================================================
-# 9) BLOQUE DE REAPROVIONAMIENTO Y PEDIDOS.
+# 7) BLOQUE DE REAPROVIONAMIENTO Y PEDIDOS.
 # ==================================================
-
 def render_reapro():
     st.title("🧾 Reapro / Pedidos")
-
-    # Controles globales del bloque
     st.sidebar.markdown("### Parámetros de Reapro")
     z_service = st.sidebar.number_input("Nivel de servicio (z)", value=1.65, step=0.05)
     target_cobertura = st.sidebar.number_input("Cobertura objetivo (días)", value=30, step=1)
     st.sidebar.caption("Ajusta z y cobertura y actualiza la recomendación.")
 
     tab1, tab2, tab3 = st.tabs(["Recomendación", "Alertas", "Simulador"])
-
     with tab1:
         st.subheader("Recomendación de pedido")
         st.info("Calcula ROP/SS/Qty recomendado. Integraremos tus DF cuando los tengamos enlazados.")
-        # 🔧 Aquí harías:
-        # demanda_dia, sigma, lead_time, stock_neto, MOQ...
-        # SS = z * sigma * sqrt(LT)
-        # ROP = demanda_dia * LT + SS
-        # qty_obj = max(0, target_cobertura * demanda_dia - stock_neto)
-        # qty_final = aplicar_moq_multiplo(qty_obj)
-        # st.data_editor(... con tooltips ...)
-
     with tab2:
         st.subheader("Alertas de ruptura / cobertura baja")
         st.info("Listado de productos con cobertura < umbral o stock ≤ ROP.")
-
     with tab3:
         st.subheader("Simulador de cobertura")
         st.info("Ajusta LT, demanda o SS y observa impacto en fecha de ruptura y coste.")
 
 # ------------------ Render según ruta ----------------------------
 route = st.session_state["route"]
-
 if route == "home":
     render_home()
 elif route == "exploracion":
