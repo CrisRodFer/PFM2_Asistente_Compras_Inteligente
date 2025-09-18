@@ -4,7 +4,6 @@ C:.
 ¦   .gitattributes
 ¦   .gitignore
 ¦   estructura.txt
-¦   image.png
 ¦   README.md
 ¦   requirements.txt
 ¦   
@@ -26,11 +25,13 @@ C:.
 ¦   ¦       ¦       
 ¦   ¦       +---nbconfig
 ¦   ¦           +---notebook.d
+¦   ¦                   pydeck.json
 ¦   ¦                   widgetsnbextension.json
 ¦   ¦                   
 ¦   +---Include
 ¦   +---Lib
 ¦   ¦   +---site-packages
+¦   ¦       ¦   .DS_Store
 ¦   ¦       ¦   decorator.py
 ¦   ¦       ¦   distutils-precedence.pth
 ¦   ¦       ¦   ipykernel_launcher.py
@@ -105,6 +106,146 @@ C:.
 ¦   ¦       ¦           schema_table.cpython-313.pyc
 ¦   ¦       ¦           setup.cpython-313.pyc
 ¦   ¦       ¦           __init__.cpython-313.pyc
+¦   ¦       ¦           
+¦   ¦       +---altair
+¦   ¦       ¦   ¦   py.typed
+¦   ¦       ¦   ¦   theme.py
+¦   ¦       ¦   ¦   _magics.py
+¦   ¦       ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---expr
+¦   ¦       ¦   ¦   ¦   consts.py
+¦   ¦       ¦   ¦   ¦   core.py
+¦   ¦       ¦   ¦   ¦   funcs.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           consts.cpython-313.pyc
+¦   ¦       ¦   ¦           core.cpython-313.pyc
+¦   ¦       ¦   ¦           funcs.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---jupyter
+¦   ¦       ¦   ¦   ¦   jupyter_chart.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---js
+¦   ¦       ¦   ¦   ¦       index.js
+¦   ¦       ¦   ¦   ¦       README.md
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           jupyter_chart.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---typing
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---utils
+¦   ¦       ¦   ¦   ¦   compiler.py
+¦   ¦       ¦   ¦   ¦   core.py
+¦   ¦       ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   deprecation.py
+¦   ¦       ¦   ¦   ¦   display.py
+¦   ¦       ¦   ¦   ¦   execeval.py
+¦   ¦       ¦   ¦   ¦   html.py
+¦   ¦       ¦   ¦   ¦   mimebundle.py
+¦   ¦       ¦   ¦   ¦   plugin_registry.py
+¦   ¦       ¦   ¦   ¦   save.py
+¦   ¦       ¦   ¦   ¦   schemapi.py
+¦   ¦       ¦   ¦   ¦   selection.py
+¦   ¦       ¦   ¦   ¦   server.py
+¦   ¦       ¦   ¦   ¦   _dfi_types.py
+¦   ¦       ¦   ¦   ¦   _importers.py
+¦   ¦       ¦   ¦   ¦   _show.py
+¦   ¦       ¦   ¦   ¦   _transformed_data.py
+¦   ¦       ¦   ¦   ¦   _vegafusion_data.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           compiler.cpython-313.pyc
+¦   ¦       ¦   ¦           core.cpython-313.pyc
+¦   ¦       ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦           deprecation.cpython-313.pyc
+¦   ¦       ¦   ¦           display.cpython-313.pyc
+¦   ¦       ¦   ¦           execeval.cpython-313.pyc
+¦   ¦       ¦   ¦           html.cpython-313.pyc
+¦   ¦       ¦   ¦           mimebundle.cpython-313.pyc
+¦   ¦       ¦   ¦           plugin_registry.cpython-313.pyc
+¦   ¦       ¦   ¦           save.cpython-313.pyc
+¦   ¦       ¦   ¦           schemapi.cpython-313.pyc
+¦   ¦       ¦   ¦           selection.cpython-313.pyc
+¦   ¦       ¦   ¦           server.cpython-313.pyc
+¦   ¦       ¦   ¦           _dfi_types.cpython-313.pyc
+¦   ¦       ¦   ¦           _importers.cpython-313.pyc
+¦   ¦       ¦   ¦           _show.cpython-313.pyc
+¦   ¦       ¦   ¦           _transformed_data.cpython-313.pyc
+¦   ¦       ¦   ¦           _vegafusion_data.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---vegalite
+¦   ¦       ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   display.py
+¦   ¦       ¦   ¦   ¦   schema.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---v5
+¦   ¦       ¦   ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   ¦   compiler.py
+¦   ¦       ¦   ¦   ¦   ¦   data.py
+¦   ¦       ¦   ¦   ¦   ¦   display.py
+¦   ¦       ¦   ¦   ¦   ¦   theme.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---schema
+¦   ¦       ¦   ¦   ¦   ¦   ¦   channels.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   core.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   mixins.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   vega-lite-schema.json
+¦   ¦       ¦   ¦   ¦   ¦   ¦   vega-themes.json
+¦   ¦       ¦   ¦   ¦   ¦   ¦   _config.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   _typing.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           channels.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           core.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           mixins.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           _config.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           _typing.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           compiler.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           display.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           theme.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦           data.cpython-313.pyc
+¦   ¦       ¦   ¦           display.cpython-313.pyc
+¦   ¦       ¦   ¦           schema.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---__pycache__
+¦   ¦       ¦           theme.cpython-313.pyc
+¦   ¦       ¦           _magics.cpython-313.pyc
+¦   ¦       ¦           __init__.cpython-313.pyc
+¦   ¦       ¦           
+¦   ¦       +---altair-5.5.0.dist-info
+¦   ¦       ¦   ¦   INSTALLER
+¦   ¦       ¦   ¦   METADATA
+¦   ¦       ¦   ¦   RECORD
+¦   ¦       ¦   ¦   WHEEL
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---licenses
+¦   ¦       ¦           LICENSE
 ¦   ¦       ¦           
 ¦   ¦       +---annotated_types
 ¦   ¦       ¦   ¦   py.typed
@@ -1716,6 +1857,24 @@ C:.
 ¦   ¦       ¦       top_level.txt
 ¦   ¦       ¦       WHEEL
 ¦   ¦       ¦       
+¦   ¦       +---blinker
+¦   ¦       ¦   ¦   base.py
+¦   ¦       ¦   ¦   py.typed
+¦   ¦       ¦   ¦   _utilities.py
+¦   ¦       ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---__pycache__
+¦   ¦       ¦           base.cpython-313.pyc
+¦   ¦       ¦           _utilities.cpython-313.pyc
+¦   ¦       ¦           __init__.cpython-313.pyc
+¦   ¦       ¦           
+¦   ¦       +---blinker-1.9.0.dist-info
+¦   ¦       ¦       INSTALLER
+¦   ¦       ¦       LICENSE.txt
+¦   ¦       ¦       METADATA
+¦   ¦       ¦       RECORD
+¦   ¦       ¦       WHEEL
+¦   ¦       ¦       
 ¦   ¦       +---bs4
 ¦   ¦       ¦   ¦   css.py
 ¦   ¦       ¦   ¦   dammit.py
@@ -1812,6 +1971,30 @@ C:.
 ¦   ¦       ¦           _typing.cpython-313.pyc
 ¦   ¦       ¦           _warnings.cpython-313.pyc
 ¦   ¦       ¦           __init__.cpython-313.pyc
+¦   ¦       ¦           
+¦   ¦       +---cachetools
+¦   ¦       ¦   ¦   func.py
+¦   ¦       ¦   ¦   keys.py
+¦   ¦       ¦   ¦   _cached.py
+¦   ¦       ¦   ¦   _cachedmethod.py
+¦   ¦       ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---__pycache__
+¦   ¦       ¦           func.cpython-313.pyc
+¦   ¦       ¦           keys.cpython-313.pyc
+¦   ¦       ¦           _cached.cpython-313.pyc
+¦   ¦       ¦           _cachedmethod.cpython-313.pyc
+¦   ¦       ¦           __init__.cpython-313.pyc
+¦   ¦       ¦           
+¦   ¦       +---cachetools-6.2.0.dist-info
+¦   ¦       ¦   ¦   INSTALLER
+¦   ¦       ¦   ¦   METADATA
+¦   ¦       ¦   ¦   RECORD
+¦   ¦       ¦   ¦   top_level.txt
+¦   ¦       ¦   ¦   WHEEL
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---licenses
+¦   ¦       ¦           LICENSE
 ¦   ¦       ¦           
 ¦   ¦       +---certifi
 ¦   ¦       ¦   ¦   cacert.pem
@@ -1933,6 +2116,52 @@ C:.
 ¦   ¦       ¦   ¦   
 ¦   ¦       ¦   +---licenses
 ¦   ¦       ¦           LICENSE
+¦   ¦       ¦           
+¦   ¦       +---click
+¦   ¦       ¦   ¦   core.py
+¦   ¦       ¦   ¦   decorators.py
+¦   ¦       ¦   ¦   exceptions.py
+¦   ¦       ¦   ¦   formatting.py
+¦   ¦       ¦   ¦   globals.py
+¦   ¦       ¦   ¦   parser.py
+¦   ¦       ¦   ¦   py.typed
+¦   ¦       ¦   ¦   shell_completion.py
+¦   ¦       ¦   ¦   termui.py
+¦   ¦       ¦   ¦   testing.py
+¦   ¦       ¦   ¦   types.py
+¦   ¦       ¦   ¦   utils.py
+¦   ¦       ¦   ¦   _compat.py
+¦   ¦       ¦   ¦   _termui_impl.py
+¦   ¦       ¦   ¦   _textwrap.py
+¦   ¦       ¦   ¦   _winconsole.py
+¦   ¦       ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---__pycache__
+¦   ¦       ¦           core.cpython-313.pyc
+¦   ¦       ¦           decorators.cpython-313.pyc
+¦   ¦       ¦           exceptions.cpython-313.pyc
+¦   ¦       ¦           formatting.cpython-313.pyc
+¦   ¦       ¦           globals.cpython-313.pyc
+¦   ¦       ¦           parser.cpython-313.pyc
+¦   ¦       ¦           shell_completion.cpython-313.pyc
+¦   ¦       ¦           termui.cpython-313.pyc
+¦   ¦       ¦           testing.cpython-313.pyc
+¦   ¦       ¦           types.cpython-313.pyc
+¦   ¦       ¦           utils.cpython-313.pyc
+¦   ¦       ¦           _compat.cpython-313.pyc
+¦   ¦       ¦           _termui_impl.cpython-313.pyc
+¦   ¦       ¦           _textwrap.cpython-313.pyc
+¦   ¦       ¦           _winconsole.cpython-313.pyc
+¦   ¦       ¦           __init__.cpython-313.pyc
+¦   ¦       ¦           
+¦   ¦       +---click-8.2.1.dist-info
+¦   ¦       ¦   ¦   INSTALLER
+¦   ¦       ¦   ¦   METADATA
+¦   ¦       ¦   ¦   RECORD
+¦   ¦       ¦   ¦   WHEEL
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---licenses
+¦   ¦       ¦           LICENSE.txt
 ¦   ¦       ¦           
 ¦   ¦       +---colorama
 ¦   ¦       ¦   ¦   ansi.py
@@ -3744,6 +3973,327 @@ C:.
 ¦   ¦       ¦       WHEEL
 ¦   ¦       ¦       zip-safe
 ¦   ¦       ¦       
+¦   ¦       +---git
+¦   ¦       ¦   ¦   cmd.py
+¦   ¦       ¦   ¦   compat.py
+¦   ¦       ¦   ¦   config.py
+¦   ¦       ¦   ¦   db.py
+¦   ¦       ¦   ¦   diff.py
+¦   ¦       ¦   ¦   exc.py
+¦   ¦       ¦   ¦   py.typed
+¦   ¦       ¦   ¦   remote.py
+¦   ¦       ¦   ¦   types.py
+¦   ¦       ¦   ¦   util.py
+¦   ¦       ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---index
+¦   ¦       ¦   ¦   ¦   base.py
+¦   ¦       ¦   ¦   ¦   fun.py
+¦   ¦       ¦   ¦   ¦   typ.py
+¦   ¦       ¦   ¦   ¦   util.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           base.cpython-313.pyc
+¦   ¦       ¦   ¦           fun.cpython-313.pyc
+¦   ¦       ¦   ¦           typ.cpython-313.pyc
+¦   ¦       ¦   ¦           util.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---objects
+¦   ¦       ¦   ¦   ¦   base.py
+¦   ¦       ¦   ¦   ¦   blob.py
+¦   ¦       ¦   ¦   ¦   commit.py
+¦   ¦       ¦   ¦   ¦   fun.py
+¦   ¦       ¦   ¦   ¦   tag.py
+¦   ¦       ¦   ¦   ¦   tree.py
+¦   ¦       ¦   ¦   ¦   util.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---submodule
+¦   ¦       ¦   ¦   ¦   ¦   base.py
+¦   ¦       ¦   ¦   ¦   ¦   root.py
+¦   ¦       ¦   ¦   ¦   ¦   util.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           base.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           root.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           util.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           base.cpython-313.pyc
+¦   ¦       ¦   ¦           blob.cpython-313.pyc
+¦   ¦       ¦   ¦           commit.cpython-313.pyc
+¦   ¦       ¦   ¦           fun.cpython-313.pyc
+¦   ¦       ¦   ¦           tag.cpython-313.pyc
+¦   ¦       ¦   ¦           tree.cpython-313.pyc
+¦   ¦       ¦   ¦           util.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---refs
+¦   ¦       ¦   ¦   ¦   head.py
+¦   ¦       ¦   ¦   ¦   log.py
+¦   ¦       ¦   ¦   ¦   reference.py
+¦   ¦       ¦   ¦   ¦   remote.py
+¦   ¦       ¦   ¦   ¦   symbolic.py
+¦   ¦       ¦   ¦   ¦   tag.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           head.cpython-313.pyc
+¦   ¦       ¦   ¦           log.cpython-313.pyc
+¦   ¦       ¦   ¦           reference.cpython-313.pyc
+¦   ¦       ¦   ¦           remote.cpython-313.pyc
+¦   ¦       ¦   ¦           symbolic.cpython-313.pyc
+¦   ¦       ¦   ¦           tag.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---repo
+¦   ¦       ¦   ¦   ¦   base.py
+¦   ¦       ¦   ¦   ¦   fun.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           base.cpython-313.pyc
+¦   ¦       ¦   ¦           fun.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---__pycache__
+¦   ¦       ¦           cmd.cpython-313.pyc
+¦   ¦       ¦           compat.cpython-313.pyc
+¦   ¦       ¦           config.cpython-313.pyc
+¦   ¦       ¦           db.cpython-313.pyc
+¦   ¦       ¦           diff.cpython-313.pyc
+¦   ¦       ¦           exc.cpython-313.pyc
+¦   ¦       ¦           remote.cpython-313.pyc
+¦   ¦       ¦           types.cpython-313.pyc
+¦   ¦       ¦           util.cpython-313.pyc
+¦   ¦       ¦           __init__.cpython-313.pyc
+¦   ¦       ¦           
+¦   ¦       +---gitdb
+¦   ¦       ¦   ¦   base.py
+¦   ¦       ¦   ¦   const.py
+¦   ¦       ¦   ¦   exc.py
+¦   ¦       ¦   ¦   fun.py
+¦   ¦       ¦   ¦   pack.py
+¦   ¦       ¦   ¦   stream.py
+¦   ¦       ¦   ¦   typ.py
+¦   ¦       ¦   ¦   util.py
+¦   ¦       ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---db
+¦   ¦       ¦   ¦   ¦   base.py
+¦   ¦       ¦   ¦   ¦   git.py
+¦   ¦       ¦   ¦   ¦   loose.py
+¦   ¦       ¦   ¦   ¦   mem.py
+¦   ¦       ¦   ¦   ¦   pack.py
+¦   ¦       ¦   ¦   ¦   ref.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           base.cpython-313.pyc
+¦   ¦       ¦   ¦           git.cpython-313.pyc
+¦   ¦       ¦   ¦           loose.cpython-313.pyc
+¦   ¦       ¦   ¦           mem.cpython-313.pyc
+¦   ¦       ¦   ¦           pack.cpython-313.pyc
+¦   ¦       ¦   ¦           ref.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---test
+¦   ¦       ¦   ¦   ¦   lib.py
+¦   ¦       ¦   ¦   ¦   test_base.py
+¦   ¦       ¦   ¦   ¦   test_example.py
+¦   ¦       ¦   ¦   ¦   test_pack.py
+¦   ¦       ¦   ¦   ¦   test_stream.py
+¦   ¦       ¦   ¦   ¦   test_util.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           lib.cpython-313.pyc
+¦   ¦       ¦   ¦           test_base.cpython-313.pyc
+¦   ¦       ¦   ¦           test_example.cpython-313.pyc
+¦   ¦       ¦   ¦           test_pack.cpython-313.pyc
+¦   ¦       ¦   ¦           test_stream.cpython-313.pyc
+¦   ¦       ¦   ¦           test_util.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---utils
+¦   ¦       ¦   ¦   ¦   encoding.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           encoding.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---__pycache__
+¦   ¦       ¦           base.cpython-313.pyc
+¦   ¦       ¦           const.cpython-313.pyc
+¦   ¦       ¦           exc.cpython-313.pyc
+¦   ¦       ¦           fun.cpython-313.pyc
+¦   ¦       ¦           pack.cpython-313.pyc
+¦   ¦       ¦           stream.cpython-313.pyc
+¦   ¦       ¦           typ.cpython-313.pyc
+¦   ¦       ¦           util.cpython-313.pyc
+¦   ¦       ¦           __init__.cpython-313.pyc
+¦   ¦       ¦           
+¦   ¦       +---gitdb-4.0.12.dist-info
+¦   ¦       ¦       AUTHORS
+¦   ¦       ¦       INSTALLER
+¦   ¦       ¦       LICENSE
+¦   ¦       ¦       METADATA
+¦   ¦       ¦       RECORD
+¦   ¦       ¦       top_level.txt
+¦   ¦       ¦       WHEEL
+¦   ¦       ¦       
+¦   ¦       +---gitpython-3.1.45.dist-info
+¦   ¦       ¦   ¦   INSTALLER
+¦   ¦       ¦   ¦   METADATA
+¦   ¦       ¦   ¦   RECORD
+¦   ¦       ¦   ¦   top_level.txt
+¦   ¦       ¦   ¦   WHEEL
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---licenses
+¦   ¦       ¦           AUTHORS
+¦   ¦       ¦           LICENSE
+¦   ¦       ¦           
+¦   ¦       +---google
+¦   ¦       ¦   +---protobuf
+¦   ¦       ¦   ¦   ¦   any.py
+¦   ¦       ¦   ¦   ¦   any_pb2.py
+¦   ¦       ¦   ¦   ¦   api_pb2.py
+¦   ¦       ¦   ¦   ¦   descriptor.py
+¦   ¦       ¦   ¦   ¦   descriptor_database.py
+¦   ¦       ¦   ¦   ¦   descriptor_pb2.py
+¦   ¦       ¦   ¦   ¦   descriptor_pool.py
+¦   ¦       ¦   ¦   ¦   duration.py
+¦   ¦       ¦   ¦   ¦   duration_pb2.py
+¦   ¦       ¦   ¦   ¦   empty_pb2.py
+¦   ¦       ¦   ¦   ¦   field_mask_pb2.py
+¦   ¦       ¦   ¦   ¦   json_format.py
+¦   ¦       ¦   ¦   ¦   message.py
+¦   ¦       ¦   ¦   ¦   message_factory.py
+¦   ¦       ¦   ¦   ¦   proto.py
+¦   ¦       ¦   ¦   ¦   proto_builder.py
+¦   ¦       ¦   ¦   ¦   proto_json.py
+¦   ¦       ¦   ¦   ¦   proto_text.py
+¦   ¦       ¦   ¦   ¦   reflection.py
+¦   ¦       ¦   ¦   ¦   runtime_version.py
+¦   ¦       ¦   ¦   ¦   service_reflection.py
+¦   ¦       ¦   ¦   ¦   source_context_pb2.py
+¦   ¦       ¦   ¦   ¦   struct_pb2.py
+¦   ¦       ¦   ¦   ¦   symbol_database.py
+¦   ¦       ¦   ¦   ¦   text_encoding.py
+¦   ¦       ¦   ¦   ¦   text_format.py
+¦   ¦       ¦   ¦   ¦   timestamp.py
+¦   ¦       ¦   ¦   ¦   timestamp_pb2.py
+¦   ¦       ¦   ¦   ¦   type_pb2.py
+¦   ¦       ¦   ¦   ¦   unknown_fields.py
+¦   ¦       ¦   ¦   ¦   wrappers_pb2.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---compiler
+¦   ¦       ¦   ¦   ¦   ¦   plugin_pb2.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           plugin_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---internal
+¦   ¦       ¦   ¦   ¦   ¦   api_implementation.py
+¦   ¦       ¦   ¦   ¦   ¦   builder.py
+¦   ¦       ¦   ¦   ¦   ¦   containers.py
+¦   ¦       ¦   ¦   ¦   ¦   decoder.py
+¦   ¦       ¦   ¦   ¦   ¦   encoder.py
+¦   ¦       ¦   ¦   ¦   ¦   enum_type_wrapper.py
+¦   ¦       ¦   ¦   ¦   ¦   extension_dict.py
+¦   ¦       ¦   ¦   ¦   ¦   field_mask.py
+¦   ¦       ¦   ¦   ¦   ¦   message_listener.py
+¦   ¦       ¦   ¦   ¦   ¦   python_edition_defaults.py
+¦   ¦       ¦   ¦   ¦   ¦   python_message.py
+¦   ¦       ¦   ¦   ¦   ¦   testing_refleaks.py
+¦   ¦       ¦   ¦   ¦   ¦   type_checkers.py
+¦   ¦       ¦   ¦   ¦   ¦   well_known_types.py
+¦   ¦       ¦   ¦   ¦   ¦   wire_format.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           api_implementation.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           builder.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           containers.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           decoder.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           encoder.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           enum_type_wrapper.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           extension_dict.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           field_mask.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           message_listener.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           python_edition_defaults.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           python_message.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           testing_refleaks.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           type_checkers.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           well_known_types.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           wire_format.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---pyext
+¦   ¦       ¦   ¦   ¦   ¦   cpp_message.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           cpp_message.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---testdata
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---util
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           any.cpython-313.pyc
+¦   ¦       ¦   ¦           any_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           api_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           descriptor.cpython-313.pyc
+¦   ¦       ¦   ¦           descriptor_database.cpython-313.pyc
+¦   ¦       ¦   ¦           descriptor_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           descriptor_pool.cpython-313.pyc
+¦   ¦       ¦   ¦           duration.cpython-313.pyc
+¦   ¦       ¦   ¦           duration_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           empty_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           field_mask_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           json_format.cpython-313.pyc
+¦   ¦       ¦   ¦           message.cpython-313.pyc
+¦   ¦       ¦   ¦           message_factory.cpython-313.pyc
+¦   ¦       ¦   ¦           proto.cpython-313.pyc
+¦   ¦       ¦   ¦           proto_builder.cpython-313.pyc
+¦   ¦       ¦   ¦           proto_json.cpython-313.pyc
+¦   ¦       ¦   ¦           proto_text.cpython-313.pyc
+¦   ¦       ¦   ¦           reflection.cpython-313.pyc
+¦   ¦       ¦   ¦           runtime_version.cpython-313.pyc
+¦   ¦       ¦   ¦           service_reflection.cpython-313.pyc
+¦   ¦       ¦   ¦           source_context_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           struct_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           symbol_database.cpython-313.pyc
+¦   ¦       ¦   ¦           text_encoding.cpython-313.pyc
+¦   ¦       ¦   ¦           text_format.cpython-313.pyc
+¦   ¦       ¦   ¦           timestamp.cpython-313.pyc
+¦   ¦       ¦   ¦           timestamp_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           type_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           unknown_fields.cpython-313.pyc
+¦   ¦       ¦   ¦           wrappers_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---_upb
+¦   ¦       ¦           _message.pyd
+¦   ¦       ¦           
 ¦   ¦       +---h11
 ¦   ¦       ¦   ¦   py.typed
 ¦   ¦       ¦   ¦   _abnf.py
@@ -10607,6 +11157,382 @@ C:.
 ¦   ¦       ¦   ¦   
 ¦   ¦       ¦   +---licenses
 ¦   ¦       ¦           LICENSE
+¦   ¦       ¦           
+¦   ¦       +---narwhals
+¦   ¦       ¦   ¦   dataframe.py
+¦   ¦       ¦   ¦   dependencies.py
+¦   ¦       ¦   ¦   dtypes.py
+¦   ¦       ¦   ¦   exceptions.py
+¦   ¦       ¦   ¦   expr.py
+¦   ¦       ¦   ¦   expr_cat.py
+¦   ¦       ¦   ¦   expr_dt.py
+¦   ¦       ¦   ¦   expr_list.py
+¦   ¦       ¦   ¦   expr_name.py
+¦   ¦       ¦   ¦   expr_str.py
+¦   ¦       ¦   ¦   expr_struct.py
+¦   ¦       ¦   ¦   functions.py
+¦   ¦       ¦   ¦   group_by.py
+¦   ¦       ¦   ¦   py.typed
+¦   ¦       ¦   ¦   schema.py
+¦   ¦       ¦   ¦   selectors.py
+¦   ¦       ¦   ¦   series.py
+¦   ¦       ¦   ¦   series_cat.py
+¦   ¦       ¦   ¦   series_dt.py
+¦   ¦       ¦   ¦   series_list.py
+¦   ¦       ¦   ¦   series_str.py
+¦   ¦       ¦   ¦   series_struct.py
+¦   ¦       ¦   ¦   this.py
+¦   ¦       ¦   ¦   translate.py
+¦   ¦       ¦   ¦   typing.py
+¦   ¦       ¦   ¦   utils.py
+¦   ¦       ¦   ¦   _constants.py
+¦   ¦       ¦   ¦   _duration.py
+¦   ¦       ¦   ¦   _enum.py
+¦   ¦       ¦   ¦   _exceptions.py
+¦   ¦       ¦   ¦   _expression_parsing.py
+¦   ¦       ¦   ¦   _namespace.py
+¦   ¦       ¦   ¦   _translate.py
+¦   ¦       ¦   ¦   _typing.py
+¦   ¦       ¦   ¦   _typing_compat.py
+¦   ¦       ¦   ¦   _utils.py
+¦   ¦       ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---stable
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---v1
+¦   ¦       ¦   ¦   ¦   ¦   dependencies.py
+¦   ¦       ¦   ¦   ¦   ¦   dtypes.py
+¦   ¦       ¦   ¦   ¦   ¦   selectors.py
+¦   ¦       ¦   ¦   ¦   ¦   typing.py
+¦   ¦       ¦   ¦   ¦   ¦   _dtypes.py
+¦   ¦       ¦   ¦   ¦   ¦   _namespace.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           dependencies.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           dtypes.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           selectors.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           typing.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           _dtypes.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           _namespace.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---v2
+¦   ¦       ¦   ¦   ¦   ¦   dependencies.py
+¦   ¦       ¦   ¦   ¦   ¦   dtypes.py
+¦   ¦       ¦   ¦   ¦   ¦   selectors.py
+¦   ¦       ¦   ¦   ¦   ¦   typing.py
+¦   ¦       ¦   ¦   ¦   ¦   _namespace.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           dependencies.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           dtypes.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           selectors.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           typing.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           _namespace.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---_arrow
+¦   ¦       ¦   ¦   ¦   dataframe.py
+¦   ¦       ¦   ¦   ¦   expr.py
+¦   ¦       ¦   ¦   ¦   group_by.py
+¦   ¦       ¦   ¦   ¦   namespace.py
+¦   ¦       ¦   ¦   ¦   selectors.py
+¦   ¦       ¦   ¦   ¦   series.py
+¦   ¦       ¦   ¦   ¦   series_cat.py
+¦   ¦       ¦   ¦   ¦   series_dt.py
+¦   ¦       ¦   ¦   ¦   series_list.py
+¦   ¦       ¦   ¦   ¦   series_str.py
+¦   ¦       ¦   ¦   ¦   series_struct.py
+¦   ¦       ¦   ¦   ¦   typing.py
+¦   ¦       ¦   ¦   ¦   utils.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           dataframe.cpython-313.pyc
+¦   ¦       ¦   ¦           expr.cpython-313.pyc
+¦   ¦       ¦   ¦           group_by.cpython-313.pyc
+¦   ¦       ¦   ¦           namespace.cpython-313.pyc
+¦   ¦       ¦   ¦           selectors.cpython-313.pyc
+¦   ¦       ¦   ¦           series.cpython-313.pyc
+¦   ¦       ¦   ¦           series_cat.cpython-313.pyc
+¦   ¦       ¦   ¦           series_dt.cpython-313.pyc
+¦   ¦       ¦   ¦           series_list.cpython-313.pyc
+¦   ¦       ¦   ¦           series_str.cpython-313.pyc
+¦   ¦       ¦   ¦           series_struct.cpython-313.pyc
+¦   ¦       ¦   ¦           typing.cpython-313.pyc
+¦   ¦       ¦   ¦           utils.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---_compliant
+¦   ¦       ¦   ¦   ¦   any_namespace.py
+¦   ¦       ¦   ¦   ¦   column.py
+¦   ¦       ¦   ¦   ¦   dataframe.py
+¦   ¦       ¦   ¦   ¦   expr.py
+¦   ¦       ¦   ¦   ¦   group_by.py
+¦   ¦       ¦   ¦   ¦   namespace.py
+¦   ¦       ¦   ¦   ¦   selectors.py
+¦   ¦       ¦   ¦   ¦   series.py
+¦   ¦       ¦   ¦   ¦   typing.py
+¦   ¦       ¦   ¦   ¦   when_then.py
+¦   ¦       ¦   ¦   ¦   window.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           any_namespace.cpython-313.pyc
+¦   ¦       ¦   ¦           column.cpython-313.pyc
+¦   ¦       ¦   ¦           dataframe.cpython-313.pyc
+¦   ¦       ¦   ¦           expr.cpython-313.pyc
+¦   ¦       ¦   ¦           group_by.cpython-313.pyc
+¦   ¦       ¦   ¦           namespace.cpython-313.pyc
+¦   ¦       ¦   ¦           selectors.cpython-313.pyc
+¦   ¦       ¦   ¦           series.cpython-313.pyc
+¦   ¦       ¦   ¦           typing.cpython-313.pyc
+¦   ¦       ¦   ¦           when_then.cpython-313.pyc
+¦   ¦       ¦   ¦           window.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---_dask
+¦   ¦       ¦   ¦   ¦   dataframe.py
+¦   ¦       ¦   ¦   ¦   expr.py
+¦   ¦       ¦   ¦   ¦   expr_dt.py
+¦   ¦       ¦   ¦   ¦   expr_str.py
+¦   ¦       ¦   ¦   ¦   group_by.py
+¦   ¦       ¦   ¦   ¦   namespace.py
+¦   ¦       ¦   ¦   ¦   selectors.py
+¦   ¦       ¦   ¦   ¦   utils.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           dataframe.cpython-313.pyc
+¦   ¦       ¦   ¦           expr.cpython-313.pyc
+¦   ¦       ¦   ¦           expr_dt.cpython-313.pyc
+¦   ¦       ¦   ¦           expr_str.cpython-313.pyc
+¦   ¦       ¦   ¦           group_by.cpython-313.pyc
+¦   ¦       ¦   ¦           namespace.cpython-313.pyc
+¦   ¦       ¦   ¦           selectors.cpython-313.pyc
+¦   ¦       ¦   ¦           utils.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---_duckdb
+¦   ¦       ¦   ¦   ¦   dataframe.py
+¦   ¦       ¦   ¦   ¦   expr.py
+¦   ¦       ¦   ¦   ¦   expr_dt.py
+¦   ¦       ¦   ¦   ¦   expr_list.py
+¦   ¦       ¦   ¦   ¦   expr_str.py
+¦   ¦       ¦   ¦   ¦   expr_struct.py
+¦   ¦       ¦   ¦   ¦   group_by.py
+¦   ¦       ¦   ¦   ¦   namespace.py
+¦   ¦       ¦   ¦   ¦   selectors.py
+¦   ¦       ¦   ¦   ¦   series.py
+¦   ¦       ¦   ¦   ¦   typing.py
+¦   ¦       ¦   ¦   ¦   utils.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           dataframe.cpython-313.pyc
+¦   ¦       ¦   ¦           expr.cpython-313.pyc
+¦   ¦       ¦   ¦           expr_dt.cpython-313.pyc
+¦   ¦       ¦   ¦           expr_list.cpython-313.pyc
+¦   ¦       ¦   ¦           expr_str.cpython-313.pyc
+¦   ¦       ¦   ¦           expr_struct.cpython-313.pyc
+¦   ¦       ¦   ¦           group_by.cpython-313.pyc
+¦   ¦       ¦   ¦           namespace.cpython-313.pyc
+¦   ¦       ¦   ¦           selectors.cpython-313.pyc
+¦   ¦       ¦   ¦           series.cpython-313.pyc
+¦   ¦       ¦   ¦           typing.cpython-313.pyc
+¦   ¦       ¦   ¦           utils.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---_ibis
+¦   ¦       ¦   ¦   ¦   dataframe.py
+¦   ¦       ¦   ¦   ¦   expr.py
+¦   ¦       ¦   ¦   ¦   expr_dt.py
+¦   ¦       ¦   ¦   ¦   expr_list.py
+¦   ¦       ¦   ¦   ¦   expr_str.py
+¦   ¦       ¦   ¦   ¦   expr_struct.py
+¦   ¦       ¦   ¦   ¦   group_by.py
+¦   ¦       ¦   ¦   ¦   namespace.py
+¦   ¦       ¦   ¦   ¦   selectors.py
+¦   ¦       ¦   ¦   ¦   series.py
+¦   ¦       ¦   ¦   ¦   utils.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           dataframe.cpython-313.pyc
+¦   ¦       ¦   ¦           expr.cpython-313.pyc
+¦   ¦       ¦   ¦           expr_dt.cpython-313.pyc
+¦   ¦       ¦   ¦           expr_list.cpython-313.pyc
+¦   ¦       ¦   ¦           expr_str.cpython-313.pyc
+¦   ¦       ¦   ¦           expr_struct.cpython-313.pyc
+¦   ¦       ¦   ¦           group_by.cpython-313.pyc
+¦   ¦       ¦   ¦           namespace.cpython-313.pyc
+¦   ¦       ¦   ¦           selectors.cpython-313.pyc
+¦   ¦       ¦   ¦           series.cpython-313.pyc
+¦   ¦       ¦   ¦           utils.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---_interchange
+¦   ¦       ¦   ¦   ¦   dataframe.py
+¦   ¦       ¦   ¦   ¦   series.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           dataframe.cpython-313.pyc
+¦   ¦       ¦   ¦           series.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---_pandas_like
+¦   ¦       ¦   ¦   ¦   dataframe.py
+¦   ¦       ¦   ¦   ¦   expr.py
+¦   ¦       ¦   ¦   ¦   group_by.py
+¦   ¦       ¦   ¦   ¦   namespace.py
+¦   ¦       ¦   ¦   ¦   selectors.py
+¦   ¦       ¦   ¦   ¦   series.py
+¦   ¦       ¦   ¦   ¦   series_cat.py
+¦   ¦       ¦   ¦   ¦   series_dt.py
+¦   ¦       ¦   ¦   ¦   series_list.py
+¦   ¦       ¦   ¦   ¦   series_str.py
+¦   ¦       ¦   ¦   ¦   series_struct.py
+¦   ¦       ¦   ¦   ¦   typing.py
+¦   ¦       ¦   ¦   ¦   utils.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           dataframe.cpython-313.pyc
+¦   ¦       ¦   ¦           expr.cpython-313.pyc
+¦   ¦       ¦   ¦           group_by.cpython-313.pyc
+¦   ¦       ¦   ¦           namespace.cpython-313.pyc
+¦   ¦       ¦   ¦           selectors.cpython-313.pyc
+¦   ¦       ¦   ¦           series.cpython-313.pyc
+¦   ¦       ¦   ¦           series_cat.cpython-313.pyc
+¦   ¦       ¦   ¦           series_dt.cpython-313.pyc
+¦   ¦       ¦   ¦           series_list.cpython-313.pyc
+¦   ¦       ¦   ¦           series_str.cpython-313.pyc
+¦   ¦       ¦   ¦           series_struct.cpython-313.pyc
+¦   ¦       ¦   ¦           typing.cpython-313.pyc
+¦   ¦       ¦   ¦           utils.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---_polars
+¦   ¦       ¦   ¦   ¦   dataframe.py
+¦   ¦       ¦   ¦   ¦   expr.py
+¦   ¦       ¦   ¦   ¦   group_by.py
+¦   ¦       ¦   ¦   ¦   namespace.py
+¦   ¦       ¦   ¦   ¦   series.py
+¦   ¦       ¦   ¦   ¦   typing.py
+¦   ¦       ¦   ¦   ¦   utils.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           dataframe.cpython-313.pyc
+¦   ¦       ¦   ¦           expr.cpython-313.pyc
+¦   ¦       ¦   ¦           group_by.cpython-313.pyc
+¦   ¦       ¦   ¦           namespace.cpython-313.pyc
+¦   ¦       ¦   ¦           series.cpython-313.pyc
+¦   ¦       ¦   ¦           typing.cpython-313.pyc
+¦   ¦       ¦   ¦           utils.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---_spark_like
+¦   ¦       ¦   ¦   ¦   dataframe.py
+¦   ¦       ¦   ¦   ¦   expr.py
+¦   ¦       ¦   ¦   ¦   expr_dt.py
+¦   ¦       ¦   ¦   ¦   expr_list.py
+¦   ¦       ¦   ¦   ¦   expr_str.py
+¦   ¦       ¦   ¦   ¦   expr_struct.py
+¦   ¦       ¦   ¦   ¦   group_by.py
+¦   ¦       ¦   ¦   ¦   namespace.py
+¦   ¦       ¦   ¦   ¦   selectors.py
+¦   ¦       ¦   ¦   ¦   utils.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           dataframe.cpython-313.pyc
+¦   ¦       ¦   ¦           expr.cpython-313.pyc
+¦   ¦       ¦   ¦           expr_dt.cpython-313.pyc
+¦   ¦       ¦   ¦           expr_list.cpython-313.pyc
+¦   ¦       ¦   ¦           expr_str.cpython-313.pyc
+¦   ¦       ¦   ¦           expr_struct.cpython-313.pyc
+¦   ¦       ¦   ¦           group_by.cpython-313.pyc
+¦   ¦       ¦   ¦           namespace.cpython-313.pyc
+¦   ¦       ¦   ¦           selectors.cpython-313.pyc
+¦   ¦       ¦   ¦           utils.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---_sql
+¦   ¦       ¦   ¦   ¦   dataframe.py
+¦   ¦       ¦   ¦   ¦   expr.py
+¦   ¦       ¦   ¦   ¦   expr_dt.py
+¦   ¦       ¦   ¦   ¦   expr_str.py
+¦   ¦       ¦   ¦   ¦   group_by.py
+¦   ¦       ¦   ¦   ¦   namespace.py
+¦   ¦       ¦   ¦   ¦   typing.py
+¦   ¦       ¦   ¦   ¦   when_then.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           dataframe.cpython-313.pyc
+¦   ¦       ¦   ¦           expr.cpython-313.pyc
+¦   ¦       ¦   ¦           expr_dt.cpython-313.pyc
+¦   ¦       ¦   ¦           expr_str.cpython-313.pyc
+¦   ¦       ¦   ¦           group_by.cpython-313.pyc
+¦   ¦       ¦   ¦           namespace.cpython-313.pyc
+¦   ¦       ¦   ¦           typing.cpython-313.pyc
+¦   ¦       ¦   ¦           when_then.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---__pycache__
+¦   ¦       ¦           dataframe.cpython-313.pyc
+¦   ¦       ¦           dependencies.cpython-313.pyc
+¦   ¦       ¦           dtypes.cpython-313.pyc
+¦   ¦       ¦           exceptions.cpython-313.pyc
+¦   ¦       ¦           expr.cpython-313.pyc
+¦   ¦       ¦           expr_cat.cpython-313.pyc
+¦   ¦       ¦           expr_dt.cpython-313.pyc
+¦   ¦       ¦           expr_list.cpython-313.pyc
+¦   ¦       ¦           expr_name.cpython-313.pyc
+¦   ¦       ¦           expr_str.cpython-313.pyc
+¦   ¦       ¦           expr_struct.cpython-313.pyc
+¦   ¦       ¦           functions.cpython-313.pyc
+¦   ¦       ¦           group_by.cpython-313.pyc
+¦   ¦       ¦           schema.cpython-313.pyc
+¦   ¦       ¦           selectors.cpython-313.pyc
+¦   ¦       ¦           series.cpython-313.pyc
+¦   ¦       ¦           series_cat.cpython-313.pyc
+¦   ¦       ¦           series_dt.cpython-313.pyc
+¦   ¦       ¦           series_list.cpython-313.pyc
+¦   ¦       ¦           series_str.cpython-313.pyc
+¦   ¦       ¦           series_struct.cpython-313.pyc
+¦   ¦       ¦           this.cpython-313.pyc
+¦   ¦       ¦           translate.cpython-313.pyc
+¦   ¦       ¦           typing.cpython-313.pyc
+¦   ¦       ¦           utils.cpython-313.pyc
+¦   ¦       ¦           _constants.cpython-313.pyc
+¦   ¦       ¦           _duration.cpython-313.pyc
+¦   ¦       ¦           _enum.cpython-313.pyc
+¦   ¦       ¦           _exceptions.cpython-313.pyc
+¦   ¦       ¦           _expression_parsing.cpython-313.pyc
+¦   ¦       ¦           _namespace.cpython-313.pyc
+¦   ¦       ¦           _translate.cpython-313.pyc
+¦   ¦       ¦           _typing.cpython-313.pyc
+¦   ¦       ¦           _typing_compat.cpython-313.pyc
+¦   ¦       ¦           _utils.cpython-313.pyc
+¦   ¦       ¦           __init__.cpython-313.pyc
+¦   ¦       ¦           
+¦   ¦       +---narwhals-2.5.0.dist-info
+¦   ¦       ¦   ¦   INSTALLER
+¦   ¦       ¦   ¦   METADATA
+¦   ¦       ¦   ¦   RECORD
+¦   ¦       ¦   ¦   WHEEL
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---licenses
+¦   ¦       ¦           LICENSE.md
 ¦   ¦       ¦           
 ¦   ¦       +---nbclient
 ¦   ¦       ¦   ¦   cli.py
@@ -19725,6 +20651,13 @@ C:.
 ¦   ¦       ¦           AUTHORS.rst
 ¦   ¦       ¦           LICENSE
 ¦   ¦       ¦           
+¦   ¦       +---protobuf-6.32.1.dist-info
+¦   ¦       ¦       INSTALLER
+¦   ¦       ¦       LICENSE
+¦   ¦       ¦       METADATA
+¦   ¦       ¦       RECORD
+¦   ¦       ¦       WHEEL
+¦   ¦       ¦       
 ¦   ¦       +---psutil
 ¦   ¦       ¦   ¦   _common.py
 ¦   ¦       ¦   ¦   _psaix.py
@@ -21109,6 +22042,124 @@ C:.
 ¦   ¦       ¦   +---licenses
 ¦   ¦       ¦           LICENSE
 ¦   ¦       ¦           
+¦   ¦       +---pydeck
+¦   ¦       ¦   ¦   .DS_Store
+¦   ¦       ¦   ¦   frontend_semver.py
+¦   ¦       ¦   ¦   settings.py
+¦   ¦       ¦   ¦   _version.py
+¦   ¦       ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---bindings
+¦   ¦       ¦   ¦   ¦   base_map_provider.py
+¦   ¦       ¦   ¦   ¦   deck.py
+¦   ¦       ¦   ¦   ¦   json_tools.py
+¦   ¦       ¦   ¦   ¦   layer.py
+¦   ¦       ¦   ¦   ¦   light_settings.py
+¦   ¦       ¦   ¦   ¦   map_styles.py
+¦   ¦       ¦   ¦   ¦   view.py
+¦   ¦       ¦   ¦   ¦   view_state.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           base_map_provider.cpython-313.pyc
+¦   ¦       ¦   ¦           deck.cpython-313.pyc
+¦   ¦       ¦   ¦           json_tools.cpython-313.pyc
+¦   ¦       ¦   ¦           layer.cpython-313.pyc
+¦   ¦       ¦   ¦           light_settings.cpython-313.pyc
+¦   ¦       ¦   ¦           map_styles.cpython-313.pyc
+¦   ¦       ¦   ¦           view.cpython-313.pyc
+¦   ¦       ¦   ¦           view_state.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---data_utils
+¦   ¦       ¦   ¦   ¦   binary_transfer.py
+¦   ¦       ¦   ¦   ¦   color_scales.py
+¦   ¦       ¦   ¦   ¦   type_checking.py
+¦   ¦       ¦   ¦   ¦   viewport_helpers.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           binary_transfer.cpython-313.pyc
+¦   ¦       ¦   ¦           color_scales.cpython-313.pyc
+¦   ¦       ¦   ¦           type_checking.cpython-313.pyc
+¦   ¦       ¦   ¦           viewport_helpers.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---exceptions
+¦   ¦       ¦   ¦   ¦   exceptions.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           exceptions.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---io
+¦   ¦       ¦   ¦   ¦   .DS_Store
+¦   ¦       ¦   ¦   ¦   html.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---templates
+¦   ¦       ¦   ¦   ¦       index.j2
+¦   ¦       ¦   ¦   ¦       style.j2
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           html.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---nbextension
+¦   ¦       ¦   ¦   ¦   .DS_Store
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---static
+¦   ¦       ¦   ¦   ¦       .DS_Store
+¦   ¦       ¦   ¦   ¦       .gitkeep
+¦   ¦       ¦   ¦   ¦       extensionRequires.js
+¦   ¦       ¦   ¦   ¦       index.js
+¦   ¦       ¦   ¦   ¦       index.js.map
+¦   ¦       ¦   ¦   ¦       
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---types
+¦   ¦       ¦   ¦   ¦   base.py
+¦   ¦       ¦   ¦   ¦   function.py
+¦   ¦       ¦   ¦   ¦   image.py
+¦   ¦       ¦   ¦   ¦   string.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           base.cpython-313.pyc
+¦   ¦       ¦   ¦           function.cpython-313.pyc
+¦   ¦       ¦   ¦           image.cpython-313.pyc
+¦   ¦       ¦   ¦           string.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---widget
+¦   ¦       ¦   ¦   ¦   debounce.py
+¦   ¦       ¦   ¦   ¦   widget.py
+¦   ¦       ¦   ¦   ¦   _frontend.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           debounce.cpython-313.pyc
+¦   ¦       ¦   ¦           widget.cpython-313.pyc
+¦   ¦       ¦   ¦           _frontend.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---__pycache__
+¦   ¦       ¦           frontend_semver.cpython-313.pyc
+¦   ¦       ¦           settings.cpython-313.pyc
+¦   ¦       ¦           _version.cpython-313.pyc
+¦   ¦       ¦           __init__.cpython-313.pyc
+¦   ¦       ¦           
+¦   ¦       +---pydeck-0.9.1.dist-info
+¦   ¦       ¦       INSTALLER
+¦   ¦       ¦       LICENSE.txt
+¦   ¦       ¦       METADATA
+¦   ¦       ¦       RECORD
+¦   ¦       ¦       top_level.txt
+¦   ¦       ¦       WHEEL
+¦   ¦       ¦       
 ¦   ¦       +---pygments
 ¦   ¦       ¦   ¦   cmdline.py
 ¦   ¦       ¦   ¦   console.py
@@ -29324,6 +30375,43 @@ C:.
 ¦   ¦       ¦           _min_dependencies.cpython-313.pyc
 ¦   ¦       ¦           __init__.cpython-313.pyc
 ¦   ¦       ¦           
+¦   ¦       +---smmap
+¦   ¦       ¦   ¦   buf.py
+¦   ¦       ¦   ¦   mman.py
+¦   ¦       ¦   ¦   util.py
+¦   ¦       ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---test
+¦   ¦       ¦   ¦   ¦   lib.py
+¦   ¦       ¦   ¦   ¦   test_buf.py
+¦   ¦       ¦   ¦   ¦   test_mman.py
+¦   ¦       ¦   ¦   ¦   test_tutorial.py
+¦   ¦       ¦   ¦   ¦   test_util.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           lib.cpython-313.pyc
+¦   ¦       ¦   ¦           test_buf.cpython-313.pyc
+¦   ¦       ¦   ¦           test_mman.cpython-313.pyc
+¦   ¦       ¦   ¦           test_tutorial.cpython-313.pyc
+¦   ¦       ¦   ¦           test_util.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---__pycache__
+¦   ¦       ¦           buf.cpython-313.pyc
+¦   ¦       ¦           mman.cpython-313.pyc
+¦   ¦       ¦           util.cpython-313.pyc
+¦   ¦       ¦           __init__.cpython-313.pyc
+¦   ¦       ¦           
+¦   ¦       +---smmap-5.0.2.dist-info
+¦   ¦       ¦       INSTALLER
+¦   ¦       ¦       LICENSE
+¦   ¦       ¦       METADATA
+¦   ¦       ¦       RECORD
+¦   ¦       ¦       top_level.txt
+¦   ¦       ¦       WHEEL
+¦   ¦       ¦       zip-safe
+¦   ¦       ¦       
 ¦   ¦       +---sniffio
 ¦   ¦       ¦   ¦   py.typed
 ¦   ¦       ¦   ¦   _impl.py
@@ -32433,6 +33521,1043 @@ C:.
 ¦   ¦       ¦   +---licenses
 ¦   ¦       ¦           LICENSE.txt
 ¦   ¦       ¦           
+¦   ¦       +---streamlit
+¦   ¦       ¦   ¦   auth_util.py
+¦   ¦       ¦   ¦   cli_util.py
+¦   ¦       ¦   ¦   column_config.py
+¦   ¦       ¦   ¦   config.py
+¦   ¦       ¦   ¦   config_option.py
+¦   ¦       ¦   ¦   config_util.py
+¦   ¦       ¦   ¦   cursor.py
+¦   ¦       ¦   ¦   dataframe_util.py
+¦   ¦       ¦   ¦   delta_generator.py
+¦   ¦       ¦   ¦   delta_generator_singletons.py
+¦   ¦       ¦   ¦   deprecation_util.py
+¦   ¦       ¦   ¦   development.py
+¦   ¦       ¦   ¦   emojis.py
+¦   ¦       ¦   ¦   env_util.py
+¦   ¦       ¦   ¦   errors.py
+¦   ¦       ¦   ¦   error_util.py
+¦   ¦       ¦   ¦   file_util.py
+¦   ¦       ¦   ¦   git_util.py
+¦   ¦       ¦   ¦   logger.py
+¦   ¦       ¦   ¦   material_icon_names.py
+¦   ¦       ¦   ¦   net_util.py
+¦   ¦       ¦   ¦   platform.py
+¦   ¦       ¦   ¦   py.typed
+¦   ¦       ¦   ¦   source_util.py
+¦   ¦       ¦   ¦   string_util.py
+¦   ¦       ¦   ¦   temporary_directory.py
+¦   ¦       ¦   ¦   time_util.py
+¦   ¦       ¦   ¦   type_util.py
+¦   ¦       ¦   ¦   url_util.py
+¦   ¦       ¦   ¦   user_info.py
+¦   ¦       ¦   ¦   util.py
+¦   ¦       ¦   ¦   version.py
+¦   ¦       ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   __main__.py
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---commands
+¦   ¦       ¦   ¦   ¦   echo.py
+¦   ¦       ¦   ¦   ¦   execution_control.py
+¦   ¦       ¦   ¦   ¦   experimental_query_params.py
+¦   ¦       ¦   ¦   ¦   logo.py
+¦   ¦       ¦   ¦   ¦   navigation.py
+¦   ¦       ¦   ¦   ¦   page_config.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           echo.cpython-313.pyc
+¦   ¦       ¦   ¦           execution_control.cpython-313.pyc
+¦   ¦       ¦   ¦           experimental_query_params.cpython-313.pyc
+¦   ¦       ¦   ¦           logo.cpython-313.pyc
+¦   ¦       ¦   ¦           navigation.cpython-313.pyc
+¦   ¦       ¦   ¦           page_config.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---components
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---lib
+¦   ¦       ¦   ¦   ¦   ¦   local_component_registry.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           local_component_registry.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---types
+¦   ¦       ¦   ¦   ¦   ¦   base_component_registry.py
+¦   ¦       ¦   ¦   ¦   ¦   base_custom_component.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           base_component_registry.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           base_custom_component.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---v1
+¦   ¦       ¦   ¦   ¦   ¦   components.py
+¦   ¦       ¦   ¦   ¦   ¦   component_arrow.py
+¦   ¦       ¦   ¦   ¦   ¦   component_registry.py
+¦   ¦       ¦   ¦   ¦   ¦   custom_component.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           components.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           component_arrow.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           component_registry.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           custom_component.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---connections
+¦   ¦       ¦   ¦   ¦   base_connection.py
+¦   ¦       ¦   ¦   ¦   snowflake_connection.py
+¦   ¦       ¦   ¦   ¦   snowpark_connection.py
+¦   ¦       ¦   ¦   ¦   sql_connection.py
+¦   ¦       ¦   ¦   ¦   util.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           base_connection.cpython-313.pyc
+¦   ¦       ¦   ¦           snowflake_connection.cpython-313.pyc
+¦   ¦       ¦   ¦           snowpark_connection.cpython-313.pyc
+¦   ¦       ¦   ¦           sql_connection.cpython-313.pyc
+¦   ¦       ¦   ¦           util.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---elements
+¦   ¦       ¦   ¦   ¦   alert.py
+¦   ¦       ¦   ¦   ¦   arrow.py
+¦   ¦       ¦   ¦   ¦   balloons.py
+¦   ¦       ¦   ¦   ¦   bokeh_chart.py
+¦   ¦       ¦   ¦   ¦   code.py
+¦   ¦       ¦   ¦   ¦   deck_gl_json_chart.py
+¦   ¦       ¦   ¦   ¦   dialog_decorator.py
+¦   ¦       ¦   ¦   ¦   doc_string.py
+¦   ¦       ¦   ¦   ¦   empty.py
+¦   ¦       ¦   ¦   ¦   exception.py
+¦   ¦       ¦   ¦   ¦   form.py
+¦   ¦       ¦   ¦   ¦   graphviz_chart.py
+¦   ¦       ¦   ¦   ¦   heading.py
+¦   ¦       ¦   ¦   ¦   html.py
+¦   ¦       ¦   ¦   ¦   iframe.py
+¦   ¦       ¦   ¦   ¦   image.py
+¦   ¦       ¦   ¦   ¦   json.py
+¦   ¦       ¦   ¦   ¦   layouts.py
+¦   ¦       ¦   ¦   ¦   map.py
+¦   ¦       ¦   ¦   ¦   markdown.py
+¦   ¦       ¦   ¦   ¦   media.py
+¦   ¦       ¦   ¦   ¦   metric.py
+¦   ¦       ¦   ¦   ¦   pdf.py
+¦   ¦       ¦   ¦   ¦   plotly_chart.py
+¦   ¦       ¦   ¦   ¦   progress.py
+¦   ¦       ¦   ¦   ¦   pyplot.py
+¦   ¦       ¦   ¦   ¦   snow.py
+¦   ¦       ¦   ¦   ¦   spinner.py
+¦   ¦       ¦   ¦   ¦   text.py
+¦   ¦       ¦   ¦   ¦   toast.py
+¦   ¦       ¦   ¦   ¦   vega_charts.py
+¦   ¦       ¦   ¦   ¦   write.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---lib
+¦   ¦       ¦   ¦   ¦   ¦   built_in_chart_utils.py
+¦   ¦       ¦   ¦   ¦   ¦   color_util.py
+¦   ¦       ¦   ¦   ¦   ¦   column_config_utils.py
+¦   ¦       ¦   ¦   ¦   ¦   column_types.py
+¦   ¦       ¦   ¦   ¦   ¦   dialog.py
+¦   ¦       ¦   ¦   ¦   ¦   dicttools.py
+¦   ¦       ¦   ¦   ¦   ¦   file_uploader_utils.py
+¦   ¦       ¦   ¦   ¦   ¦   form_utils.py
+¦   ¦       ¦   ¦   ¦   ¦   image_utils.py
+¦   ¦       ¦   ¦   ¦   ¦   js_number.py
+¦   ¦       ¦   ¦   ¦   ¦   layout_utils.py
+¦   ¦       ¦   ¦   ¦   ¦   mutable_status_container.py
+¦   ¦       ¦   ¦   ¦   ¦   options_selector_utils.py
+¦   ¦       ¦   ¦   ¦   ¦   pandas_styler_utils.py
+¦   ¦       ¦   ¦   ¦   ¦   policies.py
+¦   ¦       ¦   ¦   ¦   ¦   streamlit_plotly_theme.py
+¦   ¦       ¦   ¦   ¦   ¦   subtitle_utils.py
+¦   ¦       ¦   ¦   ¦   ¦   utils.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           built_in_chart_utils.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           color_util.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           column_config_utils.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           column_types.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           dialog.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           dicttools.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           file_uploader_utils.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           form_utils.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           image_utils.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           js_number.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           layout_utils.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           mutable_status_container.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           options_selector_utils.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           pandas_styler_utils.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           policies.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           streamlit_plotly_theme.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           subtitle_utils.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           utils.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---widgets
+¦   ¦       ¦   ¦   ¦   ¦   audio_input.py
+¦   ¦       ¦   ¦   ¦   ¦   button.py
+¦   ¦       ¦   ¦   ¦   ¦   button_group.py
+¦   ¦       ¦   ¦   ¦   ¦   camera_input.py
+¦   ¦       ¦   ¦   ¦   ¦   chat.py
+¦   ¦       ¦   ¦   ¦   ¦   checkbox.py
+¦   ¦       ¦   ¦   ¦   ¦   color_picker.py
+¦   ¦       ¦   ¦   ¦   ¦   data_editor.py
+¦   ¦       ¦   ¦   ¦   ¦   file_uploader.py
+¦   ¦       ¦   ¦   ¦   ¦   multiselect.py
+¦   ¦       ¦   ¦   ¦   ¦   number_input.py
+¦   ¦       ¦   ¦   ¦   ¦   radio.py
+¦   ¦       ¦   ¦   ¦   ¦   selectbox.py
+¦   ¦       ¦   ¦   ¦   ¦   select_slider.py
+¦   ¦       ¦   ¦   ¦   ¦   slider.py
+¦   ¦       ¦   ¦   ¦   ¦   text_widgets.py
+¦   ¦       ¦   ¦   ¦   ¦   time_widgets.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           audio_input.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           button.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           button_group.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           camera_input.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           chat.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           checkbox.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           color_picker.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           data_editor.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           file_uploader.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           multiselect.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           number_input.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           radio.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           selectbox.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           select_slider.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           slider.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           text_widgets.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           time_widgets.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           alert.cpython-313.pyc
+¦   ¦       ¦   ¦           arrow.cpython-313.pyc
+¦   ¦       ¦   ¦           balloons.cpython-313.pyc
+¦   ¦       ¦   ¦           bokeh_chart.cpython-313.pyc
+¦   ¦       ¦   ¦           code.cpython-313.pyc
+¦   ¦       ¦   ¦           deck_gl_json_chart.cpython-313.pyc
+¦   ¦       ¦   ¦           dialog_decorator.cpython-313.pyc
+¦   ¦       ¦   ¦           doc_string.cpython-313.pyc
+¦   ¦       ¦   ¦           empty.cpython-313.pyc
+¦   ¦       ¦   ¦           exception.cpython-313.pyc
+¦   ¦       ¦   ¦           form.cpython-313.pyc
+¦   ¦       ¦   ¦           graphviz_chart.cpython-313.pyc
+¦   ¦       ¦   ¦           heading.cpython-313.pyc
+¦   ¦       ¦   ¦           html.cpython-313.pyc
+¦   ¦       ¦   ¦           iframe.cpython-313.pyc
+¦   ¦       ¦   ¦           image.cpython-313.pyc
+¦   ¦       ¦   ¦           json.cpython-313.pyc
+¦   ¦       ¦   ¦           layouts.cpython-313.pyc
+¦   ¦       ¦   ¦           map.cpython-313.pyc
+¦   ¦       ¦   ¦           markdown.cpython-313.pyc
+¦   ¦       ¦   ¦           media.cpython-313.pyc
+¦   ¦       ¦   ¦           metric.cpython-313.pyc
+¦   ¦       ¦   ¦           pdf.cpython-313.pyc
+¦   ¦       ¦   ¦           plotly_chart.cpython-313.pyc
+¦   ¦       ¦   ¦           progress.cpython-313.pyc
+¦   ¦       ¦   ¦           pyplot.cpython-313.pyc
+¦   ¦       ¦   ¦           snow.cpython-313.pyc
+¦   ¦       ¦   ¦           spinner.cpython-313.pyc
+¦   ¦       ¦   ¦           text.cpython-313.pyc
+¦   ¦       ¦   ¦           toast.cpython-313.pyc
+¦   ¦       ¦   ¦           vega_charts.cpython-313.pyc
+¦   ¦       ¦   ¦           write.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---external
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---langchain
+¦   ¦       ¦   ¦   ¦   ¦   streamlit_callback_handler.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           streamlit_callback_handler.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---hello
+¦   ¦       ¦   ¦   ¦   animation_demo.py
+¦   ¦       ¦   ¦   ¦   dataframe_demo.py
+¦   ¦       ¦   ¦   ¦   hello.py
+¦   ¦       ¦   ¦   ¦   mapping_demo.py
+¦   ¦       ¦   ¦   ¦   plotting_demo.py
+¦   ¦       ¦   ¦   ¦   streamlit_app.py
+¦   ¦       ¦   ¦   ¦   utils.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           animation_demo.cpython-313.pyc
+¦   ¦       ¦   ¦           dataframe_demo.cpython-313.pyc
+¦   ¦       ¦   ¦           hello.cpython-313.pyc
+¦   ¦       ¦   ¦           mapping_demo.cpython-313.pyc
+¦   ¦       ¦   ¦           plotting_demo.cpython-313.pyc
+¦   ¦       ¦   ¦           streamlit_app.cpython-313.pyc
+¦   ¦       ¦   ¦           utils.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---navigation
+¦   ¦       ¦   ¦   ¦   page.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           page.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---proto
+¦   ¦       ¦   ¦   ¦   Alert_pb2.py
+¦   ¦       ¦   ¦   ¦   Alert_pb2.pyi
+¦   ¦       ¦   ¦   ¦   AppPage_pb2.py
+¦   ¦       ¦   ¦   ¦   AppPage_pb2.pyi
+¦   ¦       ¦   ¦   ¦   ArrowNamedDataSet_pb2.py
+¦   ¦       ¦   ¦   ¦   ArrowNamedDataSet_pb2.pyi
+¦   ¦       ¦   ¦   ¦   ArrowVegaLiteChart_pb2.py
+¦   ¦       ¦   ¦   ¦   ArrowVegaLiteChart_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Arrow_pb2.py
+¦   ¦       ¦   ¦   ¦   Arrow_pb2.pyi
+¦   ¦       ¦   ¦   ¦   AudioInput_pb2.py
+¦   ¦       ¦   ¦   ¦   AudioInput_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Audio_pb2.py
+¦   ¦       ¦   ¦   ¦   Audio_pb2.pyi
+¦   ¦       ¦   ¦   ¦   AuthRedirect_pb2.py
+¦   ¦       ¦   ¦   ¦   AuthRedirect_pb2.pyi
+¦   ¦       ¦   ¦   ¦   AutoRerun_pb2.py
+¦   ¦       ¦   ¦   ¦   AutoRerun_pb2.pyi
+¦   ¦       ¦   ¦   ¦   BackMsg_pb2.py
+¦   ¦       ¦   ¦   ¦   BackMsg_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Balloons_pb2.py
+¦   ¦       ¦   ¦   ¦   Balloons_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Block_pb2.py
+¦   ¦       ¦   ¦   ¦   Block_pb2.pyi
+¦   ¦       ¦   ¦   ¦   BokehChart_pb2.py
+¦   ¦       ¦   ¦   ¦   BokehChart_pb2.pyi
+¦   ¦       ¦   ¦   ¦   ButtonGroup_pb2.py
+¦   ¦       ¦   ¦   ¦   ButtonGroup_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Button_pb2.py
+¦   ¦       ¦   ¦   ¦   Button_pb2.pyi
+¦   ¦       ¦   ¦   ¦   CameraInput_pb2.py
+¦   ¦       ¦   ¦   ¦   CameraInput_pb2.pyi
+¦   ¦       ¦   ¦   ¦   ChatInput_pb2.py
+¦   ¦       ¦   ¦   ¦   ChatInput_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Checkbox_pb2.py
+¦   ¦       ¦   ¦   ¦   Checkbox_pb2.pyi
+¦   ¦       ¦   ¦   ¦   ClientState_pb2.py
+¦   ¦       ¦   ¦   ¦   ClientState_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Code_pb2.py
+¦   ¦       ¦   ¦   ¦   Code_pb2.pyi
+¦   ¦       ¦   ¦   ¦   ColorPicker_pb2.py
+¦   ¦       ¦   ¦   ¦   ColorPicker_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Common_pb2.py
+¦   ¦       ¦   ¦   ¦   Common_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Components_pb2.py
+¦   ¦       ¦   ¦   ¦   Components_pb2.pyi
+¦   ¦       ¦   ¦   ¦   DataFrame_pb2.py
+¦   ¦       ¦   ¦   ¦   DataFrame_pb2.pyi
+¦   ¦       ¦   ¦   ¦   DateInput_pb2.py
+¦   ¦       ¦   ¦   ¦   DateInput_pb2.pyi
+¦   ¦       ¦   ¦   ¦   DeckGlJsonChart_pb2.py
+¦   ¦       ¦   ¦   ¦   DeckGlJsonChart_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Delta_pb2.py
+¦   ¦       ¦   ¦   ¦   Delta_pb2.pyi
+¦   ¦       ¦   ¦   ¦   DocString_pb2.py
+¦   ¦       ¦   ¦   ¦   DocString_pb2.pyi
+¦   ¦       ¦   ¦   ¦   DownloadButton_pb2.py
+¦   ¦       ¦   ¦   ¦   DownloadButton_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Element_pb2.py
+¦   ¦       ¦   ¦   ¦   Element_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Empty_pb2.py
+¦   ¦       ¦   ¦   ¦   Empty_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Exception_pb2.py
+¦   ¦       ¦   ¦   ¦   Exception_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Favicon_pb2.py
+¦   ¦       ¦   ¦   ¦   Favicon_pb2.pyi
+¦   ¦       ¦   ¦   ¦   FileUploader_pb2.py
+¦   ¦       ¦   ¦   ¦   FileUploader_pb2.pyi
+¦   ¦       ¦   ¦   ¦   ForwardMsg_pb2.py
+¦   ¦       ¦   ¦   ¦   ForwardMsg_pb2.pyi
+¦   ¦       ¦   ¦   ¦   GapSize_pb2.py
+¦   ¦       ¦   ¦   ¦   GapSize_pb2.pyi
+¦   ¦       ¦   ¦   ¦   GitInfo_pb2.py
+¦   ¦       ¦   ¦   ¦   GitInfo_pb2.pyi
+¦   ¦       ¦   ¦   ¦   GraphVizChart_pb2.py
+¦   ¦       ¦   ¦   ¦   GraphVizChart_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Heading_pb2.py
+¦   ¦       ¦   ¦   ¦   Heading_pb2.pyi
+¦   ¦       ¦   ¦   ¦   HeightConfig_pb2.py
+¦   ¦       ¦   ¦   ¦   HeightConfig_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Html_pb2.py
+¦   ¦       ¦   ¦   ¦   Html_pb2.pyi
+¦   ¦       ¦   ¦   ¦   IFrame_pb2.py
+¦   ¦       ¦   ¦   ¦   IFrame_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Image_pb2.py
+¦   ¦       ¦   ¦   ¦   Image_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Json_pb2.py
+¦   ¦       ¦   ¦   ¦   Json_pb2.pyi
+¦   ¦       ¦   ¦   ¦   LabelVisibilityMessage_pb2.py
+¦   ¦       ¦   ¦   ¦   LabelVisibilityMessage_pb2.pyi
+¦   ¦       ¦   ¦   ¦   LinkButton_pb2.py
+¦   ¦       ¦   ¦   ¦   LinkButton_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Logo_pb2.py
+¦   ¦       ¦   ¦   ¦   Logo_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Markdown_pb2.py
+¦   ¦       ¦   ¦   ¦   Markdown_pb2.pyi
+¦   ¦       ¦   ¦   ¦   MetricsEvent_pb2.py
+¦   ¦       ¦   ¦   ¦   MetricsEvent_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Metric_pb2.py
+¦   ¦       ¦   ¦   ¦   Metric_pb2.pyi
+¦   ¦       ¦   ¦   ¦   MultiSelect_pb2.py
+¦   ¦       ¦   ¦   ¦   MultiSelect_pb2.pyi
+¦   ¦       ¦   ¦   ¦   NamedDataSet_pb2.py
+¦   ¦       ¦   ¦   ¦   NamedDataSet_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Navigation_pb2.py
+¦   ¦       ¦   ¦   ¦   Navigation_pb2.pyi
+¦   ¦       ¦   ¦   ¦   NewSession_pb2.py
+¦   ¦       ¦   ¦   ¦   NewSession_pb2.pyi
+¦   ¦       ¦   ¦   ¦   NumberInput_pb2.py
+¦   ¦       ¦   ¦   ¦   NumberInput_pb2.pyi
+¦   ¦       ¦   ¦   ¦   openmetrics_data_model_pb2.py
+¦   ¦       ¦   ¦   ¦   openmetrics_data_model_pb2.pyi
+¦   ¦       ¦   ¦   ¦   PageConfig_pb2.py
+¦   ¦       ¦   ¦   ¦   PageConfig_pb2.pyi
+¦   ¦       ¦   ¦   ¦   PageInfo_pb2.py
+¦   ¦       ¦   ¦   ¦   PageInfo_pb2.pyi
+¦   ¦       ¦   ¦   ¦   PageLink_pb2.py
+¦   ¦       ¦   ¦   ¦   PageLink_pb2.pyi
+¦   ¦       ¦   ¦   ¦   PageNotFound_pb2.py
+¦   ¦       ¦   ¦   ¦   PageNotFound_pb2.pyi
+¦   ¦       ¦   ¦   ¦   PageProfile_pb2.py
+¦   ¦       ¦   ¦   ¦   PageProfile_pb2.pyi
+¦   ¦       ¦   ¦   ¦   PagesChanged_pb2.py
+¦   ¦       ¦   ¦   ¦   PagesChanged_pb2.pyi
+¦   ¦       ¦   ¦   ¦   ParentMessage_pb2.py
+¦   ¦       ¦   ¦   ¦   ParentMessage_pb2.pyi
+¦   ¦       ¦   ¦   ¦   PlotlyChart_pb2.py
+¦   ¦       ¦   ¦   ¦   PlotlyChart_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Progress_pb2.py
+¦   ¦       ¦   ¦   ¦   Progress_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Radio_pb2.py
+¦   ¦       ¦   ¦   ¦   Radio_pb2.pyi
+¦   ¦       ¦   ¦   ¦   RootContainer_pb2.py
+¦   ¦       ¦   ¦   ¦   RootContainer_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Selectbox_pb2.py
+¦   ¦       ¦   ¦   ¦   Selectbox_pb2.pyi
+¦   ¦       ¦   ¦   ¦   SessionEvent_pb2.py
+¦   ¦       ¦   ¦   ¦   SessionEvent_pb2.pyi
+¦   ¦       ¦   ¦   ¦   SessionStatus_pb2.py
+¦   ¦       ¦   ¦   ¦   SessionStatus_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Skeleton_pb2.py
+¦   ¦       ¦   ¦   ¦   Skeleton_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Slider_pb2.py
+¦   ¦       ¦   ¦   ¦   Slider_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Snow_pb2.py
+¦   ¦       ¦   ¦   ¦   Snow_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Spinner_pb2.py
+¦   ¦       ¦   ¦   ¦   Spinner_pb2.pyi
+¦   ¦       ¦   ¦   ¦   TextArea_pb2.py
+¦   ¦       ¦   ¦   ¦   TextArea_pb2.pyi
+¦   ¦       ¦   ¦   ¦   TextInput_pb2.py
+¦   ¦       ¦   ¦   ¦   TextInput_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Text_pb2.py
+¦   ¦       ¦   ¦   ¦   Text_pb2.pyi
+¦   ¦       ¦   ¦   ¦   TimeInput_pb2.py
+¦   ¦       ¦   ¦   ¦   TimeInput_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Toast_pb2.py
+¦   ¦       ¦   ¦   ¦   Toast_pb2.pyi
+¦   ¦       ¦   ¦   ¦   VegaLiteChart_pb2.py
+¦   ¦       ¦   ¦   ¦   VegaLiteChart_pb2.pyi
+¦   ¦       ¦   ¦   ¦   Video_pb2.py
+¦   ¦       ¦   ¦   ¦   Video_pb2.pyi
+¦   ¦       ¦   ¦   ¦   WidgetStates_pb2.py
+¦   ¦       ¦   ¦   ¦   WidgetStates_pb2.pyi
+¦   ¦       ¦   ¦   ¦   WidthConfig_pb2.py
+¦   ¦       ¦   ¦   ¦   WidthConfig_pb2.pyi
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           Alert_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           AppPage_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           ArrowNamedDataSet_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           ArrowVegaLiteChart_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Arrow_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           AudioInput_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Audio_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           AuthRedirect_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           AutoRerun_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           BackMsg_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Balloons_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Block_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           BokehChart_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           ButtonGroup_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Button_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           CameraInput_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           ChatInput_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Checkbox_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           ClientState_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Code_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           ColorPicker_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Common_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Components_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           DataFrame_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           DateInput_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           DeckGlJsonChart_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Delta_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           DocString_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           DownloadButton_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Element_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Empty_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Exception_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Favicon_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           FileUploader_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           ForwardMsg_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           GapSize_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           GitInfo_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           GraphVizChart_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Heading_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           HeightConfig_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Html_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           IFrame_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Image_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Json_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           LabelVisibilityMessage_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           LinkButton_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Logo_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Markdown_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           MetricsEvent_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Metric_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           MultiSelect_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           NamedDataSet_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Navigation_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           NewSession_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           NumberInput_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           openmetrics_data_model_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           PageConfig_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           PageInfo_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           PageLink_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           PageNotFound_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           PageProfile_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           PagesChanged_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           ParentMessage_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           PlotlyChart_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Progress_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Radio_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           RootContainer_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Selectbox_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           SessionEvent_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           SessionStatus_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Skeleton_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Slider_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Snow_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Spinner_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           TextArea_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           TextInput_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Text_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           TimeInput_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Toast_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           VegaLiteChart_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           Video_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           WidgetStates_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           WidthConfig_pb2.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---runtime
+¦   ¦       ¦   ¦   ¦   app_session.py
+¦   ¦       ¦   ¦   ¦   connection_factory.py
+¦   ¦       ¦   ¦   ¦   context.py
+¦   ¦       ¦   ¦   ¦   context_util.py
+¦   ¦       ¦   ¦   ¦   credentials.py
+¦   ¦       ¦   ¦   ¦   forward_msg_cache.py
+¦   ¦       ¦   ¦   ¦   forward_msg_queue.py
+¦   ¦       ¦   ¦   ¦   fragment.py
+¦   ¦       ¦   ¦   ¦   media_file_manager.py
+¦   ¦       ¦   ¦   ¦   media_file_storage.py
+¦   ¦       ¦   ¦   ¦   memory_media_file_storage.py
+¦   ¦       ¦   ¦   ¦   memory_session_storage.py
+¦   ¦       ¦   ¦   ¦   memory_uploaded_file_manager.py
+¦   ¦       ¦   ¦   ¦   metrics_util.py
+¦   ¦       ¦   ¦   ¦   pages_manager.py
+¦   ¦       ¦   ¦   ¦   runtime.py
+¦   ¦       ¦   ¦   ¦   runtime_util.py
+¦   ¦       ¦   ¦   ¦   script_data.py
+¦   ¦       ¦   ¦   ¦   secrets.py
+¦   ¦       ¦   ¦   ¦   session_manager.py
+¦   ¦       ¦   ¦   ¦   stats.py
+¦   ¦       ¦   ¦   ¦   uploaded_file_manager.py
+¦   ¦       ¦   ¦   ¦   websocket_session_manager.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---caching
+¦   ¦       ¦   ¦   ¦   ¦   cached_message_replay.py
+¦   ¦       ¦   ¦   ¦   ¦   cache_data_api.py
+¦   ¦       ¦   ¦   ¦   ¦   cache_errors.py
+¦   ¦       ¦   ¦   ¦   ¦   cache_resource_api.py
+¦   ¦       ¦   ¦   ¦   ¦   cache_type.py
+¦   ¦       ¦   ¦   ¦   ¦   cache_utils.py
+¦   ¦       ¦   ¦   ¦   ¦   hashing.py
+¦   ¦       ¦   ¦   ¦   ¦   legacy_cache_api.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---storage
+¦   ¦       ¦   ¦   ¦   ¦   ¦   cache_storage_protocol.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   dummy_cache_storage.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   in_memory_cache_storage_wrapper.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   local_disk_cache_storage.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦   ¦           cache_storage_protocol.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           dummy_cache_storage.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           in_memory_cache_storage_wrapper.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           local_disk_cache_storage.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦   ¦           
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           cached_message_replay.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           cache_data_api.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           cache_errors.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           cache_resource_api.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           cache_type.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           cache_utils.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           hashing.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           legacy_cache_api.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---scriptrunner
+¦   ¦       ¦   ¦   ¦   ¦   exec_code.py
+¦   ¦       ¦   ¦   ¦   ¦   magic.py
+¦   ¦       ¦   ¦   ¦   ¦   magic_funcs.py
+¦   ¦       ¦   ¦   ¦   ¦   script_cache.py
+¦   ¦       ¦   ¦   ¦   ¦   script_runner.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           exec_code.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           magic.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           magic_funcs.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           script_cache.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           script_runner.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---scriptrunner_utils
+¦   ¦       ¦   ¦   ¦   ¦   exceptions.py
+¦   ¦       ¦   ¦   ¦   ¦   script_requests.py
+¦   ¦       ¦   ¦   ¦   ¦   script_run_context.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           exceptions.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           script_requests.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           script_run_context.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---state
+¦   ¦       ¦   ¦   ¦   ¦   common.py
+¦   ¦       ¦   ¦   ¦   ¦   query_params.py
+¦   ¦       ¦   ¦   ¦   ¦   query_params_proxy.py
+¦   ¦       ¦   ¦   ¦   ¦   safe_session_state.py
+¦   ¦       ¦   ¦   ¦   ¦   session_state.py
+¦   ¦       ¦   ¦   ¦   ¦   session_state_proxy.py
+¦   ¦       ¦   ¦   ¦   ¦   widgets.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           common.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           query_params.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           query_params_proxy.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           safe_session_state.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           session_state.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           session_state_proxy.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           widgets.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           app_session.cpython-313.pyc
+¦   ¦       ¦   ¦           connection_factory.cpython-313.pyc
+¦   ¦       ¦   ¦           context.cpython-313.pyc
+¦   ¦       ¦   ¦           context_util.cpython-313.pyc
+¦   ¦       ¦   ¦           credentials.cpython-313.pyc
+¦   ¦       ¦   ¦           forward_msg_cache.cpython-313.pyc
+¦   ¦       ¦   ¦           forward_msg_queue.cpython-313.pyc
+¦   ¦       ¦   ¦           fragment.cpython-313.pyc
+¦   ¦       ¦   ¦           media_file_manager.cpython-313.pyc
+¦   ¦       ¦   ¦           media_file_storage.cpython-313.pyc
+¦   ¦       ¦   ¦           memory_media_file_storage.cpython-313.pyc
+¦   ¦       ¦   ¦           memory_session_storage.cpython-313.pyc
+¦   ¦       ¦   ¦           memory_uploaded_file_manager.cpython-313.pyc
+¦   ¦       ¦   ¦           metrics_util.cpython-313.pyc
+¦   ¦       ¦   ¦           pages_manager.cpython-313.pyc
+¦   ¦       ¦   ¦           runtime.cpython-313.pyc
+¦   ¦       ¦   ¦           runtime_util.cpython-313.pyc
+¦   ¦       ¦   ¦           script_data.cpython-313.pyc
+¦   ¦       ¦   ¦           secrets.cpython-313.pyc
+¦   ¦       ¦   ¦           session_manager.cpython-313.pyc
+¦   ¦       ¦   ¦           stats.cpython-313.pyc
+¦   ¦       ¦   ¦           uploaded_file_manager.cpython-313.pyc
+¦   ¦       ¦   ¦           websocket_session_manager.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---static
+¦   ¦       ¦   ¦   ¦   favicon.png
+¦   ¦       ¦   ¦   ¦   index.html
+¦   ¦       ¦   ¦   ¦   manifest.json
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---static
+¦   ¦       ¦   ¦       +---css
+¦   ¦       ¦   ¦       ¦       index.C8X8rNzw.css
+¦   ¦       ¦   ¦       ¦       index.COe1010n.css
+¦   ¦       ¦   ¦       ¦       index.DzuxGC_t.css
+¦   ¦       ¦   ¦       ¦       
+¦   ¦       ¦   ¦       +---js
+¦   ¦       ¦   ¦       ¦       base-input.CK3UVGp1.js
+¦   ¦       ¦   ¦       ¦       checkbox.D8W881TL.js
+¦   ¦       ¦   ¦       ¦       createDownloadLinkElement.ZaXNnPK4.js
+¦   ¦       ¦   ¦       ¦       createSuper.B6W-Dh9S.js
+¦   ¦       ¦   ¦       ¦       data-grid-overlay-editor.DRTHOydk.js
+¦   ¦       ¦   ¦       ¦       downloader.DiKpuU_S.js
+¦   ¦       ¦   ¦       ¦       ErrorOutline.esm.DcGrhbBP.js
+¦   ¦       ¦   ¦       ¦       es6.B8zRNPZ-.js
+¦   ¦       ¦   ¦       ¦       FileDownload.esm.DgBvV6Pq.js
+¦   ¦       ¦   ¦       ¦       FileHelper.M6AAaeuA.js
+¦   ¦       ¦   ¦       ¦       FormClearHelper.DHh1GFzm.js
+¦   ¦       ¦   ¦       ¦       Hooks.DGu1od_L.js
+¦   ¦       ¦   ¦       ¦       iframeResizer.contentWindow.DIewJmmh.js
+¦   ¦       ¦   ¦       ¦       index.452cqrrL.js
+¦   ¦       ¦   ¦       ¦       index.4eF4NxG2.js
+¦   ¦       ¦   ¦       ¦       index.B6U8LQo3.js
+¦   ¦       ¦   ¦       ¦       index.B9mjBcgE.js
+¦   ¦       ¦   ¦       ¦       index.Bl7zGQSh.js
+¦   ¦       ¦   ¦       ¦       index.BnEpvLEz.js
+¦   ¦       ¦   ¦       ¦       index.BnJIOYn9.js
+¦   ¦       ¦   ¦       ¦       index.Bte_9Lyq.js
+¦   ¦       ¦   ¦       ¦       index.BXYmrqnf.js
+¦   ¦       ¦   ¦       ¦       index.B_8AnktO.js
+¦   ¦       ¦   ¦       ¦       index.C1HcTl5K.js
+¦   ¦       ¦   ¦       ¦       index.C7fRKRs4.js
+¦   ¦       ¦   ¦       ¦       index.C7lSmSOP.js
+¦   ¦       ¦   ¦       ¦       index.CcJf6BCU.js
+¦   ¦       ¦   ¦       ¦       index.CD8HuT3N.js
+¦   ¦       ¦   ¦       ¦       index.CejBxbg1.js
+¦   ¦       ¦   ¦       ¦       index.Ch7MBCx0.js
+¦   ¦       ¦   ¦       ¦       index.CjXWwH-y.js
+¦   ¦       ¦   ¦       ¦       index.cnnXF7xQ.js
+¦   ¦       ¦   ¦       ¦       index.CP5TD2z1.js
+¦   ¦       ¦   ¦       ¦       index.CvYYtxD_.js
+¦   ¦       ¦   ¦       ¦       index.C_tmcx4B.js
+¦   ¦       ¦   ¦       ¦       index.D2-atlaQ.js
+¦   ¦       ¦   ¦       ¦       index.D3K5nOu9.js
+¦   ¦       ¦   ¦       ¦       index.D5naqx-J.js
+¦   ¦       ¦   ¦       ¦       index.Dk4C7X3i.js
+¦   ¦       ¦   ¦       ¦       index.DkKT3LUI.js
+¦   ¦       ¦   ¦       ¦       index.DtYN2x4k.js
+¦   ¦       ¦   ¦       ¦       index.ho6NIXGl.js
+¦   ¦       ¦   ¦       ¦       index.MTPPBDHk.js
+¦   ¦       ¦   ¦       ¦       index.pqW9AMJD.js
+¦   ¦       ¦   ¦       ¦       index.qhs54UAB.js
+¦   ¦       ¦   ¦       ¦       index.Ts_0SdB9.js
+¦   ¦       ¦   ¦       ¦       index.urHgTgMQ.js
+¦   ¦       ¦   ¦       ¦       index.wzkv_11M.js
+¦   ¦       ¦   ¦       ¦       index.yF5AncHY.js
+¦   ¦       ¦   ¦       ¦       index.zecpGxtj.js
+¦   ¦       ¦   ¦       ¦       input.nzVJphXi.js
+¦   ¦       ¦   ¦       ¦       InputInstructions.z6sVgyYt.js
+¦   ¦       ¦   ¦       ¦       inputUtils.CptNuJwn.js
+¦   ¦       ¦   ¦       ¦       memory.CjCgTQz3.js
+¦   ¦       ¦   ¦       ¦       number-overlay-editor.DaRFzZEO.js
+¦   ¦       ¦   ¦       ¦       Particles.DDVT-6Qc.js
+¦   ¦       ¦   ¦       ¦       possibleConstructorReturn.DgiPnZ9N.js
+¦   ¦       ¦   ¦       ¦       ProgressBar.BEY0cXXV.js
+¦   ¦       ¦   ¦       ¦       sandbox.mithfq7Z.js
+¦   ¦       ¦   ¦       ¦       sprintf.D7DtBTRn.js
+¦   ¦       ¦   ¦       ¦       timepicker.Dbl5KFh6.js
+¦   ¦       ¦   ¦       ¦       toConsumableArray.D-Dx88BQ.js
+¦   ¦       ¦   ¦       ¦       Toolbar.DSnK1fUh.js
+¦   ¦       ¦   ¦       ¦       uniqueId.Bh26R_3S.js
+¦   ¦       ¦   ¦       ¦       UploadFileInfo.C-jY39rj.js
+¦   ¦       ¦   ¦       ¦       useBasicWidgetState.DeK-QJpD.js
+¦   ¦       ¦   ¦       ¦       useTextInputAutoExpand.4iAdLWD-.js
+¦   ¦       ¦   ¦       ¦       useUpdateUiValue.CmT7_nJN.js
+¦   ¦       ¦   ¦       ¦       withFullScreenWrapper.DLp1ENGm.js
+¦   ¦       ¦   ¦       ¦       
+¦   ¦       ¦   ¦       +---media
+¦   ¦       ¦   ¦               balloon-0.Czj7AKwE.png
+¦   ¦       ¦   ¦               balloon-1.CNvFFrND.png
+¦   ¦       ¦   ¦               balloon-2.DTvC6B1t.png
+¦   ¦       ¦   ¦               balloon-3.CgSk4tbL.png
+¦   ¦       ¦   ¦               balloon-4.mbtFrzxf.png
+¦   ¦       ¦   ¦               balloon-5.CSwkUfRA.png
+¦   ¦       ¦   ¦               fireworks.B4d-_KUe.gif
+¦   ¦       ¦   ¦               flake-0.DgWaVvm5.png
+¦   ¦       ¦   ¦               flake-1.B2r5AHMK.png
+¦   ¦       ¦   ¦               flake-2.BnWSExPC.png
+¦   ¦       ¦   ¦               KaTeX_AMS-Regular.BQhdFMY1.woff2
+¦   ¦       ¦   ¦               KaTeX_AMS-Regular.DMm9YOAa.woff
+¦   ¦       ¦   ¦               KaTeX_AMS-Regular.DRggAlZN.ttf
+¦   ¦       ¦   ¦               KaTeX_Caligraphic-Bold.ATXxdsX0.ttf
+¦   ¦       ¦   ¦               KaTeX_Caligraphic-Bold.BEiXGLvX.woff
+¦   ¦       ¦   ¦               KaTeX_Caligraphic-Bold.Dq_IR9rO.woff2
+¦   ¦       ¦   ¦               KaTeX_Caligraphic-Regular.CTRA-rTL.woff
+¦   ¦       ¦   ¦               KaTeX_Caligraphic-Regular.Di6jR-x-.woff2
+¦   ¦       ¦   ¦               KaTeX_Caligraphic-Regular.wX97UBjC.ttf
+¦   ¦       ¦   ¦               KaTeX_Fraktur-Bold.BdnERNNW.ttf
+¦   ¦       ¦   ¦               KaTeX_Fraktur-Bold.BsDP51OF.woff
+¦   ¦       ¦   ¦               KaTeX_Fraktur-Bold.CL6g_b3V.woff2
+¦   ¦       ¦   ¦               KaTeX_Fraktur-Regular.CB_wures.ttf
+¦   ¦       ¦   ¦               KaTeX_Fraktur-Regular.CTYiF6lA.woff2
+¦   ¦       ¦   ¦               KaTeX_Fraktur-Regular.Dxdc4cR9.woff
+¦   ¦       ¦   ¦               KaTeX_Main-Bold.Cx986IdX.woff2
+¦   ¦       ¦   ¦               KaTeX_Main-Bold.Jm3AIy58.woff
+¦   ¦       ¦   ¦               KaTeX_Main-Bold.waoOVXN0.ttf
+¦   ¦       ¦   ¦               KaTeX_Main-BoldItalic.DxDJ3AOS.woff2
+¦   ¦       ¦   ¦               KaTeX_Main-BoldItalic.DzxPMmG6.ttf
+¦   ¦       ¦   ¦               KaTeX_Main-BoldItalic.SpSLRI95.woff
+¦   ¦       ¦   ¦               KaTeX_Main-Italic.3WenGoN9.ttf
+¦   ¦       ¦   ¦               KaTeX_Main-Italic.BMLOBm91.woff
+¦   ¦       ¦   ¦               KaTeX_Main-Italic.NWA7e6Wa.woff2
+¦   ¦       ¦   ¦               KaTeX_Main-Regular.B22Nviop.woff2
+¦   ¦       ¦   ¦               KaTeX_Main-Regular.Dr94JaBh.woff
+¦   ¦       ¦   ¦               KaTeX_Main-Regular.ypZvNtVU.ttf
+¦   ¦       ¦   ¦               KaTeX_Math-BoldItalic.B3XSjfu4.ttf
+¦   ¦       ¦   ¦               KaTeX_Math-BoldItalic.CZnvNsCZ.woff2
+¦   ¦       ¦   ¦               KaTeX_Math-BoldItalic.iY-2wyZ7.woff
+¦   ¦       ¦   ¦               KaTeX_Math-Italic.DA0__PXp.woff
+¦   ¦       ¦   ¦               KaTeX_Math-Italic.flOr_0UB.ttf
+¦   ¦       ¦   ¦               KaTeX_Math-Italic.t53AETM-.woff2
+¦   ¦       ¦   ¦               KaTeX_SansSerif-Bold.CFMepnvq.ttf
+¦   ¦       ¦   ¦               KaTeX_SansSerif-Bold.D1sUS0GD.woff2
+¦   ¦       ¦   ¦               KaTeX_SansSerif-Bold.DbIhKOiC.woff
+¦   ¦       ¦   ¦               KaTeX_SansSerif-Italic.C3H0VqGB.woff2
+¦   ¦       ¦   ¦               KaTeX_SansSerif-Italic.DN2j7dab.woff
+¦   ¦       ¦   ¦               KaTeX_SansSerif-Italic.YYjJ1zSn.ttf
+¦   ¦       ¦   ¦               KaTeX_SansSerif-Regular.BNo7hRIc.ttf
+¦   ¦       ¦   ¦               KaTeX_SansSerif-Regular.CS6fqUqJ.woff
+¦   ¦       ¦   ¦               KaTeX_SansSerif-Regular.DDBCnlJ7.woff2
+¦   ¦       ¦   ¦               KaTeX_Script-Regular.C5JkGWo-.ttf
+¦   ¦       ¦   ¦               KaTeX_Script-Regular.D3wIWfF6.woff2
+¦   ¦       ¦   ¦               KaTeX_Script-Regular.D5yQViql.woff
+¦   ¦       ¦   ¦               KaTeX_Size1-Regular.C195tn64.woff
+¦   ¦       ¦   ¦               KaTeX_Size1-Regular.Dbsnue_I.ttf
+¦   ¦       ¦   ¦               KaTeX_Size1-Regular.mCD8mA8B.woff2
+¦   ¦       ¦   ¦               KaTeX_Size2-Regular.B7gKUWhC.ttf
+¦   ¦       ¦   ¦               KaTeX_Size2-Regular.Dy4dx90m.woff2
+¦   ¦       ¦   ¦               KaTeX_Size2-Regular.oD1tc_U0.woff
+¦   ¦       ¦   ¦               KaTeX_Size3-Regular.CTq5MqoE.woff
+¦   ¦       ¦   ¦               KaTeX_Size3-Regular.DgpXs0kz.ttf
+¦   ¦       ¦   ¦               KaTeX_Size4-Regular.BF-4gkZK.woff
+¦   ¦       ¦   ¦               KaTeX_Size4-Regular.Dl5lxZxV.woff2
+¦   ¦       ¦   ¦               KaTeX_Size4-Regular.DWFBv043.ttf
+¦   ¦       ¦   ¦               KaTeX_Typewriter-Regular.C0xS9mPB.woff
+¦   ¦       ¦   ¦               KaTeX_Typewriter-Regular.CO6r4hn1.woff2
+¦   ¦       ¦   ¦               KaTeX_Typewriter-Regular.D3Ib7_Hf.ttf
+¦   ¦       ¦   ¦               MaterialSymbols-Rounded.CBxVaFdk.woff2
+¦   ¦       ¦   ¦               snowflake.JU2jBHL8.svg
+¦   ¦       ¦   ¦               SourceCodeVF-Italic.ttf.Ba1oaZG1.woff2
+¦   ¦       ¦   ¦               SourceCodeVF-Upright.ttf.BjWn63N-.woff2
+¦   ¦       ¦   ¦               SourceSansVF-Italic.ttf.Bt9VkdQ3.woff2
+¦   ¦       ¦   ¦               SourceSansVF-Upright.ttf.BsWL4Kly.woff2
+¦   ¦       ¦   ¦               SourceSerifVariable-Italic.ttf.CVdzAtxO.woff2
+¦   ¦       ¦   ¦               SourceSerifVariable-Roman.ttf.mdpVL9bi.woff2
+¦   ¦       ¦   ¦               
+¦   ¦       ¦   +---testing
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---v1
+¦   ¦       ¦   ¦   ¦   ¦   app_test.py
+¦   ¦       ¦   ¦   ¦   ¦   element_tree.py
+¦   ¦       ¦   ¦   ¦   ¦   local_script_runner.py
+¦   ¦       ¦   ¦   ¦   ¦   util.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           app_test.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           element_tree.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           local_script_runner.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           util.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---vendor
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---pympler
+¦   ¦       ¦   ¦   ¦   ¦   asizeof.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           asizeof.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---watcher
+¦   ¦       ¦   ¦   ¦   event_based_path_watcher.py
+¦   ¦       ¦   ¦   ¦   folder_black_list.py
+¦   ¦       ¦   ¦   ¦   local_sources_watcher.py
+¦   ¦       ¦   ¦   ¦   path_watcher.py
+¦   ¦       ¦   ¦   ¦   polling_path_watcher.py
+¦   ¦       ¦   ¦   ¦   util.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           event_based_path_watcher.cpython-313.pyc
+¦   ¦       ¦   ¦           folder_black_list.cpython-313.pyc
+¦   ¦       ¦   ¦           local_sources_watcher.cpython-313.pyc
+¦   ¦       ¦   ¦           path_watcher.cpython-313.pyc
+¦   ¦       ¦   ¦           polling_path_watcher.cpython-313.pyc
+¦   ¦       ¦   ¦           util.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---web
+¦   ¦       ¦   ¦   ¦   bootstrap.py
+¦   ¦       ¦   ¦   ¦   cache_storage_manager_config.py
+¦   ¦       ¦   ¦   ¦   cli.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---server
+¦   ¦       ¦   ¦   ¦   ¦   app_static_file_handler.py
+¦   ¦       ¦   ¦   ¦   ¦   authlib_tornado_integration.py
+¦   ¦       ¦   ¦   ¦   ¦   browser_websocket_handler.py
+¦   ¦       ¦   ¦   ¦   ¦   component_request_handler.py
+¦   ¦       ¦   ¦   ¦   ¦   media_file_handler.py
+¦   ¦       ¦   ¦   ¦   ¦   oauth_authlib_routes.py
+¦   ¦       ¦   ¦   ¦   ¦   oidc_mixin.py
+¦   ¦       ¦   ¦   ¦   ¦   routes.py
+¦   ¦       ¦   ¦   ¦   ¦   server.py
+¦   ¦       ¦   ¦   ¦   ¦   server_util.py
+¦   ¦       ¦   ¦   ¦   ¦   stats_request_handler.py
+¦   ¦       ¦   ¦   ¦   ¦   upload_file_request_handler.py
+¦   ¦       ¦   ¦   ¦   ¦   websocket_headers.py
+¦   ¦       ¦   ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   ¦   
+¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦   ¦           app_static_file_handler.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           authlib_tornado_integration.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           browser_websocket_handler.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           component_request_handler.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           media_file_handler.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           oauth_authlib_routes.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           oidc_mixin.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           routes.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           server.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           server_util.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           stats_request_handler.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           upload_file_request_handler.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           websocket_headers.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦   ¦           
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           bootstrap.cpython-313.pyc
+¦   ¦       ¦   ¦           cache_storage_manager_config.cpython-313.pyc
+¦   ¦       ¦   ¦           cli.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---__pycache__
+¦   ¦       ¦           auth_util.cpython-313.pyc
+¦   ¦       ¦           cli_util.cpython-313.pyc
+¦   ¦       ¦           column_config.cpython-313.pyc
+¦   ¦       ¦           config.cpython-313.pyc
+¦   ¦       ¦           config_option.cpython-313.pyc
+¦   ¦       ¦           config_util.cpython-313.pyc
+¦   ¦       ¦           cursor.cpython-313.pyc
+¦   ¦       ¦           dataframe_util.cpython-313.pyc
+¦   ¦       ¦           delta_generator.cpython-313.pyc
+¦   ¦       ¦           delta_generator_singletons.cpython-313.pyc
+¦   ¦       ¦           deprecation_util.cpython-313.pyc
+¦   ¦       ¦           development.cpython-313.pyc
+¦   ¦       ¦           emojis.cpython-313.pyc
+¦   ¦       ¦           env_util.cpython-313.pyc
+¦   ¦       ¦           errors.cpython-313.pyc
+¦   ¦       ¦           error_util.cpython-313.pyc
+¦   ¦       ¦           file_util.cpython-313.pyc
+¦   ¦       ¦           git_util.cpython-313.pyc
+¦   ¦       ¦           logger.cpython-313.pyc
+¦   ¦       ¦           material_icon_names.cpython-313.pyc
+¦   ¦       ¦           net_util.cpython-313.pyc
+¦   ¦       ¦           platform.cpython-313.pyc
+¦   ¦       ¦           source_util.cpython-313.pyc
+¦   ¦       ¦           string_util.cpython-313.pyc
+¦   ¦       ¦           temporary_directory.cpython-313.pyc
+¦   ¦       ¦           time_util.cpython-313.pyc
+¦   ¦       ¦           type_util.cpython-313.pyc
+¦   ¦       ¦           url_util.cpython-313.pyc
+¦   ¦       ¦           user_info.cpython-313.pyc
+¦   ¦       ¦           util.cpython-313.pyc
+¦   ¦       ¦           version.cpython-313.pyc
+¦   ¦       ¦           __init__.cpython-313.pyc
+¦   ¦       ¦           __main__.cpython-313.pyc
+¦   ¦       ¦           
+¦   ¦       +---streamlit-1.49.1.dist-info
+¦   ¦       ¦       entry_points.txt
+¦   ¦       ¦       INSTALLER
+¦   ¦       ¦       METADATA
+¦   ¦       ¦       RECORD
+¦   ¦       ¦       REQUESTED
+¦   ¦       ¦       top_level.txt
+¦   ¦       ¦       WHEEL
+¦   ¦       ¦       
+¦   ¦       +---tenacity
+¦   ¦       ¦   ¦   after.py
+¦   ¦       ¦   ¦   before.py
+¦   ¦       ¦   ¦   before_sleep.py
+¦   ¦       ¦   ¦   nap.py
+¦   ¦       ¦   ¦   py.typed
+¦   ¦       ¦   ¦   retry.py
+¦   ¦       ¦   ¦   stop.py
+¦   ¦       ¦   ¦   tornadoweb.py
+¦   ¦       ¦   ¦   wait.py
+¦   ¦       ¦   ¦   _utils.py
+¦   ¦       ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---asyncio
+¦   ¦       ¦   ¦   ¦   retry.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           retry.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---__pycache__
+¦   ¦       ¦           after.cpython-313.pyc
+¦   ¦       ¦           before.cpython-313.pyc
+¦   ¦       ¦           before_sleep.cpython-313.pyc
+¦   ¦       ¦           nap.cpython-313.pyc
+¦   ¦       ¦           retry.cpython-313.pyc
+¦   ¦       ¦           stop.cpython-313.pyc
+¦   ¦       ¦           tornadoweb.cpython-313.pyc
+¦   ¦       ¦           wait.cpython-313.pyc
+¦   ¦       ¦           _utils.cpython-313.pyc
+¦   ¦       ¦           __init__.cpython-313.pyc
+¦   ¦       ¦           
+¦   ¦       +---tenacity-9.1.2.dist-info
+¦   ¦       ¦   ¦   INSTALLER
+¦   ¦       ¦   ¦   METADATA
+¦   ¦       ¦   ¦   RECORD
+¦   ¦       ¦   ¦   top_level.txt
+¦   ¦       ¦   ¦   WHEEL
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---licenses
+¦   ¦       ¦           LICENSE
+¦   ¦       ¦           
 ¦   ¦       +---terminado
 ¦   ¦       ¦   ¦   management.py
 ¦   ¦       ¦   ¦   py.typed
@@ -32497,6 +34622,28 @@ C:.
 ¦   ¦       ¦       LICENSE
 ¦   ¦       ¦       METADATA
 ¦   ¦       ¦       RECORD
+¦   ¦       ¦       WHEEL
+¦   ¦       ¦       
+¦   ¦       +---toml
+¦   ¦       ¦   ¦   decoder.py
+¦   ¦       ¦   ¦   encoder.py
+¦   ¦       ¦   ¦   ordered.py
+¦   ¦       ¦   ¦   tz.py
+¦   ¦       ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---__pycache__
+¦   ¦       ¦           decoder.cpython-313.pyc
+¦   ¦       ¦           encoder.cpython-313.pyc
+¦   ¦       ¦           ordered.cpython-313.pyc
+¦   ¦       ¦           tz.cpython-313.pyc
+¦   ¦       ¦           __init__.cpython-313.pyc
+¦   ¦       ¦           
+¦   ¦       +---toml-0.10.2.dist-info
+¦   ¦       ¦       INSTALLER
+¦   ¦       ¦       LICENSE
+¦   ¦       ¦       METADATA
+¦   ¦       ¦       RECORD
+¦   ¦       ¦       top_level.txt
 ¦   ¦       ¦       WHEEL
 ¦   ¦       ¦       
 ¦   ¦       +---tornado
@@ -34137,6 +36284,84 @@ C:.
 ¦   ¦       ¦   +---licenses
 ¦   ¦       ¦           LICENSE.txt
 ¦   ¦       ¦           
+¦   ¦       +---watchdog
+¦   ¦       ¦   ¦   events.py
+¦   ¦       ¦   ¦   py.typed
+¦   ¦       ¦   ¦   version.py
+¦   ¦       ¦   ¦   watchmedo.py
+¦   ¦       ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   
+¦   ¦       ¦   +---observers
+¦   ¦       ¦   ¦   ¦   api.py
+¦   ¦       ¦   ¦   ¦   fsevents.py
+¦   ¦       ¦   ¦   ¦   fsevents2.py
+¦   ¦       ¦   ¦   ¦   inotify.py
+¦   ¦       ¦   ¦   ¦   inotify_buffer.py
+¦   ¦       ¦   ¦   ¦   inotify_c.py
+¦   ¦       ¦   ¦   ¦   kqueue.py
+¦   ¦       ¦   ¦   ¦   polling.py
+¦   ¦       ¦   ¦   ¦   read_directory_changes.py
+¦   ¦       ¦   ¦   ¦   winapi.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           api.cpython-313.pyc
+¦   ¦       ¦   ¦           fsevents.cpython-313.pyc
+¦   ¦       ¦   ¦           fsevents2.cpython-313.pyc
+¦   ¦       ¦   ¦           inotify.cpython-313.pyc
+¦   ¦       ¦   ¦           inotify_buffer.cpython-313.pyc
+¦   ¦       ¦   ¦           inotify_c.cpython-313.pyc
+¦   ¦       ¦   ¦           kqueue.cpython-313.pyc
+¦   ¦       ¦   ¦           polling.cpython-313.pyc
+¦   ¦       ¦   ¦           read_directory_changes.cpython-313.pyc
+¦   ¦       ¦   ¦           winapi.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---tricks
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---utils
+¦   ¦       ¦   ¦   ¦   bricks.py
+¦   ¦       ¦   ¦   ¦   delayed_queue.py
+¦   ¦       ¦   ¦   ¦   dirsnapshot.py
+¦   ¦       ¦   ¦   ¦   echo.py
+¦   ¦       ¦   ¦   ¦   event_debouncer.py
+¦   ¦       ¦   ¦   ¦   patterns.py
+¦   ¦       ¦   ¦   ¦   platform.py
+¦   ¦       ¦   ¦   ¦   process_watcher.py
+¦   ¦       ¦   ¦   ¦   __init__.py
+¦   ¦       ¦   ¦   ¦   
+¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦       ¦   ¦           bricks.cpython-313.pyc
+¦   ¦       ¦   ¦           delayed_queue.cpython-313.pyc
+¦   ¦       ¦   ¦           dirsnapshot.cpython-313.pyc
+¦   ¦       ¦   ¦           echo.cpython-313.pyc
+¦   ¦       ¦   ¦           event_debouncer.cpython-313.pyc
+¦   ¦       ¦   ¦           patterns.cpython-313.pyc
+¦   ¦       ¦   ¦           platform.cpython-313.pyc
+¦   ¦       ¦   ¦           process_watcher.cpython-313.pyc
+¦   ¦       ¦   ¦           __init__.cpython-313.pyc
+¦   ¦       ¦   ¦           
+¦   ¦       ¦   +---__pycache__
+¦   ¦       ¦           events.cpython-313.pyc
+¦   ¦       ¦           version.cpython-313.pyc
+¦   ¦       ¦           watchmedo.cpython-313.pyc
+¦   ¦       ¦           __init__.cpython-313.pyc
+¦   ¦       ¦           
+¦   ¦       +---watchdog-6.0.0.dist-info
+¦   ¦       ¦       AUTHORS
+¦   ¦       ¦       COPYING
+¦   ¦       ¦       entry_points.txt
+¦   ¦       ¦       INSTALLER
+¦   ¦       ¦       LICENSE
+¦   ¦       ¦       METADATA
+¦   ¦       ¦       RECORD
+¦   ¦       ¦       top_level.txt
+¦   ¦       ¦       WHEEL
+¦   ¦       ¦       
 ¦   ¦       +---wcwidth
 ¦   ¦       ¦   ¦   table_vs16.py
 ¦   ¦       ¦   ¦   table_wide.py
@@ -35872,8 +38097,11 @@ C:.
 ¦   ¦   ¦   pywin32_testall.exe
 ¦   ¦   ¦   pywin32_testall.py
 ¦   ¦   ¦   send2trash.exe
+¦   ¦   ¦   streamlit.cmd
+¦   ¦   ¦   streamlit.exe
 ¦   ¦   ¦   ttx.exe
 ¦   ¦   ¦   unidecode.exe
+¦   ¦   ¦   watchmedo.exe
 ¦   ¦   ¦   wheel.exe
 ¦   ¦   ¦   wsdump.exe
 ¦   ¦   ¦   
@@ -36562,9 +38790,14 @@ C:.
 ¦       ¦   ¦               
 ¦       ¦   +---nbextensions
 ¦       ¦       +---jupyter-js-widgets
-¦       ¦               extension.js
-¦       ¦               extension.js.LICENSE.txt
-¦       ¦               extension.js.map
+¦       ¦       ¦       extension.js
+¦       ¦       ¦       extension.js.LICENSE.txt
+¦       ¦       ¦       extension.js.map
+¦       ¦       ¦       
+¦       ¦       +---pydeck
+¦       ¦               extensionRequires.js
+¦       ¦               index.js
+¦       ¦               index.js.map
 ¦       ¦               
 ¦       +---man
 ¦           +---man1
@@ -36589,9 +38822,15 @@ C:.
 ¦   ¦       Historico_Ventas_2023.parquet
 ¦   ¦       Historico_Ventas_2024.csv
 ¦   ¦       Historico_Ventas_2024.parquet
+¦   ¦       Inventario.csv
 ¦   ¦       missing_2025-12-31_prevision2025.csv
 ¦   ¦       Prevision_Demanda_2025_Limpia.parquet
 ¦   ¦       Prevision_Demanda_2025_Limpia.xlsx
+¦   ¦       substitutes.csv
+¦   ¦       substitutes_diag.csv
+¦   ¦       supplier_catalog.csv
+¦   ¦       supplier_catalog_multi.csv
+¦   ¦       supplier_catalog_sim.csv
 ¦   ¦       test_data_clean.csv
 ¦   ¦       
 ¦   +---interim
@@ -36599,6 +38838,10 @@ C:.
 ¦   ¦       
 ¦   +---processed
 ¦   ¦   ¦   .gitkeep
+¦   ¦   ¦   catalog_items.csv
+¦   ¦   ¦   catalog_items.parquet
+¦   ¦   ¦   catalog_items_enriquecido.csv
+¦   ¦   ¦   catalog_items_enriquecido.parquet
 ¦   ¦   ¦   dataset_ml_ready.parquet
 ¦   ¦   ¦   dataset_modelado_ready.parquet
 ¦   ¦   ¦   demanda_all_adjusted.parquet
@@ -36620,12 +38863,16 @@ C:.
 ¦   ¦   ¦   demanda_subset_final.csv
 ¦   ¦   ¦   demanda_subset_final.parquet
 ¦   ¦   ¦   demanda_unificada.csv
+¦   ¦   ¦   novedades.csv
+¦   ¦   ¦   novedades.parquet
 ¦   ¦   ¦   outliers.csv
 ¦   ¦   ¦   outliers.parquet
 ¦   ¦   ¦   predicciones_2025.parquet
 ¦   ¦   ¦   predicciones_2025_estacional.parquet
 ¦   ¦   ¦   predicciones_2025_optimista.parquet
 ¦   ¦   ¦   predicciones_2025_pesimista.parquet
+¦   ¦   ¦   preferred_supplier.csv
+¦   ¦   ¦   preferred_supplier.parquet
 ¦   ¦   ¦   productos_clusters.csv
 ¦   ¦   ¦   productos_clusters_agglom.csv
 ¦   ¦   ¦   productos_clusters_dbscan.csv
@@ -36633,8 +38880,23 @@ C:.
 ¦   ¦   ¦   productos_features.csv
 ¦   ¦   ¦   productos_features_clean.csv
 ¦   ¦   ¦   productos_features_norm.csv
+¦   ¦   ¦   stock_positions.csv
 ¦   ¦   ¦   subset_modelado.parquet
+¦   ¦   ¦   substitutes_internal.csv
+¦   ¦   ¦   substitutes_internal.parquet
+¦   ¦   ¦   substitutes_unified.csv
+¦   ¦   ¦   supplier_catalog_clean.csv
+¦   ¦   ¦   supplier_catalog_clean.parquet
 ¦   ¦   ¦   
+¦   ¦   +---fase10_stock
+¦   ¦   ¦       alerts.csv
+¦   ¦   ¦       inventory_updated.csv
+¦   ¦   ¦       ledger_movimientos.csv
+¦   ¦   ¦       ordenes_compra.csv
+¦   ¦   ¦       ordenes_compra_lineas.csv
+¦   ¦   ¦       sugerencias_compra.csv
+¦   ¦   ¦       sugerencias_sustitutos.csv
+¦   ¦   ¦       
 ¦   ¦   +---modelado
 ¦   ¦   ¦   +---sarimax
 ¦   ¦   ¦       ¦   agg_full.parquet
@@ -36677,15 +38939,21 @@ C:.
 ¦   +---raw
 ¦   ¦       .gitkeep
 ¦   ¦       Catalogo_Productos_Con_Estado.xlsx
+¦   ¦       customer_orders_AE.csv
+¦   ¦       customer_orders_ui.csv
 ¦   ¦       Historico_Ventas_2023_Corregido.xlsx
 ¦   ¦       Historico_Ventas_2024_Corregido.xlsx
 ¦   ¦       Prevision_demanda_2025_corregida.xlsx
+¦   ¦       supplier_catalog_demo.csv
 ¦   ¦       test_data.csv
+¦   ¦       top_skus_demo.csv
 ¦   ¦       
 ¦   +---reports
 ¦           .gitkeep
 ¦           correlaciones_coherencia.csv
 ¦           estadisticos_descriptivos_coherencia.csv
+¦           fase9_1_descartados.csv
+¦           fase9_1_resumen.txt
 ¦           reporte_huecos_historico_2022.csv
 ¦           reporte_huecos_historico_2023.csv
 ¦           reporte_huecos_historico_2024.csv
@@ -36706,6 +38974,7 @@ C:.
 ¦   ¦   
 ¦   +---data
 ¦   ¦   +---processed
+¦   ¦       +---fase10_stock
 ¦   ¦       +---preds
 ¦   ¦           +---baselines
 ¦   ¦               +---holt_winters
@@ -36817,6 +39086,11 @@ C:.
 ¦   ¦   davies_bouldin_vs_k_agglom.csv
 ¦   ¦   davies_bouldin_vs_k_gmm.csv
 ¦   ¦   dbscan_exploracion.csv
+¦   ¦   fase9_1_descartados.csv
+¦   ¦   fase9_1_resumen.txt
+¦   ¦   fase9_3_qc.csv
+¦   ¦   fase9_3_resumen.txt
+¦   ¦   fase9_validations_summary.json
 ¦   ¦   ganadores_por_cluster.csv
 ¦   ¦   inercia_vs_k.csv
 ¦   ¦   metrics_unificados.csv
@@ -36881,6 +39155,10 @@ C:.
 ¦   +---predicciones
 ¦   ¦       summary_2025.csv
 ¦   ¦       
+¦   +---quality
+¦   ¦       9_6_asimetricos.csv
+¦   ¦       9_6_snapshot.json
+¦   ¦       
 ¦   +---seasonality
 ¦   ¦       control_totales_2025.csv
 ¦   ¦       factores_estacionales_2022_2024.csv
@@ -36927,6 +39205,8 @@ C:.
 ¦   ¦       unir_subset_y_outliers.py
 ¦   ¦       
 ¦   +---data
+¦   ¦   +---processed
+¦   ¦   ¦   +---fase10_stock
 ¦   ¦   +---reports
 ¦   ¦       +---validacion_calendario_real
 ¦   ¦           +---figures
@@ -36943,6 +39223,14 @@ C:.
 ¦   ¦       validacion_dataset_modelado.py
 ¦   ¦       validacion_demanda_con_catalogo.py
 ¦   ¦       
+¦   +---export
+¦   ¦   ¦   construir_vistas.py
+¦   ¦   ¦   __init__.py
+¦   ¦   ¦   
+¦   ¦   +---__pycache__
+¦   ¦           construir_vistas.cpython-313.pyc
+¦   ¦           __init__.cpython-313.pyc
+¦   ¦           
 ¦   +---modeling
 ¦   ¦   ¦   clustering_productos.py
 ¦   ¦   ¦   clustering_productos_agglomerative.py
@@ -36968,6 +39256,13 @@ C:.
 ¦   ¦   +---__pycache__
 ¦   ¦           holt_winters_ets.cpython-313.pyc
 ¦   ¦           
+¦   +---operativa
+¦   ¦   ¦   movimientos_stock.py
+¦   ¦   ¦   __init__.py
+¦   ¦   ¦   
+¦   ¦   +---__pycache__
+¦   ¦           movimientos_stock.cpython-313.pyc
+¦   ¦           
 ¦   +---reports
 ¦   ¦   +---estacionalidad
 ¦   +---transform
@@ -36976,12 +39271,18 @@ C:.
 ¦   ¦   ¦   aplicar_efecto_precio.py
 ¦   ¦   ¦   aplicar_factores.py
 ¦   ¦   ¦   aplicar_feature_engineering_ml.py
+¦   ¦   ¦   arreglar_preferente.py
 ¦   ¦   ¦   asignar_clusters_a_demanda.py
+¦   ¦   ¦   catalogo_canonico.py
+¦   ¦   ¦   construir_catalogo_proveedores.py
 ¦   ¦   ¦   construir_features_productos.py
 ¦   ¦   ¦   construir_metricas_unificadas.py
+¦   ¦   ¦   construir_sustitutos.py
+¦   ¦   ¦   controles_calidad_trazabilidad.py
 ¦   ¦   ¦   desagregar_demanda_2022.py
 ¦   ¦   ¦   desagregar_demanda_2023.py
 ¦   ¦   ¦   desagregar_demanda_2024.py
+¦   ¦   ¦   enriquecer_catalogo_sustitutos.py
 ¦   ¦   ¦   enriquecer_con_catálogo.py
 ¦   ¦   ¦   enriquecer_demanda_filtrada.py
 ¦   ¦   ¦   enriquecer_ventas_externos.py
@@ -36990,11 +39291,14 @@ C:.
 ¦   ¦   ¦   generar_historico_2023.py
 ¦   ¦   ¦   generar_historico_2024.py
 ¦   ¦   ¦   generar_subset_representativo.py
+¦   ¦   ¦   inyectar_multiproveedor_desde_preferente.py
 ¦   ¦   ¦   listar_categorias_pca.py
 ¦   ¦   ¦   normalizar_features_productos.py
 ¦   ¦   ¦   pca_categoria.py
 ¦   ¦   ¦   preparacion_dataset_modelado.py
+¦   ¦   ¦   proveedor_preferente.py
 ¦   ¦   ¦   unificar_demandas.py
+¦   ¦   ¦   unificar_sustitutos.py
 ¦   ¦   ¦   __init__.py
 ¦   ¦   ¦   
 ¦   ¦   +---calendarios
@@ -37009,6 +39313,7 @@ C:.
 ¦   +---utils
 ¦   ¦   ¦   .gitkeep
 ¦   ¦   ¦   ajustar_ruido.py
+¦   ¦   ¦   asignar_multiproveedor.py
 ¦   ¦   ¦   datautils.py
 ¦   ¦   ¦   desagregar_demanda_anual.py
 ¦   ¦   ¦   feature_engineering.py
@@ -37025,6 +39330,7 @@ C:.
 ¦   ¦   ¦   
 ¦   ¦   +---__pycache__
 ¦   ¦           ajustar_ruido.cpython-313.pyc
+¦   ¦           asignar_multiproveedor.cpython-313.pyc
 ¦   ¦           desagregar_demanda_anual.cpython-313.pyc
 ¦   ¦           feature_engineering.cpython-313.pyc
 ¦   ¦           generar_calendario_estacional.cpython-313.pyc
@@ -37054,6 +39360,8 @@ C:.
 ¦           __init__.cpython-313.pyc
 ¦           
 +---streamlit_app
+¦       streamlit_app.py
+¦       
 +---tests
         test_paths.py
         

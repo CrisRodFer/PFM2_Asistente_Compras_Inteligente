@@ -16,6 +16,7 @@ demanda y modelado predictivo.
 ├── 📂 data
 │   ├── 📂 raw
 │   ├── 📂 clean
+│   │   └── supplier_catalog_multi.csv
 │   ├── 📂 processed
 │   │   ├── demanda_all_adjusted.parquet
 │   │   ├── demanda_all_adjusted_postnoise.parquet
@@ -24,7 +25,10 @@ demanda y modelado predictivo.
 │   │   ├── predicciones_2025.parquet
 │   │   ├── predicciones_2025_estacional.parquet
 │   │   ├── predicciones_2025_optimista.parquet
-│   │   └── predicciones_2025_pesimista.parquet
+│   │   ├── predicciones_2025_pesimista.parquet
+│   │   ├── products.parquet                 # ← Fase 9
+│   │   ├── suppliers.parquet                # ← Fase 9
+│   │   └── substitutes_unified.parquet      # ← Fase 9
 │   └── 📂 external
 │
 ├── 📂 outputs
@@ -35,28 +39,16 @@ demanda y modelado predictivo.
 │       ├── control_totales_pesimista.csv
 │       └── control_por_cluster_pesimista.csv
 │
+├── 📂 reports
+│   └── fase9_validations_summary.json       # ← métricas validación F9
+│
 ├── 📂 scripts
 │   ├── 📂 eda
-│   │   ├── validacion_dataset_modelado.py
-│   │   └── check_outliers_clusters.py
 │   ├── 📂 transform
-│   │   ├── generar_historicos.py
-│   │   ├── desagregar_demanda.py
-│   │   └── normalizar_features.py
 │   ├── 📂 modeling
-│   │   ├── seasonal_naive.py
-│   │   ├── holt_winters.py
-│   │   ├── sarimax_cluster.py
-│   │   ├── regresion_ml.py
-│   │   ├── evaluacion_global.py
-│   │   ├── backtesting.py
-│   │   ├── predicciones_2025.py
-│   │   ├── simular_escenario_optimista.py
-│   │   └── simular_escenario_pesimista.py
-│   └── 📂 utils
-│       ├── simular_escenario.py
-│       ├── ajustar_ruido.py
-│       └── validar_calendario.py
+│   ├── 📂 utils
+│   └── 📂 export
+│       └── construir_vistas.py              # ← export vistas F9
 │
 ├── 📂 notebooks
 │   └── PFM2_Modelado_y_app.ipynb
@@ -621,4 +613,49 @@ Con esta fase se cierra todo el bloque de preparación y se garantiza que los mo
 📌 **Conclusión de la Fase 8**:  
 La Fase 8 consolida el bloque de modelado, confirmando que Random Forest es el modelo más robusto para predecir la demanda. El backtesting valida la coherencia del escenario neutro y de los escenarios alternativos, asegurando un rango realista de proyecciones. Se cierra así la fase de modelado con una base sólida para la toma de decisiones en compras y planificación.
 
+-------------------------------------------------------------------------
+## 📑 Metodología – Fase 9 (Catálogo multiproveedor y sustitutos + export)
+
+### 9.1 Objetivo
+Enriquecer el catálogo con **proveedores alternativos** y validar reglas clave antes de exportar las **vistas** que consumirá la app de Streamlit (la explicación de Streamlit va en su apartado propio).
+
+### 9.2 Datos de entrada
+- `data/processed/preferred_supplier.csv`  (proveedor preferente por `product_id`)
+- `data/clean/supplier_catalog_multi.csv`  (catálogo con candidatos alternativos)
+- `data/clean/substitutes.csv`             (sustitutos por similitud de producto)
+
+### 9.3 Validaciones multiproveedor
+Se realizan sobre el cruce `preferred_supplier` + `supplier_catalog_multi`:
+
+- **V1 Proveedor distinto**: el alternativo nunca coincide con el preferente.  
+- **V2 Precio modificado**: `precio_alt` difiere de `precio_pref` (tolerancia ±0.5%).  
+- **V3 Stock modificado**: `disponibilidad_alt` ≠ `disp_pref` (se permite 0 para simular rotura).  
+- **V4 Lead time bucket**: coherente con `lead_time` (`2-4`, `5-7`, `10-15`).  
+
+Las validaciones son duras: si alguna falla se muestra una muestra de filas y **se corta** la ejecución.
+
+**Salida de control**: `reports/fase9_validations_summary.json` (métricas agregadas).
+
+### 9.4 Esquema de salida (para la app)
+> Este bloque es **documentación**: no altera la app ni sus inputs.
+
+- **products**: `product_id`, `categoria`, `pack_size`, `uom`, `precio_medio`  
+- **suppliers**: `product_id`, `supplier_id`, `prioridad`, `precio`, `disponibilidad`, `lead_time`  
+- **substitutes**: `product_id`, `sustituto_id`, `score`, `categoria`
+
+### 9.5 Export de vistas (consumo por Streamlit)
+Script: `scripts/export/construir_vistas.py`
+
+**Salidas**
+- `data/processed/products.parquet`  
+- `data/processed/suppliers.parquet`  
+- `data/processed/substitutes_unified.parquet`  
+
+### 9.6 Reproducibilidad (Fase 9)
+```bash
+# Desde la raíz del repo
+python scripts/export/construir_vistas.py
+
+📌 Conclusión de la Fase 9
+Catálogo multiproveedor validado (V1–V4) y vistas exportadas para la app.
 -------------------------------------------------------------------------

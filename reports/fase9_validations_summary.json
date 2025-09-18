@@ -1,0 +1,12 @@
+{
+  "phase": "Fase 9",
+  "timestamp": "2025-09-18T18:00:11",
+  "multiproveedor": {
+    "alternativos_detectados": 50,
+    "productos_multiproveedor": 50,
+    "v1_proveedor_distinto": true,
+    "v2_precio_modificado": true,
+    "v3_stock_modificado": true,
+    "v4_leadtime_bucket_ok": true
+  }
+}
