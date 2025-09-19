@@ -631,6 +631,99 @@ def _prepare_orders_for_ms(include_ae: bool = True) -> Path | None:
 
     return orders_for_ui
 
+# ========= Generador de escenarios A–E (aleatorios y configurables) =========
+import random
+import numpy as np
+
+def _generate_scenarios_AE(
+    n_orders: int = 5,
+    lines_per_order: int = 5,
+    qty_min: int = 1,
+    qty_max: int = 5,
+    days_back: int = 7,
+    allow_repeats_in_order: bool = False,
+    sampling_mode: str = "Uniforme",  # "Uniforme" | "Ponderado por stock"
+    seed: int | None = None,
+) -> pd.DataFrame:
+    """
+    Genera un DataFrame con columnas: date, Product_ID, qty
+    y lo guarda en RAW/customer_orders_AE.csv
+    """
+    # Semillas (reproducibilidad opcional)
+    if seed is not None:
+        random.seed(seed)
+        np.random.seed(seed)
+
+    # Candidatos desde el inventario vivo
+    inv = _read_working_inventory().copy()
+    inv = inv.dropna(subset=["Product_ID"])
+    inv["Product_ID"] = _to_pid_str(inv["Product_ID"])
+    inv = inv[inv["Product_ID"] != ""]
+    if inv.empty:
+        raise ValueError("Inventario vacío: no hay candidatos para escenarios A–E.")
+
+    candidates = inv["Product_ID"].tolist()
+
+    # Pesos (solo si ponderado por stock)
+    weights = None
+    if sampling_mode == "Ponderado por stock" and "Stock Real" in inv.columns:
+        w = pd.to_numeric(inv["Stock Real"], errors="coerce").fillna(0)
+        # Cortar negativos a 0 (si permites stock negativo)
+        w = w.clip(lower=0)
+        # Si todos quedan 0, volver a uniforme
+        if w.sum() > 0:
+            weights = (w / w.sum()).values  # np.array sum=1.0
+
+    rows = []
+    today = pd.Timestamp.today().normalize()
+
+    # Normalizar parámetros
+    n_orders = max(1, int(n_orders))
+    lines_per_order = max(1, int(lines_per_order))
+    qty_min = max(1, int(qty_min))
+    qty_max = max(qty_min, int(qty_max))
+    days_back = max(0, int(days_back))
+
+    for _ in range(n_orders):
+        # Fecha aleatoria en los últimos 'days_back' días
+        offset = 0 if days_back == 0 else random.randint(0, days_back)
+        date_str = (today - pd.Timedelta(days=offset)).strftime("%Y-%m-%d")
+
+        k = lines_per_order
+
+        if allow_repeats_in_order:
+            # Muestreo CON reemplazo
+            if weights is not None and len(weights) == len(candidates):
+                product_ids = list(np.random.choice(candidates, size=k, replace=True, p=weights))
+            else:
+                product_ids = [random.choice(candidates) for _ in range(k)]
+        else:
+            # Muestreo SIN reemplazo
+            kk = min(k, len(candidates))
+            if weights is not None and len(weights) == len(candidates):
+                # np.random.choice permite replace=False con probabilidades
+                product_ids = list(np.random.choice(candidates, size=kk, replace=False, p=weights))
+            else:
+                product_ids = random.sample(candidates, kk)
+
+        # Cantidades
+        qtys = [random.randint(qty_min, qty_max) for _ in range(len(product_ids))]
+
+        rows.extend(
+            {"date": date_str, "Product_ID": pid, "qty": q}
+            for pid, q in zip(product_ids, qtys)
+        )
+
+    df = pd.DataFrame(rows, columns=["date", "Product_ID", "qty"])
+    df["Product_ID"] = _to_pid_str(df["Product_ID"])
+    df["qty"] = pd.to_numeric(df["qty"], errors="coerce").fillna(0).astype(int)
+
+    # Guardar A–E
+    ORD_AE.parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(ORD_AE, index=False)
+    return df
+
+
 # ==================================================
 # 2). Portada
 # ==================================================
@@ -1087,6 +1180,46 @@ def render_movimientos_stock():
 
     # ---------- estado / toggles ----------
     use_ae = st.sidebar.toggle("Incluir escenarios A–E", value=True)
+
+    # ---- Configurador de escenarios A–E ----
+    if use_ae:
+        with st.sidebar.expander("⚗️ Configurar escenarios A–E", expanded=False):
+            n_orders = st.number_input("Nº de pedidos a generar", 1, 200, 5, step=1)
+            lines_per_order = st.number_input("Líneas por pedido", 1, 200, 5, step=1)
+            qty_min, qty_max = st.columns(2)
+            v_min = qty_min.number_input("Qty mínima", 1, 10_000, 1, step=1)
+            v_max = qty_max.number_input("Qty máxima", 1, 10_000, 5, step=1)
+            days_back = st.slider("Rango de fechas (días hacia atrás)", 0, 90, 7)
+
+            allow_repeats_in_order = st.checkbox("Permitir repetir producto dentro de un pedido", value=False)
+            sampling_mode = st.selectbox("Muestreo de productos", ["Uniforme", "Ponderado por stock"])
+            seed_str = st.text_input("Semilla aleatoria (opcional)", value="")
+
+            if st.button("🎲 Generar escenarios A–E", use_container_width=True):
+                try:
+                    seed = int(seed_str) if seed_str.strip() != "" else None
+                except Exception:
+                    seed = None
+
+                try:
+                    df_ae = _generate_scenarios_AE(
+                        n_orders=int(n_orders),
+                        lines_per_order=int(lines_per_order),
+                        qty_min=int(v_min),
+                        qty_max=int(v_max),
+                        days_back=int(days_back),
+                        allow_repeats_in_order=bool(allow_repeats_in_order),
+                        sampling_mode=str(sampling_mode),
+                        seed=seed,
+                    )
+                    st.success(f"Escenarios A–E generados ✅ · {len(df_ae)} líneas → {ORD_AE.relative_to(ROOT)}")
+                    # Previsualización
+                    with st.expander("Ver muestra de escenarios A–E", expanded=False):
+                        st.dataframe(df_ae.head(50), use_container_width=True, height=260)
+                except Exception as e:
+                    st.error("No se pudieron generar los escenarios A–E.")
+                    st.exception(e)
+
     st.sidebar.markdown("**Pedidos UI:**")
     st.sidebar.code(str(ORD_UI.relative_to(ROOT)))
 
