@@ -25,6 +25,19 @@ if "route" not in st.session_state:
 def goto(r: str):
     st.session_state["route"] = r
 
+# ===================== SIDEBAR: Navegación =====================
+with st.sidebar:
+    st.header("🧭 Navegación")
+    choice = st.radio(
+        "Ir a:",
+        list(ROUTES.keys()),
+        format_func=lambda k: ROUTES.get(k, k),
+        index=list(ROUTES.keys()).index(st.session_state.get("route", "home"))
+    )
+    if choice != st.session_state.get("route"):
+        goto(choice)
+        st.rerun()
+
 # -------------- CSS mínimo --------------
 st.markdown(
     """
@@ -43,6 +56,10 @@ def autorefresh(interval: int | None = None):
         f"<script>setTimeout(function(){{window.location.reload();}}, {interval});</script>",
         unsafe_allow_html=True,
     )
+
+def st_autorefresh(interval: int, key: str = "auto_refresh"):
+    """Compat alias para el nombre usado en las pestañas."""
+    autorefresh(interval)
 
 # Permitir importar desde scripts/… (raíz del proyecto)
 sys.path.append(str(Path(__file__).resolve().parents[1]))
@@ -120,6 +137,55 @@ def _mtime_str(p: Path) -> str:
         return ts.strftime("%Y-%m-%d %H:%M:%S")
     except Exception:
         return "-"
+
+def _mtime(p: Path) -> float:
+    """Devuelve el mtime (epoch) del path o 0.0 si no existe/da error."""
+    try:
+        return p.stat().st_mtime if p and p.exists() else 0.0
+    except Exception:
+        return 0.0
+
+def _call_construir_vistas_robusto(
+    unif_path, multi_path, cat_path, stock_path, outdir,
+    min_score, m_unif, m_multi, m_cat, m_stock
+):
+    # 1) Intento con nombres “largos” (lo que tenías)
+    try:
+        return construir_vistas(
+            substitutes_unified=unif_path,
+            supplier_catalog_multi=multi_path,
+            catalog_items=cat_path,
+            stock_positions=stock_path,
+            outdir=outdir,
+            min_score=min_score,
+            m_unif=m_unif, m_multi=m_multi, m_cat=m_cat, m_stock=m_stock
+        )
+    except TypeError:
+        pass
+
+    # 2) Intento por POSICIÓN (orden más habitual)
+    try:
+        return construir_vistas(
+            unif_path, multi_path, cat_path, stock_path,
+            outdir, min_score, m_unif, m_multi, m_cat, m_stock
+        )
+    except TypeError:
+        pass
+
+    # 3) Intento con nombres alternativos “cortos”
+    try:
+        return construir_vistas(
+            substitutes=unif_path,
+            supplier_catalog=multi_path,
+            catalog=cat_path,
+            stock=stock_path,
+            out=outdir,
+            score=min_score,
+            mu=m_unif, mm=m_multi, mc=m_cat, ms=m_stock
+        )
+    except TypeError as e:
+        raise e
+
 
 @st.cache_data(ttl=10)
 def _safe_df(p: Path) -> pd.DataFrame:
@@ -309,6 +375,203 @@ def _standardize_inventory_output(path: Path) -> None:
     df.to_csv(path, index=False)
 
 
+# --- Normalizador MULTI: garantiza columnas para construir_vistas ---
+def _normalize_multi_for_vistas(src: Path) -> Path:
+    if not src.exists():
+        return src
+    df = _read_csv_smart(src)
+    if df is None or df.empty:
+        return src
+
+    low = {c.lower(): c for c in df.columns}
+    ren = {}
+
+    # IDs
+    for cand in ["product_id", "item_id", "id_producto"]:
+        if cand in low: ren[low[cand]] = "Product_ID"; break
+    for cand in ["supplier_id", "id_proveedor", "proveedor"]:
+        if cand in low: ren[low[cand]] = "supplier_id"; break
+
+    # Métricas
+    if "precio" not in low and "price" in low: ren[low["price"]] = "precio"
+    if "lead_time" not in low and "lt" in low: ren[low["lt"]] = "lead_time"
+    if "disponibilidad" not in low:
+        for cand in ["availability", "stock", "on_hand"]:
+            if cand in low: ren[low[cand]] = "disponibilidad"; break
+    for cand in ["moq", "min_qty", "minimo_pedido"]:
+        if cand in low: ren[low[cand]] = "moq"; break
+    for cand in ["multiplo", "multiple", "pack_size"]:
+        if cand in low: ren[low[cand]] = "multiplo"; break
+
+    df = df.rename(columns=ren)
+    out = TMP_VISTAS / "supplier_catalog_multi_norm.csv"
+    df.to_csv(out, index=False)
+    return out
+
+# --- Normalizador UNIFICADO (lo puedes dejar tal cual si ya lo tienes) ---
+def _normalize_unif_for_vistas(p: Path) -> Path:
+    df = _read_csv_smart(p)
+    if df is None or df.empty:
+        return p
+    low = {c.lower(): c for c in df.columns}
+    ren = {}
+    for cand in ["product_id", "item_id", "id_producto"]:
+        if cand in low: ren[low[cand]] = "Product_ID"; break
+    for cand in ["substitute_product_id", "alt_product_id", "sustituto_id", "id_sustituto"]:
+        if cand in low: ren[low[cand]] = "Substitute_Product_ID"; break
+    if "tipo" not in low and "type" in low: ren[low["type"]] = "tipo"
+    df = df.rename(columns=ren)
+    if "tipo" not in df.columns: df["tipo"] = "externo"
+    if "Product_ID" in df.columns: df["Product_ID"] = _to_pid_str(df["Product_ID"])
+    if "Substitute_Product_ID" in df.columns: df["Substitute_Product_ID"] = _to_pid_str(df["Substitute_Product_ID"])
+    out = TMP_VISTAS / "substitutes_unified_norm.csv"
+    df.to_csv(out, index=False)
+    return out
+
+# ========= HELPERS para la pestaña "Sustitutos por producto" =========
+
+def enrich_external_subs(dfs_ext: pd.DataFrame, dfp: pd.DataFrame, cat: pd.DataFrame | None) -> pd.DataFrame:
+    """
+    Enriquecer sustitutos EXTERNOS con nombre/categoría/proveedor y métricas si existen.
+    dfp = ui_products (para pillar precio/lt del preferente si vienen),
+    cat = catálogo (nombre/categoría).
+    Devuelve columnas estándar usadas en la tabla de detalle.
+    """
+    if dfs_ext is None or dfs_ext.empty:
+        return pd.DataFrame(columns=[
+            "tipo", "Substitute_Product_ID", "nombre", "categoria", "proveedor",
+            "rank", "score", "precio", "lead_time", "disponibilidad"
+        ])
+
+    df = dfs_ext.copy()
+
+    # Normalizar nombres esperados por si vienen con otros alias
+    low = {c.lower(): c for c in df.columns}
+    if "substitute_product_id" not in low and "Substitute_Product_ID" in df.columns:
+        pass
+    elif "substitute_product_id" in low and low["substitute_product_id"] != "Substitute_Product_ID":
+        df = df.rename(columns={low["substitute_product_id"]: "Substitute_Product_ID"})
+    if "tipo" not in df.columns:
+        df["tipo"] = "externo"
+
+    # Añadir nombre/categoría desde catálogo si está
+    if cat is not None and not cat.empty:
+        cc = cat.copy()
+        # asegurar columnas estándar
+        pid = _find_col(cc, ["Product_ID","product_id","item_id","id_producto"]) or "Product_ID"
+        nom = _find_col(cc, ["Nombre","name","nombre"]) or "Nombre"
+        catg = _find_col(cc, ["Categoria","Categoría","category","categoria"]) or "Categoria"
+        ren = {}
+        if pid != "Product_ID": ren[pid] = "Product_ID"
+        if nom != "Nombre":     ren[nom] = "Nombre"
+        if catg != "Categoria": ren[catg] = "Categoria"
+        if ren: cc = cc.rename(columns=ren)
+        cc["Product_ID"] = _to_pid_str(cc["Product_ID"])
+
+        df = df.merge(
+            cc[["Product_ID","Nombre","Categoria"]].rename(columns={
+                "Product_ID": "Substitute_Product_ID",
+                "Nombre": "nombre",
+                "Categoria": "categoria"
+            }),
+            on="Substitute_Product_ID",
+            how="left"
+        )
+    else:
+        if "nombre" not in df.columns:   df["nombre"] = ""
+        if "categoria" not in df.columns: df["categoria"] = ""
+
+    # Proveedor / precio / LT / disponibilidad si existen
+    prov_col = _find_col(df, ["proveedor","supplier","supplier_id"])
+    if not prov_col:
+        df["proveedor"] = ""
+    else:
+        if prov_col != "proveedor":
+            df = df.rename(columns={prov_col: "proveedor"})
+
+    # Alinear métricas principales (si vinieron con otros nombres)
+    rank_col  = _find_col(df, ["rank"])
+    score_col = _find_col(df, ["score"])
+    price_col = _find_col(df, ["precio","price"])
+    lt_col    = _find_col(df, ["lead_time","lt"])
+    disp_col  = _find_col(df, ["disponibilidad","availability","stock"])
+
+    if rank_col  and rank_col  != "rank":           df = df.rename(columns={rank_col:"rank"})
+    if score_col and score_col != "score":          df = df.rename(columns={score_col:"score"})
+    if price_col and price_col != "precio":         df = df.rename(columns={price_col:"precio"})
+    if lt_col    and lt_col    != "lead_time":      df = df.rename(columns={lt_col:"lead_time"})
+    if disp_col  and disp_col  != "disponibilidad": df = df.rename(columns={disp_col:"disponibilidad"})
+
+    for c in ["rank","score","precio","lead_time","disponibilidad"]:
+        if c not in df.columns: df[c] = pd.NA
+
+    cols = ["tipo","Substitute_Product_ID","nombre","categoria","proveedor","rank","score","precio","lead_time","disponibilidad"]
+    return df[cols]
+
+
+def build_internal_subs(pid: str, scm: pd.DataFrame | None, dfp: pd.DataFrame, cat: pd.DataFrame | None) -> pd.DataFrame:
+    """
+    Construye sustitutos INTERNOS = otros proveedores para el MISMO Product_ID.
+    - `scm` = supplier_catalog_multi normalizado (con columnas Product_ID, scm_supplier_id, scm_price, scm_lead_time, scm_availability).
+    - Devuelve un dataframe con las mismas columnas que 'enrich_external_subs' para poder concatenar.
+    """
+    if scm is None or scm.empty:
+        return pd.DataFrame(columns=[
+            "tipo", "Substitute_Product_ID", "nombre", "categoria", "proveedor",
+            "rank", "score", "precio", "lead_time", "disponibilidad"
+        ])
+
+    # Filtrar el multi-catálogo por el producto seleccionado
+    mm = scm.copy()
+    mm["Product_ID"] = _to_pid_str(mm["Product_ID"])
+    mm = mm[mm["Product_ID"] == str(pid)]
+    if mm.empty:
+        return pd.DataFrame(columns=[
+            "tipo", "Substitute_Product_ID", "nombre", "categoria", "proveedor",
+            "rank", "score", "precio", "lead_time", "disponibilidad"
+        ])
+
+    # Columnas esperadas
+    low = {c.lower(): c for c in mm.columns}
+    sup_col = low.get("scm_supplier_id") or low.get("supplier_id") or low.get("proveedor")
+    prc_col = low.get("scm_price") or low.get("price") or low.get("precio")
+    lt_col  = low.get("scm_lead_time") or low.get("lead_time") or low.get("lt")
+    av_col  = low.get("scm_availability") or low.get("availability") or low.get("stock") or low.get("disponibilidad")
+
+    # Nombre/Categoría del producto original
+    nombre = ""
+    categoria = ""
+    if cat is not None and not cat.empty:
+        cc = cat.copy()
+        pidc = _find_col(cc, ["Product_ID","product_id","item_id","id_producto"]) or "Product_ID"
+        nomc = _find_col(cc, ["Nombre","name","nombre"]) or "Nombre"
+        catc = _find_col(cc, ["Categoria","Categoría","category","categoria"]) or "Categoria"
+        if pidc != "Product_ID": cc = cc.rename(columns={pidc:"Product_ID"})
+        if nomc != "Nombre":     cc = cc.rename(columns={nomc:"Nombre"})
+        if catc != "Categoria":  cc = cc.rename(columns={catc:"Categoria"})
+        cc["Product_ID"] = _to_pid_str(cc["Product_ID"])
+        row = cc[cc["Product_ID"] == str(pid)].head(1)
+        if not row.empty:
+            nombre = str(row.iloc[0].get("Nombre", ""))
+            categoria = str(row.iloc[0].get("Categoria", ""))
+
+    # Construir filas
+    out = pd.DataFrame({
+        "tipo": "interno",
+        "Substitute_Product_ID": str(pid),
+        "nombre": nombre,
+        "categoria": categoria,
+        "proveedor": mm[sup_col] if sup_col else "",
+        "rank": range(1, len(mm) + 1),
+        "score": pd.NA,  # no hay score para internos
+        "precio": pd.to_numeric(mm[prc_col], errors="coerce") if prc_col else pd.NA,
+        "lead_time": pd.to_numeric(mm[lt_col], errors="coerce") if lt_col else pd.NA,
+        "disponibilidad": pd.to_numeric(mm[av_col], errors="coerce") if av_col else pd.NA,
+    })
+
+    cols = ["tipo","Substitute_Product_ID","nombre","categoria","proveedor","rank","score","precio","lead_time","disponibilidad"]
+    return out[cols]
+
 # ================================
 
 def _norm_inv_cols(df: pd.DataFrame) -> pd.DataFrame:
@@ -407,20 +670,13 @@ def _normalize_unif_for_vistas(p: Path) -> Path:
 
 @st.cache_data(ttl=60)
 def load_views(min_score: float, m_unif: float, m_multi: float, m_cat: float, m_stock: float):
-    """
-    Carga vistas de ui_products/ui_substitutes construidas por construir_vistas,
-    pasando rutas normalizadas y manejando ausencias con mensajes claros.
-    """
-    # UNIFICADO
-    unif_path = _normalize_unif_for_vistas(UNIF) if UNIF.exists() else UNIF
-    # MULTI
-    multi_path = MULTI if MULTI.exists() else MULTI
-    # CAT
-    cat_path = CAT if CAT.exists() else CAT
-    # STOCK
-    stock_path = STOCK if STOCK.exists() else STOCK
+    # Rutas normalizadas
+    unif_path  = _normalize_unif_for_vistas(UNIF)  if UNIF.exists()  else None
+    multi_path = _normalize_multi_for_vistas(MULTI) if MULTI.exists() else None
+    cat_path   = CAT   if CAT.exists()   else None
+    stock_path = STOCK if STOCK.exists() else None
 
-    # Construir vistas (devuelve rutas de parquet/csv)
+    # Intento 1: firma NUEVA
     try:
         paths = construir_vistas(
             substitutes_unified=unif_path,
@@ -431,23 +687,44 @@ def load_views(min_score: float, m_unif: float, m_multi: float, m_cat: float, m_
             min_score=min_score,
             m_unif=m_unif, m_multi=m_multi, m_cat=m_cat, m_stock=m_stock
         )
+    except TypeError:
+        # Intento 2: firma ANTIGUA (la que tenías en el script “fino”)
+        paths = construir_vistas(
+            path_unificado=unif_path,
+            path_multi=multi_path,
+            path_catalogo=cat_path,
+            path_stock=stock_path,
+            path_consumo=None,
+            min_score=min_score,
+        )
     except Exception as e:
         st.error("Error al construir las vistas.")
         st.exception(e)
         return {"ui_products": pd.DataFrame(), "ui_substitutes": pd.DataFrame()}
 
-    # Cargar
-    def _maybe(p: Path) -> pd.DataFrame:
-        if p and p.exists():
+    def _maybe(p) -> pd.DataFrame:
+        # Si ya es un DataFrame, lo devolvemos tal cual
+        if isinstance(p, pd.DataFrame):
+            return p.copy()
+
+        # Si es una ruta (str o Path), la leemos
+        if isinstance(p, (str, Path)):
             try:
-                return pd.read_parquet(p) if p.suffix == ".parquet" else pd.read_csv(p)
+                pth = Path(p)
+                if pth.exists():
+                    return pd.read_parquet(pth) if pth.suffix.lower() == ".parquet" else pd.read_csv(pth)
             except Exception:
-                return pd.read_csv(p)
+                # como último intento, CSV
+                try:
+                    return pd.read_csv(p)
+                except Exception:
+                    pass
+
+        # Cualquier otro caso → DataFrame vacío
         return pd.DataFrame()
 
     up = _maybe(paths.get("ui_products", TMP_VISTAS / "ui_products.parquet"))
     us = _maybe(paths.get("ui_substitutes", TMP_VISTAS / "ui_substitutes.csv"))
-
     return {"ui_products": up, "ui_substitutes": us}
 
 def _norm_ui_products(df: pd.DataFrame) -> pd.DataFrame:
@@ -812,22 +1089,22 @@ def render_exploracion_sustitutos():
         cat_path = ROOT / "data" / "processed" / "catalog_items.csv"
         try:
             cat = pd.read_csv(cat_path, encoding="utf-8")
-            # compat: si viniera item_id
-            icol = _find_col(cat, ["Product_ID", "product_id", "item_id", "id_producto"])
-            ncol = _find_col(cat, ["Nombre", "name", "nombre"])
-            ccol = _find_col(cat, ["Categoria", "Categoría", "categoria", "category"])
+            # Mapear a nombres estándar
+            pid = _find_col(cat, ["Product_ID", "product_id", "item_id", "id_producto"])
+            nom = _find_col(cat, ["Nombre", "name", "nombre"])
+            catg = _find_col(cat, ["Categoria", "Categoría", "category", "categoria"])
             ren = {}
-            if icol and icol != "Product_ID": ren[icol] = "Product_ID"
-            if ncol and ncol != "Nombre":     ren[ncol] = "Nombre"
-            if ccol and ccol != "Categoria":  ren[ccol] = "Categoria"
-            if ren:
-                cat = cat.rename(columns=ren)
-            cat = cat[["Product_ID", "Nombre", "Categoria"]].drop_duplicates("Product_ID")
+            if pid and pid != "Product_ID": ren[pid] = "Product_ID"
+            if nom and nom != "Nombre":     ren[nom] = "Nombre"
+            if catg and catg != "Categoria":ren[catg] = "Categoria"
+            if ren: cat = cat.rename(columns=ren)
+            cat = cat[["Product_ID","Nombre","Categoria"]].drop_duplicates("Product_ID")
             cat["Product_ID"] = _to_pid_str(cat["Product_ID"])
         except Exception:
             cat = None
 
-        dfp = _norm_ui_products(views["ui_products"].copy())
+        dfp = views["ui_products"].copy()
+        dfp["Product_ID"] = _to_pid_str(dfp["Product_ID"])
         if cat is not None:
             dfp = dfp.merge(cat, on="Product_ID", how="left")
 
@@ -844,6 +1121,31 @@ def render_exploracion_sustitutos():
         }
         cols_final = [c for c in rename_cols if c in dfp.columns]
         dfp = dfp[cols_final].rename(columns=rename_cols)
+
+        # --- Sincronizar "Stock actual" con el inventario vivo (inventory_updated.csv) ---
+        try:
+            inv_live = _read_working_inventory()  # lee OUT10/inventory_updated.csv o, si no existe, el Inventario.csv base
+            if inv_live is not None and not inv_live.empty:
+                inv_live = inv_live[["Product_ID", "Stock Real"]].copy()
+                inv_live["Product_ID"] = _to_pid_str(inv_live["Product_ID"])
+                inv_live["Stock Real"] = pd.to_numeric(inv_live["Stock Real"], errors="coerce").fillna(0).astype(int)
+
+                if "Product_ID" in dfp.columns:
+                    dfp["Product_ID"] = _to_pid_str(dfp["Product_ID"])
+                    dfp = dfp.merge(inv_live, on="Product_ID", how="left")
+
+                    # Sobrescribe SIEMPRE con el inventario vivo
+                    dfp["Stock actual"] = dfp["Stock Real"].fillna(0).astype(int)
+                    dfp = dfp.drop(columns=["Stock Real"], errors="ignore")
+            else:
+                # si no hay inventario, al menos garantiza la columna
+                if "Stock actual" not in dfp.columns:
+                    dfp["Stock actual"] = 0
+        except Exception as e:
+            # no rompas la pestaña si falla la lectura
+            if "Stock actual" not in dfp.columns:
+                dfp["Stock actual"] = 0
+            st.warning(f"No se pudo sincronizar el stock con el inventario vivo: {e}")
 
         if "Stock actual" in dfp.columns:
             dfp.insert(
@@ -1012,6 +1314,46 @@ def render_exploracion_sustitutos():
             sort_cols = [c for c in ["Sustitutos externos", "Sustitutos internos"] if c in resumen.columns]
             if sort_cols:
                 resumen = resumen.sort_values(sort_cols, ascending=False)
+        
+
+        # --- Sincronizar "Stock actual" con el inventario vivo ---
+
+        try:
+            inv_live = _read_working_inventory()  # -> columnas: Product_ID, Proveedor, Nombre, Categoria, Stock Real
+            if inv_live is not None and not inv_live.empty:
+                inv_live = inv_live[["Product_ID", "Stock Real"]].copy()
+                inv_live["Product_ID"] = _to_pid_str(inv_live["Product_ID"])
+                inv_live["Stock Real"] = pd.to_numeric(inv_live["Stock Real"], errors="coerce").fillna(0).astype(int)
+
+                # Normaliza el df de resumen y une por Product_ID
+                if "Product_ID" in resumen.columns:
+                    resumen["Product_ID"] = _to_pid_str(resumen["Product_ID"])
+                    resumen = resumen.merge(
+                        inv_live.rename(columns={"Stock Real": "Stock actual (inventario)"}),
+                        on="Product_ID", how="left"
+                    )
+
+                    # Si ya existe una columna "Stock actual", la sobreescribimos con el inventario vivo
+                    if "Stock actual (inventario)" in resumen.columns:
+                        resumen["Stock actual"] = resumen["Stock actual (inventario)"].fillna(
+                            pd.to_numeric(resumen.get("Stock actual"), errors="coerce")
+                        ).fillna(0).astype(int)
+                        resumen = resumen.drop(columns=["Stock actual (inventario)"])
+                else:
+                    # si por cualquier motivo no hay Product_ID, no rompemos la vista
+                    if "Stock actual" not in resumen.columns:
+                        resumen["Stock actual"] = 0
+            else:
+                # inventario vacío -> aseguramos la columna
+                if "Stock actual" not in resumen.columns:
+                    resumen["Stock actual"] = 0
+        except Exception as e:
+            # Failsafe: no romper la pestaña
+            if "Stock actual" not in resumen.columns:
+                resumen["Stock actual"] = 0
+            st.warning(f"No se pudo sincronizar el stock con el inventario vivo: {e}")
+
+
 
         resumen_view = resumen.rename(columns={
             "cat_nombre": "Nombre",
@@ -1045,6 +1387,72 @@ def render_exploracion_sustitutos():
 
         st.caption("Resumen de cobertura de sustitutos (haz clic en una fila para ver el detalle)")
         summary_key = "subs_summary_editor"
+        # === Enriquecer 'resumen' con Nombre / Categoría / Proveedor y construir 'resumen_view' ===
+        resumen_view = resumen.copy()
+        resumen_view["Product_ID"] = _to_pid_str(resumen_view["Product_ID"])
+
+        # Si aún no existen esas columnas, las traemos de catálogo y multi/ui_products
+        if not {"Nombre", "Categoría", "Proveedor principal"}.issubset(resumen_view.columns):
+
+            # 1) Nombre + Categoría (catálogo)
+            cat = load_catalog_items(ROOT)  # -> Product_ID, Nombre, Categoria
+            cat_mini = (cat[["Product_ID","Nombre","Categoria"]].drop_duplicates("Product_ID")
+                        if cat is not None and not cat.empty else
+                        pd.DataFrame(columns=["Product_ID","Nombre","Categoria"]))
+            if not cat_mini.empty:
+                cat_mini["Product_ID"] = _to_pid_str(cat_mini["Product_ID"])
+                resumen_view = resumen_view.merge(cat_mini, on="Product_ID", how="left")
+            # renombra Categoria -> Categoría para la vista
+            if "Categoria" in resumen_view.columns and "Categoría" not in resumen_view.columns:
+                resumen_view = resumen_view.rename(columns={"Categoria": "Categoría"})
+
+            # 2) Proveedor preferente (ui_products si existe; si no, el más barato del multi)
+            prov_mini = pd.DataFrame(columns=["Product_ID", "Proveedor"])
+            try:
+                ui_prod_path = TMP_VISTAS / "ui_products.parquet"
+                if ui_prod_path.exists():
+                    up = pd.read_parquet(ui_prod_path)
+                    up = _ensure_pid_col(up)
+                    low = {c.lower(): c for c in up.columns}
+                    prov_col = low.get("preferred_supplier_id") or low.get("proveedor") or low.get("supplier_id")
+                    if prov_col:
+                        prov_mini = (up.rename(columns={prov_col: "Proveedor"})
+                                        [["Product_ID", "Proveedor"]]
+                                        .drop_duplicates("Product_ID"))
+            except Exception:
+                pass
+
+            if prov_mini.empty:
+             multi = load_supplier_catalog_multi(ROOT)
+            if multi is not None and not multi.empty:
+                mm = multi.copy()
+                mm["Product_ID"] = _to_pid_str(mm["Product_ID"])
+                mm["scm_price"] = pd.to_numeric(mm.get("scm_price"), errors="coerce")
+                mm = (mm.sort_values(["Product_ID","scm_price"], na_position="last")
+                        .drop_duplicates("Product_ID"))
+                prov_mini = mm[["Product_ID","scm_supplier_id"]].rename(columns={"scm_supplier_id":"Proveedor"})
+
+            if not prov_mini.empty:
+                prov_mini["Product_ID"] = _to_pid_str(prov_mini["Product_ID"])
+                resumen_view = resumen_view.merge(prov_mini, on="Product_ID", how="left")
+
+            # nombre final de la columna para la UI
+            if "Proveedor" in resumen_view.columns and "Proveedor principal" not in resumen_view.columns:
+                resumen_view = resumen_view.rename(columns={"Proveedor": "Proveedor principal"})
+
+        # Asegurar que existan (aunque vengan vacías)
+        for c in ["Nombre", "Categoría", "Proveedor principal"]:
+            if c not in resumen_view.columns:
+                resumen_view[c] = ""
+
+        # Orden final para la tabla
+        cols_resumen = [
+            "Product_ID", "Nombre", "Proveedor principal", "Categoría",
+            "Sustitutos internos", "Sustitutos externos",
+            "Precio pref.", "Lead time pref."
+        ]
+        resumen_view = resumen_view[[c for c in cols_resumen if c in resumen_view.columns]].copy()
+
         st.data_editor(
             resumen_view,
             key=summary_key,
