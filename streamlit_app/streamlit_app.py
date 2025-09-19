@@ -1499,6 +1499,32 @@ def render_exploracion_sustitutos():
 
         df_show = pd.concat([dfs_int, dfs_ext], ignore_index=True, sort=False)
 
+        # --- Sincronizar "Disponibilidad" del detalle con el inventario vivo ---
+        try:
+            inv_live = _read_working_inventory()  # -> columnas: Product_ID, Proveedor, Nombre, Categoria, Stock Real
+            if inv_live is not None and not inv_live.empty:
+                inv_live = inv_live[["Product_ID", "Stock Real"]].copy()
+                inv_live["Product_ID"] = _to_pid_str(inv_live["Product_ID"])
+            inv_live["Stock Real"] = pd.to_numeric(inv_live["Stock Real"], errors="coerce").fillna(0).astype(int)
+
+            # Unimos el inventario al detalle por el ID del sustituto
+            df_show = df_show.merge(
+                inv_live.rename(columns={"Product_ID": "Substitute_Product_ID", "Stock Real": "disp_inv"}),
+                on="Substitute_Product_ID", how="left"
+            )  
+
+            # Si ya había una columna 'disponibilidad', la sobrescribimos cuando tengamos inventario;
+            # si no existía, la creamos con el inventario.
+            if "disponibilidad" in df_show.columns:
+                df_show["disponibilidad"] = df_show["disp_inv"].fillna(df_show["disponibilidad"])
+            else:
+                df_show["disponibilidad"] = df_show["disp_inv"]
+
+            df_show = df_show.drop(columns=["disp_inv"], errors="ignore")
+        except Exception as _e:
+            # No rompemos la IU si algo falla
+            pass
+
         row_pref = dfp.loc[dfp[pid_col] == pid].head(1)
         if not row_pref.empty:
             row_pref = row_pref.iloc[0]
