@@ -508,6 +508,17 @@ def append_ledger(rows: pd.DataFrame) -> None:
     """
     CANON_COLS = ["Date", "Product_ID", "Nombre", "Proveedor", "Tipo movimiento", "qty_pedido"]
     ledger_path = OUT10 / "ledger_movimientos.csv"
+
+    # --- Normalizar columna Date tras leer CSV ---
+    if ledger_path.exists():
+        try:
+            led = pd.read_csv(ledger_path, dtype={"Product_ID": str})
+            led["Date"] = pd.to_datetime(led["Date"], errors="coerce").dt.normalize()
+        except Exception:
+            led = pd.DataFrame(columns=CANON_COLS)
+    else:
+        led = pd.DataFrame(columns=CANON_COLS)
+
     if rows is None or rows.empty:
         return
 
@@ -2632,12 +2643,19 @@ def render_movimientos_stock():
         else:
             st.info("Ledger vacío.")
 
-        c0, c1, c2, c3 = st.columns([1.4, 1, 1, 1.2])
+        c0, c1, c2, c3, c4 = st.columns([1.4, 1, 1, 1.2, 1])
         q_pid = c0.text_input("Product_ID (contiene)", placeholder="Ej. 1003, 43…", key="ledger_pid").strip()
         prov_list = ["(Todos)"]
         if "Proveedor" in led.columns and not led.empty:
             prov_list += sorted(pd.Series(led["Proveedor"]).dropna().astype(str).unique().tolist())
         prov_sel = c1.selectbox("Proveedor", prov_list, index=0, key="ledger_proveedor")
+
+        # 🔽 nuevo: selector Tipo movimiento
+        tipo_list = ["(Todos)"]
+        if "Tipo movimiento" in led.columns and not led.empty:
+            tipo_list += sorted(pd.Series(led["Tipo movimiento"]).dropna().astype(str).unique().tolist())
+        tipo_sel = c4.selectbox("Tipo movimiento", tipo_list, index=0, key="ledger_tipo")
+
         min_date = pd.to_datetime(led["Date"]).min() if not led.empty else None
         max_date = pd.to_datetime(led["Date"]).max() if not led.empty else None
         f_ini = c2.date_input("Desde", value=(min_date.date() if pd.notna(min_date) else None), key="ledger_desde")
@@ -2648,8 +2666,15 @@ def render_movimientos_stock():
             lf = lf[lf["Product_ID"].astype(str).str.casefold().str.contains(q_ci, na=False)]
         if prov_sel != "(Todos)" and "Proveedor" in lf.columns:
             lf = lf[lf["Proveedor"].astype(str) == prov_sel]
-        if "Date" in lf.columns and f_ini and f_fin:
-            lf = lf[(lf["Date"].dt.date >= f_ini) & (lf["Date"].dt.date <= f_fin)]
+        if tipo_sel != "(Todos)" and "Tipo movimiento" in lf.columns:
+            lf = lf[lf["Tipo movimiento"].astype(str) == tipo_sel]
+        
+        # --- Filtrar por rango de fechas ---
+        start = pd.to_datetime(f_ini) if f_ini else None
+        end   = pd.to_datetime(f_fin) if f_fin else None
+
+        if "Date" in lf.columns and start is not None and end is not None:
+            lf = lf[(lf["Date"] >= start) & (lf["Date"] <= end)]
         st.caption(f"Líneas en vista: **{len(lf):,}**")
         st.dataframe(
             lf[CANON_COLS].sort_values("Date", ascending=False),
