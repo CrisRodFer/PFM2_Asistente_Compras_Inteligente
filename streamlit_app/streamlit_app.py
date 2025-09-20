@@ -672,6 +672,66 @@ def _oc_sync_remove_cur(order_id: str) -> None:
         _oc_write(OC_CUR_HDR, cur_hdr[cur_hdr["order_id"] != order_id].copy())
     if not cur_lin.empty:
         _oc_write(OC_CUR_LIN, cur_lin[cur_lin["order_id"] != order_id].copy())
+
+# ===== TOP VENTAS (outliers.csv) =====
+def _load_top_ventas_from_outliers() -> pd.DataFrame:
+    """
+    Devuelve DF con: Product_ID (str), top_ventas (bool)
+    Lee data/processed/outliers.csv (y rutas alternativas) y deduplica por Product_ID usando "any".
+    """
+    from pathlib import Path
+
+    candidates = [
+        ROOT / "data" / "processed" / "outliers.csv",   # ruta principal en tu proyecto
+        OUT10 / "outliers.csv",                         # fallback
+        Path("/mnt/data/outliers.csv"),                 # fallback en sesión actual
+    ]
+    df = None
+    for p in candidates:
+        try:
+            if p.exists():
+                df = pd.read_csv(p)
+                break
+        except Exception:
+            pass
+    if df is None or df.empty:
+        return pd.DataFrame(columns=["Product_ID", "top_ventas"])
+
+    # Normalizar Product_ID
+    pid_col = None
+    low = {c.lower(): c for c in df.columns}
+    for cand in ("product_id", "Product_ID", "id_producto", "sku"):
+        if cand.lower() in low:
+            pid_col = low[cand.lower()]
+            break
+    if not pid_col:
+        return pd.DataFrame(columns=["Product_ID", "top_ventas"])
+
+    df = df.rename(columns={pid_col: "Product_ID"})
+    df["Product_ID"] = _to_pid_str(df["Product_ID"])
+
+    # Detectar la columna de flag
+    flag_col = None
+    for cand in ("is_outlier", "outlier", "is_top", "top_ventas"):
+        if cand.lower() in low:
+            flag_col = low[cand.lower()]
+            break
+    if not flag_col:
+        return pd.DataFrame(columns=["Product_ID", "top_ventas"])
+
+    # Convertir a boolean (1/0, True/False, yes/no)
+    s = df[flag_col]
+    num = pd.to_numeric(s, errors="coerce")
+    bool_num = (num.fillna(0) > 0)
+    bool_txt = s.astype(str).str.strip().str.lower().isin(["true","t","yes","y","top","si","sí"])
+    df["__flag__"] = bool_num | bool_txt
+
+    # Deduplicar: True si alguna fila lo marca
+    top = (df.groupby("Product_ID", as_index=False)["__flag__"].max()
+             .rename(columns={"__flag__": "top_ventas"}))
+    return top[["Product_ID", "top_ventas"]]
+
+
     
     # ==================== OC helpers ====================
 
@@ -3208,10 +3268,9 @@ def render_reapro():
 
     # ------------------------ TAB: Ranking & Sugerencias ------------------------
     with tab_rank:
-        # ===== Escenario =====
         escenario = st.selectbox("Escenario de previsión", ["Neutro", "Pesimista", "Optimista"], index=0)
 
-        # ===== Carga base =====
+        # ===== Inventario =====
         inv = _read_working_inventory()
         if inv.empty:
             st.warning("Inventario vivo vacío.")
@@ -3220,7 +3279,7 @@ def render_reapro():
         inv["Product_ID"] = _to_pid_str(inv["Product_ID"])
         inv["Stock Real"] = pd.to_numeric(inv["Stock Real"], errors="coerce").fillna(0).astype(int)
 
-        # Demanda base normalizada
+        # ===== Demanda =====
         fore = load_demanda_base(ROOT)
         if fore is None:
             fore = pd.DataFrame(columns=["Product_ID", "Date", "sales_quantity"])
@@ -3229,7 +3288,7 @@ def render_reapro():
             fore["Product_ID"] = _to_pid_str(fore["Product_ID"])
             fore["sales_quantity"] = pd.to_numeric(fore["sales_quantity"], errors="coerce").fillna(0)
 
-        # Catálogo multi (lead times/disp)
+        # ===== Catálogo (lead times) =====
         lt_df = load_supplier_catalog_multi(ROOT)
 
         # ===== Base de trabajo =====
@@ -3270,22 +3329,58 @@ def render_reapro():
         work["stock_seguridad"] = (work["sales_mean"] * 0.5 * work["lead_time"]).fillna(0)
         work["ROP"] = (work["sales_mean"] * work["lead_time"] + work["stock_seguridad"]).fillna(0)
 
-        work["rotura"]   = work["stock_actual"] <= 0
+        # Flags de urgencia (rotura solo si stock < 0)
+        work["rotura"]   = work["stock_actual"] < 0
         work["rop_bajo"] = work["stock_actual"] < work["ROP"]
         work["ss_bajo"]  = work["stock_actual"] < work["stock_seguridad"]
 
         work["recomendada"] = (work["ROP"] + work["prev_lt"] - work["stock_actual"]).clip(lower=0).round().astype(int)
 
-        # ===== EN CAMINO: merge con cantidades pendientes y ETA mínima =====
+        # ===== EN CAMINO =====
         en_camino = _load_en_camino_por_pid()
         if en_camino is None or en_camino.empty:
             en_camino = pd.DataFrame(columns=["Product_ID", "en_camino_qty", "eta_min"])
-
         en_camino["Product_ID"] = _to_pid_str(en_camino.get("Product_ID", ""))
         en_camino["en_camino_qty"] = pd.to_numeric(en_camino.get("en_camino_qty", 0), errors="coerce").fillna(0).astype(int)
-
         work = work.merge(en_camino[["Product_ID", "en_camino_qty", "eta_min"]], on="Product_ID", how="left")
         work["en_camino_qty"] = work["en_camino_qty"].fillna(0).astype(int)
+
+        tv = _load_top_ventas_from_outliers()
+        if tv is not None and not tv.empty:
+            work = work.merge(tv, on="Product_ID", how="left")
+            work["top_ventas"] = work["top_ventas"].fillna(False).astype(bool)
+        else:
+            work["top_ventas"] = False
+
+        # ===== TOP VENTAS (catalog_items.is_outlier == 1) =====
+        def _load_catalog_items():
+            from pathlib import Path
+            for p in [OUT10 / "catalog_items.csv",
+                    ROOT / "data" / "processed" / "catalog_items.csv",
+                    Path("/mnt/data/catalog_items.csv")]:
+                try:
+                    if p.exists():
+                        return pd.read_csv(p)
+                except Exception:
+                    pass
+            return pd.DataFrame()
+
+        ci = _load_catalog_items()
+        if not ci.empty:
+            ci = ci.copy()
+            # normalizar clave
+            pid_col = "Product_ID" if "Product_ID" in ci.columns else ("product_id" if "product_id" in ci.columns else None)
+            if pid_col:
+                ci.rename(columns={pid_col: "Product_ID"}, inplace=True)
+                ci["Product_ID"] = _to_pid_str(ci["Product_ID"])
+                if "is_outlier" in ci.columns:
+                    work = work.merge(ci[["Product_ID", "is_outlier"]], on="Product_ID", how="left")
+                    # OR con lo que ya venía de outliers.csv
+                    top_ci = (pd.to_numeric(work["is_outlier"], errors="coerce").fillna(0) == 1)
+                    work["top_ventas"] = work["top_ventas"].fillna(False) | top_ci
+                # no pongas work["top_ventas"]=False si no hay columna: mantenemos lo que ya había
+        # Limpieza opcional
+        work.drop(columns=["is_outlier"], inplace=True, errors="ignore")
 
         # ===== Ranking de proveedores =====
         prov_rank = (
@@ -3311,41 +3406,40 @@ def render_reapro():
             if dfp.empty:
                 st.info("No hay productos críticos para este proveedor en el escenario seleccionado.")
             else:
-                # --- chips de alertas (rotura/rop/ss + en camino)
+                # --- chips de alertas (ACUMULABLES)
                 def _build_alertas_row(r):
                     chips = []
                     if r.get("rotura", False):
                         chips.append("🔴 Rotura")
-                    elif r.get("rop_bajo", False):
+                    if r.get("rop_bajo", False):
                         chips.append("🟠 ROP bajo")
-                    elif r.get("ss_bajo", False):
+                    if r.get("ss_bajo", False):
                         chips.append("🟡 SS bajo")
-
                     ec = int(r.get("en_camino_qty", 0) or 0)
                     if ec > 0:
                         eta = r.get("eta_min", pd.NA)
-                        if pd.notna(eta) and str(eta) != "":
-                            chips.append(f"🚚 En camino: {ec} (ETA~{int(eta)}d)")
-                        else:
-                            chips.append(f"🚚 En camino: {ec}")
+                        chips.append(f"🚚 En camino: {ec}" + (f" (ETA~{int(eta)}d)" if pd.notna(eta) and str(eta) != "" else ""))
+                    if r.get("top_ventas", False):
+                        chips.append("🏆 Top ventas")
                     return " · ".join(chips)
 
                 dfp["Alertas"] = dfp.apply(_build_alertas_row, axis=1)
 
-                # Orden por severidad
+                # Orden por severidad (rotura > rop > ss > en_camino; top_ventas no altera severidad)
                 dfp = dfp.sort_values(["rotura","rop_bajo","ss_bajo","Product_ID"],
                                       ascending=[False, False, False, True])
 
-                # --- columnas a mostrar (añadimos En camino)
+                # --- columnas a mostrar
                 mostrar = dfp[[
                     "Product_ID","Nombre","stock_actual","prev_lt","recomendada",
-                    "en_camino_qty","ROP","stock_seguridad","Alertas"
+                    "en_camino_qty","ROP","stock_seguridad","top_ventas","Alertas"
                 ]].rename(columns={
                     "stock_actual":"Stock actual",
                     "prev_lt":"Previsión (LT)",
                     "recomendada":"Cantidad recomendada",
                     "stock_seguridad":"Stock de seguridad",
                     "en_camino_qty":"En camino",
+                    "top_ventas":"Top ventas",
                 }).copy()
 
                 # Asegurar columna editable
@@ -3353,7 +3447,7 @@ def render_reapro():
                     mostrar["Cantidad a pedir"] = 0
                 mostrar["Cantidad a pedir"] = pd.to_numeric(mostrar["Cantidad a pedir"], errors="coerce").fillna(0).astype("Int64")
 
-                # Clave base para widgets (evitar colisiones)
+                # Clave base para widgets
                 _preview_key = f"oc_preview_{prov_sel}_{escenario}"
                 SEL = "__incluir__"
                 if SEL not in mostrar.columns:
@@ -3371,6 +3465,7 @@ def render_reapro():
                     "Cantidad a pedir":     st.column_config.NumberColumn("Cantidad a pedir", min_value=0, step=1),
                     "ROP":                  st.column_config.NumberColumn("ROP", format="%.0f", disabled=True),
                     "Stock de seguridad":   st.column_config.NumberColumn("Stock de seguridad", format="%.0f", disabled=True),
+                    "Top ventas":           st.column_config.CheckboxColumn("🏆 Top ventas", disabled=True),
                     "Alertas":              st.column_config.TextColumn("Alertas", disabled=True),
                     SEL:                    st.column_config.CheckboxColumn("✓ Incluir"),
                 }
@@ -3386,7 +3481,7 @@ def render_reapro():
                     num_rows="fixed",
                 )
 
-                # ---- Botones de acciones (con keys únicos)
+                # ---- Acciones preview (con keys únicos)
                 if _preview_key not in st.session_state:
                     st.session_state[_preview_key] = pd.DataFrame(
                         columns=["Product_ID", "Nombre", "Cantidad_pedir"]
@@ -3457,6 +3552,7 @@ def render_reapro():
                         new_lin.insert(0, "order_id", order_id)
                         _oc_write_lin(pd.concat([lin_cur, new_lin], ignore_index=True))
 
+                        # sincronizar en_curso.csv para alertas
                         try:
                             _oc_sync_append_cur(new_hdr, new_lin)
                         except Exception as e:
@@ -3539,23 +3635,17 @@ def render_reapro():
 
     # ------------------------ TAB: Órdenes recibidas ------------------------
     with tab_rec:
-        # 1) Recogemos recibidas de ambos sitios
         hdr = _oc_read_hdr()
         rec1 = hdr[hdr.get("Estado") == "recibida"].copy()
-
         try:
             rec2 = _oc_read_rec_hdr()
         except Exception:
             rec2 = pd.DataFrame(columns=["order_id","Proveedor","Fecha","Escenario","ETA_dias","Estado"])
-
-        # 2) Unimos y quitamos duplicados por order_id
         rec = pd.concat([rec1, rec2], ignore_index=True)
         if rec.empty:
             st.info("Aún no hay órdenes recibidas.")
         else:
             rec = rec.drop_duplicates(subset=["order_id"], keep="last").copy()
-
-            # Normalizar fecha y ordenar
             if "Fecha" in rec.columns:
                 rec["Fecha"] = pd.to_datetime(rec["Fecha"], errors="coerce")
                 rec = rec.sort_values("Fecha", ascending=False)
@@ -3567,25 +3657,19 @@ def render_reapro():
                 height=260,
             )
 
-            # 3) Selector para ver detalle
             st.markdown("#### 🔎 Ver detalle de una orden recibida")
             oc_ids = ["— Selecciona una orden —"] + rec["order_id"].tolist()
             oc_sel = st.selectbox("Orden:", oc_ids, index=0)
-
             if oc_sel != "— Selecciona una orden —":
-                # 4) Buscar las líneas en REC primero; si no, en LÍN unificado
                 try:
                     lin_rec = _oc_read_rec_lin()
                 except Exception:
                     lin_rec = pd.DataFrame(columns=["order_id","Product_ID","Nombre","Cantidad_pedir"])
-
                 det = lin_rec[lin_rec.get("order_id") == oc_sel].copy()
-
                 if det.empty:
                     lin = _oc_read_lin()
                     det = lin[lin.get("order_id") == oc_sel].copy()
 
-                # Normalizaciones
                 det = _ensure_pid_col(det, prefer_int=False)
                 det["Product_ID"] = _to_pid_str(det.get("Product_ID", ""))
                 if "Cantidad_pedir" not in det.columns:
@@ -3596,7 +3680,6 @@ def render_reapro():
                             break
                 det["Cantidad_pedir"] = pd.to_numeric(det.get("Cantidad_pedir", 0), errors="coerce").fillna(0).astype(int)
 
-                # Añadir Nombre si faltara
                 if "Nombre" not in det.columns or det["Nombre"].isna().all() or (det["Nombre"] == "").all():
                     master = build_product_master(ROOT)[["Product_ID","Nombre"]].drop_duplicates("Product_ID")
                     master["Product_ID"] = _to_pid_str(master["Product_ID"])
