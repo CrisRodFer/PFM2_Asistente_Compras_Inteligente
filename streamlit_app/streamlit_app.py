@@ -374,6 +374,69 @@ def _standardize_inventory_output(path: Path) -> None:
 
     df.to_csv(path, index=False)
 
+# ============================ helper: load_demanda_base ============================
+def load_demanda_base(root: Path) -> pd.DataFrame | None:
+    """
+    Carga la demanda base/prevista diaria para alimentar SS/ROP.
+    Intenta:
+      1) data/processed/predicciones_2025_estacional.parquet (preferente)
+      2) data/processed/demanda_subset.csv (fallback)
+    Normaliza a columnas: Product_ID (str), Date (datetime), sales_quantity (float).
+    Acepta nombres alternativos: item_id/Product_ID, fecha/Date, demanda/sales_quantity.
+    """
+    candidatos = [
+        root / "data/processed/predicciones_2025_estacional.parquet",
+        root / "data/processed/demanda_subset.csv",
+    ]
+
+    df = None
+    for p in candidatos:
+        if p.exists():
+            try:
+                if p.suffix == ".parquet":
+                    df = pd.read_parquet(p)
+                else:
+                    df = pd.read_csv(p)
+                break
+            except Exception:
+                df = None
+
+    if df is None or df.empty:
+        return None
+
+    # Normalizar nombres
+    low = {c.lower(): c for c in df.columns}
+    pid_col = low.get("product_id") or low.get("item_id") or low.get("sku")
+    date_col = low.get("date") or low.get("fecha")
+    qty_col = (low.get("sales_quantity") or low.get("quantity") or low.get("qty")
+               or low.get("demand") or low.get("demanda") or low.get("y") )
+
+    # Si falta cualquiera de los 3, intentar inferir mínimo para media diaria (sin fecha)
+    if not pid_col:
+        # último recurso: si hay 'Product_ID' con mayúsculas exactas
+        pid_col = "Product_ID" if "Product_ID" in df.columns else None
+    if not qty_col:
+        # último recurso: columna numérica principal
+        num_cols = [c for c in df.columns if pd.api.types.is_numeric_dtype(df[c])]
+        qty_col = num_cols[0] if num_cols else None
+
+    if not pid_col or not qty_col:
+        return None  # sin Product_ID o sin cantidad, no sirve
+
+    out = pd.DataFrame()
+    out["Product_ID"] = df[pid_col].astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
+    out["sales_quantity"] = pd.to_numeric(df[qty_col], errors="coerce")
+
+    if date_col:
+        out["Date"] = pd.to_datetime(df[date_col], errors="coerce")
+    else:
+        # sin fecha: dejamos Date como NaT (seguirá funcionando con SS fijo y ROP ~ μ_d * L + SS)
+        out["Date"] = pd.NaT
+
+    # limpiar
+    out = out.dropna(subset=["Product_ID"])
+    return out
+
 
 # --- Normalizador MULTI: garantiza columnas para construir_vistas ---
 def _normalize_multi_for_vistas(src: Path) -> Path:
@@ -1850,8 +1913,10 @@ def render_movimientos_stock():
                 if pid and f_qty > 0:
                     _append_order_row(f_date.strftime("%Y-%m-%d"), pid, int(f_qty))
                     st.success("Línea añadida al pedido.")
-                    try: st.cache_data.clear()
-                    except: pass
+                    try: 
+                        st.cache_data.clear()
+                    except: 
+                        pass
                     st.rerun()
                 else:
                     st.warning("Indica Product_ID y Cantidad > 0.")
@@ -1864,180 +1929,419 @@ def render_movimientos_stock():
                 return pd.DataFrame(columns=["date","Product_ID","qty"])
 
         df_ui = _read_orders_ui_fresh()
+        sel_rows_pos = []  # 🔹 Inicializamos siempre para evitar el UnboundLocalError
+
         if df_ui.empty:
             st.info("Aún no hay pedidos en UI.")
-            st.stop()
-
-        # Normalizar columnas base
-        low = {c.lower(): c for c in df_ui.columns}
-        if "product_id" not in low and "item_id" in low:
-            df_ui = df_ui.rename(columns={low["item_id"]: "Product_ID"})
-        if "date" not in df_ui.columns and "fecha" in low:
-            df_ui = df_ui.rename(columns={low["fecha"]: "date"})
-        if "qty" not in df_ui.columns and "cantidad" in low:
-            df_ui = df_ui.rename(columns={low["cantidad"]: "qty"})
-        df_ui["Product_ID"] = df_ui["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
-        df_ui["qty"] = pd.to_numeric(df_ui["qty"], errors="coerce").fillna(0).astype(int)
-
-        # ---------- Enriquecer con Nombre ----------
-        cat = load_catalog_items(ROOT)  # -> Product_ID, Nombre, Categoria
-        if cat is not None and not cat.empty:
-            cat_mini = cat[["Product_ID","Nombre"]].drop_duplicates("Product_ID")
         else:
-            cat_mini = pd.DataFrame(columns=["Product_ID","Nombre"])
+            # Normalizar columnas base
+            low = {c.lower(): c for c in df_ui.columns}
+            if "product_id" not in low and "item_id" in low:
+                df_ui = df_ui.rename(columns={low["item_id"]: "Product_ID"})
+            if "date" not in df_ui.columns and "fecha" in low:
+                df_ui = df_ui.rename(columns={low["fecha"]: "date"})
+            if "qty" not in df_ui.columns and "cantidad" in low:
+                df_ui = df_ui.rename(columns={low["cantidad"]: "qty"})
+            df_ui["Product_ID"] = df_ui["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
+            df_ui["qty"] = pd.to_numeric(df_ui["qty"], errors="coerce").fillna(0).astype(int)
 
-        # ---------- Proveedor: ui_products.parquet o fallback al multi-catálogo ----------
-        prov_mini = pd.DataFrame(columns=["Product_ID","Proveedor"])
-        try:
-            ui_prod_path = TMP_VISTAS / "ui_products.parquet"
-            if ui_prod_path.exists():
-                up = pd.read_parquet(ui_prod_path)
-                up = _ensure_pid_col(up)
-                low_up = {c.lower(): c for c in up.columns}
-                prov_col = low_up.get("preferred_supplier_id") or low_up.get("up_proveedor") or low_up.get("proveedor")
-                if prov_col:
-                    prov_mini = up.rename(columns={prov_col:"Proveedor"})[["Product_ID","Proveedor"]].drop_duplicates("Product_ID")
-        except Exception:
-            pass
+            # ---------- Enriquecer con Nombre ----------
+            cat = load_catalog_items(ROOT)  # -> Product_ID, Nombre, Categoria
+            if cat is not None and not cat.empty:
+                cat_mini = cat[["Product_ID","Nombre"]].drop_duplicates("Product_ID")
+            else:
+                cat_mini = pd.DataFrame(columns=["Product_ID","Nombre"])
 
-        if prov_mini.empty:
+            # ---------- Proveedor ----------
+            prov_mini = pd.DataFrame(columns=["Product_ID","Proveedor"])
+            try:
+                ui_prod_path = TMP_VISTAS / "ui_products.parquet"
+                if ui_prod_path.exists():
+                    up = pd.read_parquet(ui_prod_path)
+                    up = _ensure_pid_col(up)
+                    low_up = {c.lower(): c for c in up.columns}
+                    prov_col = low_up.get("preferred_supplier_id") or low_up.get("up_proveedor") or low_up.get("proveedor")
+                    if prov_col:
+                        prov_mini = up.rename(columns={prov_col:"Proveedor"})[["Product_ID","Proveedor"]].drop_duplicates("Product_ID")
+            except Exception:
+                pass
+
+            if prov_mini.empty:
+                multi = load_supplier_catalog_multi(ROOT)
+                if multi is not None and not multi.empty:
+                    mm = multi.copy()
+                    mm["scm_price"] = pd.to_numeric(mm.get("scm_price"), errors="coerce")
+                    mm = mm.sort_values(["Product_ID","scm_price"], na_position="last")
+                    mm = mm.drop_duplicates("Product_ID")
+                    prov_mini = mm[["Product_ID","scm_supplier_id"]].rename(columns={"scm_supplier_id":"Proveedor"})
+
+            # ---------- DF para mostrar ----------
+            df_show = df_ui.copy()
+            df_show = df_show.merge(cat_mini, on="Product_ID", how="left")
+            if not prov_mini.empty:
+                df_show = df_show.merge(prov_mini, on="Product_ID", how="left")
+            for c in ["Nombre","Proveedor"]:
+                if c not in df_show.columns:
+                    df_show[c] = ""
+
+            # ---------- Editor con columna de selección ----------
+            SEL = "__seleccionar__"
+            df_display = df_show.rename(columns={"qty": "Cantidad", "date": "Fecha"}).copy()
+            if SEL not in df_display.columns:
+                df_display[SEL] = False
+
+            column_config = {
+                "Product_ID": st.column_config.TextColumn("Product_ID", disabled=True),
+                "Nombre":     st.column_config.TextColumn("Nombre", disabled=True),
+                "Proveedor":  st.column_config.TextColumn("Proveedor", disabled=True),
+                "Cantidad":   st.column_config.NumberColumn("Cantidad", format="%d", disabled=True),
+                "Fecha":      st.column_config.TextColumn("Fecha", disabled=True),
+                SEL:          st.column_config.CheckboxColumn("Seleccionar"),
+            }
+            order = [c for c in ["Product_ID","Nombre","Proveedor","Cantidad","Fecha",SEL] if c in df_display.columns]
+
+            edited = st.data_editor(
+                df_display[order],
+                use_container_width=True,
+                height=380,
+                hide_index=True,
+                num_rows="fixed",
+                disabled=False,
+                column_config=column_config,
+                key="orders_editor_explicit",
+            )
+
+            # Fila(s) marcadas por POSICIÓN
+            sel_rows_pos = edited.index[edited[SEL] == True].tolist()
+
+            c_left, c_mid, c_right = st.columns([1,1,2])
+
+            # Eliminar seleccionadas
+            if c_left.button("🗑️ Eliminar seleccionadas", disabled=(len(sel_rows_pos) == 0), use_container_width=True):
+                df_new = df_ui.drop(df_ui.index[sel_rows_pos]).reset_index(drop=True)
+                df_new.to_csv(ORD_UI, index=False)
+                try: st.cache_data.clear()
+                except: pass
+                st.success(f"Eliminadas {len(sel_rows_pos)} línea(s).")
+                st.rerun()
+
+            # Vaciar pedido completo
+            if c_mid.button("🧹 Vaciar pedido completo", use_container_width=True):
+                pd.DataFrame(columns=["date","Product_ID","qty"]).to_csv(ORD_UI, index=False)
+                try: st.cache_data.clear()
+                except: pass
+                st.success("Pedido vaciado.")
+                st.rerun()
+
+            # Descargar CSV base
+            csv_bytes = df_ui.to_csv(index=False).encode("utf-8")
+            c_right.download_button(
+                "⬇️ Descargar CSV",
+                data=csv_bytes,
+                file_name="customer_orders_ui.csv",
+                mime="text/csv",
+                use_container_width=True,
+            )
+
+    # ---------------- TAB: Stock actual ----------------
+    with tab_stock:
+        st.subheader("📦 Estado del inventario vivo")
+
+        inv_live = _read_working_inventory()
+        if inv_live is None or inv_live.empty:
+            st.warning("Inventario vivo vacío.")
+        else:
+            import numpy as np
+
+            inv_live["Product_ID"] = _to_pid_str(inv_live["Product_ID"])
+            inv = inv_live.copy()
+
+            # ---------- CARGA CACHEADA: previsión (μ_d) y estacionalidad ----------
+            @st.cache_data(show_spinner=False)
+            def _load_demanda_cached(root: Path):
+                try:
+                    dem = load_demanda_base(root)  # -> Product_ID, (Date), sales_quantity
+                except Exception:
+                    dem = None
+                if dem is None or dem.empty:
+                    return None, None
+
+                # μ diaria por SKU
+                dmean = (
+                    dem.groupby("Product_ID")["sales_quantity"]
+                    .mean()
+                    .reset_index(name="demanda_media_dia")
+                )
+
+                # Estacionalidad por DOW (si hay fecha)
+                season_map = None
+                if "Date" in dem.columns and dem["Date"].notna().any():
+                    dem2 = dem.copy()
+                    dem2["Date"] = pd.to_datetime(dem2["Date"], errors="coerce")
+                    dem2["dow"] = dem2["Date"].dt.dayofweek
+                    mu_total = dem2.groupby("Product_ID")["sales_quantity"].mean().rename("mu")
+                    mu_dow = dem2.groupby(["Product_ID","dow"])["sales_quantity"].mean().rename("mu_dow")
+                    sigma_base = dem2.groupby("Product_ID")["sales_quantity"].std(ddof=1).rename("sigma")
+                    df_season = mu_dow.to_frame().join(mu_total, how="left")
+                    df_season["s_dow"] = (df_season["mu_dow"] / df_season["mu"]).replace([np.inf, -np.inf], np.nan).fillna(1.0)
+                    season_map = {}
+                    for pid, grp in df_season.reset_index().groupby("Product_ID"):
+                        season_map[str(pid)] = {
+                            "s_dow": grp.set_index("dow")["s_dow"],
+                            "mu": float(mu_total.get(pid, np.nan)) if not pd.isna(mu_total.get(pid, np.nan)) else None,
+                            "sigma": float(sigma_base.get(pid, np.nan)) if not pd.isna(sigma_base.get(pid, np.nan)) else None,
+                        }
+                return dmean, season_map
+
+            dmean, season_map = _load_demanda_cached(ROOT)
+
+            # --- unir μ_d (y redondear al ALZA sin decimales)
+            if dmean is not None:
+                dmean["Product_ID"] = dmean["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
+                inv["Product_ID"] = inv["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
+                inv = inv.merge(dmean, on="Product_ID", how="left")
+            else:
+                inv["demanda_media_dia"] = 0.0
+            inv["demanda_media_dia"] = np.ceil(pd.to_numeric(inv["demanda_media_dia"], errors="coerce").fillna(0.0)).astype(int)
+
+            # --- unir Lead Time (admite 'lead_time' o 'scm_lead_time')
             multi = load_supplier_catalog_multi(ROOT)
             if multi is not None and not multi.empty:
                 mm = multi.copy()
-                mm["scm_price"] = pd.to_numeric(mm.get("scm_price"), errors="coerce")
-                mm = mm.sort_values(["Product_ID","scm_price"], na_position="last")
-                mm = mm.drop_duplicates("Product_ID")
-                prov_mini = mm[["Product_ID","scm_supplier_id"]].rename(columns={"scm_supplier_id":"Proveedor"})
+                low = {c.lower(): c for c in mm.columns}
+                lt_col = low.get("lead_time") or low.get("scm_lead_time")
+                if lt_col:
+                    mm[lt_col] = pd.to_numeric(mm[lt_col], errors="coerce")
+                    mm = mm.sort_values(["Product_ID", lt_col]).drop_duplicates("Product_ID")
+                    inv = inv.merge(
+                        mm[["Product_ID", lt_col]].rename(columns={lt_col: "lead_time"}),
+                        on="Product_ID", how="left"
+                    )
+            inv["lead_time"] = pd.to_numeric(inv.get("lead_time", 0), errors="coerce").fillna(0).astype(int)
 
-        # ---------- DF para mostrar ----------
-        df_show = df_ui.copy()
-        df_show = df_show.merge(cat_mini, on="Product_ID", how="left")
-        if not prov_mini.empty:
-            df_show = df_show.merge(prov_mini, on="Product_ID", how="left")
-        for c in ["Nombre","Proveedor"]:
-            if c not in df_show.columns:
-                df_show[c] = ""
+            # ========= PANEL DE CÁLCULO SS / ROP =========
+            c_m1, c_m2, c_m3 = st.columns([1.4, 1.1, 1.1])
+            modo_ss = c_m1.selectbox("Modo de Stock de seguridad", ["Dinámico (recomendado)", "Fijo (1.5 días)"], index=0)
+            redondeo = c_m2.selectbox("Redondeo SS", ["Ceil (recomendado)", "Nearest"], index=0)
+            ss_min = c_m3.number_input("SS mínimo si μ>0 y L>0", min_value=0, value=1, step=1)
 
-        # ---------- Editor con columna de selección ----------
-        SEL = "__seleccionar__"
+            nivel_serv = st.selectbox(
+                "Nivel de servicio (z-score)",
+                ["90% (z≈1.28)", "95% (z≈1.65)", "97.5% (z≈1.96)", "99% (z≈2.33)"],
+                index=1
+            )
 
-        df_display = df_show.rename(columns={"qty": "Cantidad", "date": "Fecha"}).copy()
-        if SEL not in df_display.columns:
-            df_display[SEL] = False
+            def _z(lbl: str) -> float:
+                if "90%" in lbl: return 1.2816
+                if "95%" in lbl: return 1.6449
+                if "97.5%" in lbl: return 1.9599
+                if "99%" in lbl: return 2.3263
+                return 1.6449
 
-        column_config = {
-            "Product_ID": st.column_config.TextColumn("Product_ID", disabled=True),
-            "Nombre":     st.column_config.TextColumn("Nombre", disabled=True),
-            "Proveedor":  st.column_config.TextColumn("Proveedor", disabled=True),
-            "Cantidad":   st.column_config.NumberColumn("Cantidad", format="%d", disabled=True),
-            "Fecha":      st.column_config.TextColumn("Fecha", disabled=True),
-            SEL:          st.column_config.CheckboxColumn("Seleccionar"),
-        }
-        order = [c for c in ["Product_ID","Nombre","Proveedor","Cantidad","Fecha",SEL] if c in df_display.columns]
+            z = _z(nivel_serv)
+            use_dynamic = modo_ss.startswith("Dinámico")
+            use_ceil = redondeo.startswith("Ceil")
+            today = pd.Timestamp.today().normalize()
 
-        edited = st.data_editor(
-            df_display[order],
-            use_container_width=True,
-            height=380,
-            hide_index=True,
-            num_rows="fixed",
-            disabled=False,
-            column_config=column_config,
-            key="orders_editor_explicit",
-        )
+            def _ss_muL_row(pid: str, mu_d: float, L: int) -> tuple[float, float]:
+                """Devuelve (SS, mu_L) por SKU para el modo seleccionado."""
+                mu_d = float(mu_d or 0.0)
+                L = max(int(L or 0), 0)
+                if L == 0:
+                    return (0.0 if use_dynamic else 1.5 * mu_d), 0.0
 
-        # Fila(s) marcadas por POSICIÓN (no necesitamos el índice auxiliar)
-        sel_rows_pos = edited.index[edited[SEL] == True].tolist()
+                if not use_dynamic:
+                    return 1.5 * mu_d, mu_d * L
 
+                # Dinámico: z * sigma_L con estacionalidad por DOW (si existe)
+                m = season_map.get(str(pid)) if season_map else None
+                # Fallbacks robustos para sigma_d
+                CV_MIN = 0.45
+                sigma_d = (m.get("sigma") if m else None)
+                if sigma_d is None or not np.isfinite(sigma_d) or sigma_d <= 0:
+                    sigma_d = CV_MIN * max(mu_d, 0.0)
+                sigma_d = max(sigma_d, np.sqrt(max(mu_d, 0.0)))  # proxy Poisson si hace falta
 
-        
+                if m and "s_dow" in m:
+                    s_dow = m["s_dow"]
+                    factors = [float(s_dow.get(int((today + pd.Timedelta(days=i)).dayofweek), 1.0)) for i in range(L)]
+                else:
+                    factors = [1.0] * L
 
-        c_left, c_mid, c_right = st.columns([1,1,2])
+                mu_days = [mu_d * f for f in factors]
+                var_days = [(sigma_d * f) ** 2 for f in factors]
+                mu_L = float(np.sum(mu_days))
+                sigma_L = float(np.sqrt(np.sum(var_days)))
+                ss = float(z * sigma_L)
+                return ss, mu_L
 
-        # Eliminar seleccionadas
-        if c_left.button("🗑️ Eliminar seleccionadas", disabled=(len(sel_rows_pos) == 0), use_container_width=True):
-            df_new = df_ui.drop(df_ui.index[sel_rows_pos]).reset_index(drop=True)
-            df_new.to_csv(ORD_UI, index=False)
-            try: st.cache_data.clear()
-            except: pass
-            st.success(f"Eliminadas {len(sel_rows_pos)} línea(s).")
-            st.rerun()
+            # --- calcular SS/ROP con controles y suelos
+            mu_d_np = pd.to_numeric(inv["demanda_media_dia"], errors="coerce").fillna(0.0).to_numpy()
+            L_np = pd.to_numeric(inv["lead_time"], errors="coerce").fillna(0).astype(int).to_numpy()
+            pid_np = inv["Product_ID"].astype(str).to_numpy()
 
-        # Vaciar pedido completo
-        if c_mid.button("🧹 Vaciar pedido completo", use_container_width=True):
-            pd.DataFrame(columns=["date","Product_ID","qty"]).to_csv(ORD_UI, index=False)
-            try: st.cache_data.clear()
-            except: pass
-            st.success("Pedido vaciado.")
-            st.rerun()
+            ss_vals = np.zeros(len(inv), dtype=float)
+            muL_vals = np.zeros(len(inv), dtype=float)
+            for i in range(len(inv)):
+                ss_v, muL_v = _ss_muL_row(pid_np[i], mu_d_np[i], L_np[i])
+                ss_vals[i] = max(ss_v, 0.0)
+                muL_vals[i] = max(muL_v, 0.0)
 
-        # Descargar CSV base
-        csv_bytes = df_ui.to_csv(index=False).encode("utf-8")
-        c_right.download_button(
-            "⬇️ Descargar CSV",
-            data=csv_bytes,
-            file_name="customer_orders_ui.csv",
-            mime="text/csv",
-            use_container_width=True,
-        )
+            # redondeo del SS y suelo mínimo
+            ss_int = (np.ceil(ss_vals) if use_ceil else np.rint(ss_vals)).astype(int)
+            mask_pos = (mu_d_np > 0) & (L_np > 0)
+            ss_int = np.where(mask_pos, np.maximum(ss_int, ss_min), ss_int)
 
-    # ---------------- TAB: Stock actual ----------------
-        with tab_stock:
-            st.subheader("Stock actual (inventario vivo)")
-            inv_live = _read_working_inventory()
-            if inv_live.empty:
-                st.info("Inventario vacío.")
-            else:
-                st.caption(f"`inventory_updated.csv` · {_mtime_str(OUT10 / 'inventory_updated.csv')}")
-                st.dataframe(inv_live, use_container_width=True, height=420)
-    
-    # ---------------- TAB: 📒 Ledger (NUEVA) ----------------
-        with tab_ledger:
-            st.subheader("📒 Ledger de movimientos")
-            ledger_path = OUT10 / "ledger_movimientos.csv"
-            if not ledger_path.exists():
-                st.info("Aún no hay ledger. Procesa algún pedido para generarlo.")
-            else:
+            inv["ss"] = ss_int
+            inv["ROP"] = (np.rint(muL_vals).astype(int) + inv["ss"]).astype(int)
+
+            # --- Cobertura (días) = floor(Stock Real / μ_d)
+            denom = inv["demanda_media_dia"].replace(0, np.nan)
+            inv["Cobertura (días)"] = (
+                pd.to_numeric(inv["Stock Real"], errors="coerce") / denom
+            ).replace([np.inf, -np.inf], np.nan).fillna(0)
+            inv["Cobertura (días)"] = np.floor(inv["Cobertura (días)"]).astype(int)
+
+            # --- flags (colores)
+            stock_num = pd.to_numeric(inv["Stock Real"], errors="coerce").fillna(0)
+            rop_num = pd.to_numeric(inv["ROP"], errors="coerce").fillna(0)
+            inv["Rotura"] = stock_num < 0
+            inv["Bajo ROP"] = (stock_num >= 0) & (stock_num < rop_num)
+
+            # ========= Filtros / buscador =========
+            c1, c2 = st.columns([2, 1])
+            q = c1.text_input("Buscar por Product_ID, Nombre o Proveedor", placeholder="Ej. 1003, Whey, ProveedorX").strip()
+
+            prov_col = "Proveedor" if "Proveedor" in inv.columns else None
+            proveedores = ["(Todos)"]
+            if prov_col:
+                proveedores += sorted(pd.Series(inv[prov_col].astype(str)).fillna("").replace("nan", "").unique().tolist())
+            prov_sel = c2.selectbox("Proveedor", proveedores, index=0)
+
+            inv_f = inv.copy()
+            if q:
+                q_ci = q.casefold()
+                def _ci_contains(s):
+                    return s.astype(str).fillna("").str.casefold().str.contains(q_ci, na=False)
+                mask = pd.Series(False, index=inv_f.index)
+                for col in ["Product_ID", "Nombre", "Proveedor"]:
+                    if col in inv_f.columns:
+                        mask = mask | _ci_contains(inv_f[col])
+                inv_f = inv_f[mask]
+            if prov_col and prov_sel != "(Todos)":
+                inv_f = inv_f[inv_f[prov_col].astype(str) == prov_sel]
+
+            st.caption(f"Resultados: **{len(inv_f)}** fila(s)")
+
+            # ---- Mostrar tabla con nombres bonitos y colores
+            cols = [c for c in [
+                "Product_ID","Nombre","Proveedor","Categoria","Stock Real",
+                "demanda_media_dia","lead_time","ss","ROP","Cobertura (días)",
+                "Rotura","Bajo ROP"
+            ] if c in inv_f.columns]
+            df_view = inv_f[cols].copy().rename(columns={
+                "demanda_media_dia": "Demanda media diaria",
+                "lead_time": "Lead Time",
+                "ss": "Stock de Seguridad"
+            })
+
+            def _row_style(row):
                 try:
-                    led = pd.read_csv(ledger_path)
-                except Exception as e:
-                    st.error("No se pudo leer el ledger.")
-                    st.exception(e)
-                    st.stop()
+                    stock = float(row.get("Stock Real", 0))
+                    rop = float(row.get("ROP", 0))
+                except Exception:
+                    stock, rop = 0, 0
+                if stock < 0:
+                    return ["background-color: #ffe5e5"] * len(row)  # rojo suave
+                elif stock < rop:
+                    return ["background-color: #fff3cd"] * len(row)  # naranja/amarillo
+                return [""] * len(row)
 
+            styled = df_view.style.apply(_row_style, axis=1)
+            st.dataframe(styled, use_container_width=True, height=520)
+
+            # ---- Leyenda
+            st.markdown(
+                """
+                **Leyenda:**  
+                - 🟥 *Rojo* = **Rotura de stock** (Stock Real < 0)  
+                - 🟧 *Naranja* = **Stock por debajo del ROP** (recomendado reaprovisionar)
+                """
+            )
+
+
+    # ---------------- TAB: 📒 Ledger ----------------
+    with tab_ledger:
+        st.subheader("📒 Ledger de movimientos")
+
+        ledger_path = OUT10 / "ledger_movimientos.csv"
+        if not ledger_path.exists():
+            st.info("Aún no hay ledger. Procesa algún pedido para generarlo.")
+        else:
+            try:
+                led = pd.read_csv(ledger_path)
+            except Exception as e:
+                st.error("No se pudo leer el ledger.")
+                st.exception(e)
+            else:
+                # --- limpieza de tipos
                 if "timestamp" in led.columns:
                     led["timestamp"] = pd.to_datetime(led["timestamp"], errors="coerce")
-                for c in ["qty_pedido","on_prev","on_new","delta"]:
+                for c in ["qty_pedido", "on_prev", "on_new", "delta"]:
                     if c in led.columns:
                         led[c] = pd.to_numeric(led[c], errors="coerce")
 
-                c1, c2, c3 = st.columns([1.2,1,1])
+                # --- filtros
+                c1, c2, c3 = st.columns([1.2, 1, 1])
                 min_date = pd.to_datetime(led["timestamp"].min()) if "timestamp" in led.columns else None
                 max_date = pd.to_datetime(led["timestamp"].max()) if "timestamp" in led.columns else None
-                f_ini = c1.date_input("Desde", value=min_date.date() if min_date is not None else None)
-                f_fin = c2.date_input("Hasta", value=max_date.date() if max_date is not None else None)
+
+                f_ini = c1.date_input(
+                    "Desde",
+                    value=(min_date.date() if min_date is not None else None)
+                )
+                f_fin = c2.date_input(
+                    "Hasta",
+                    value=(max_date.date() if max_date is not None else None)
+                )
                 solo_cambios = c3.toggle("Mostrar solo cambios (Δ ≠ 0)", value=True)
 
+                # --- aplicar filtros
                 lf = led.copy()
                 if "timestamp" in lf.columns and f_ini and f_fin:
                     lf = lf[(lf["timestamp"].dt.date >= f_ini) & (lf["timestamp"].dt.date <= f_fin)]
                 if solo_cambios and "delta" in lf.columns:
                     lf = lf[lf["delta"] != 0]
 
+                # --- resumen
                 total_lines = len(lf)
                 total_delta = lf["delta"].sum() if "delta" in lf.columns else 0
                 st.caption(f"Líneas en vista: **{total_lines}** · Suma Δ: **{int(total_delta)}**")
 
-                show_cols = [c for c in ["timestamp","Product_ID","Nombre","Proveedor","Categoria","qty_pedido","on_prev","on_new","delta"] if c in lf.columns]
-                st.dataframe(lf[show_cols].sort_values("timestamp", ascending=False), use_container_width=True, height=420)
+                # --- mostrar tabla
+                show_cols = [
+                    c for c in [
+                        "timestamp", "Product_ID", "Nombre", "Proveedor", "Categoria",
+                        "qty_pedido", "on_prev", "on_new", "delta"
+                    ] if c in lf.columns
+                ]
+                st.dataframe(
+                    lf[show_cols].sort_values("timestamp", ascending=False),
+                    use_container_width=True,
+                    height=420,
+                )
 
+                # --- descarga CSV
                 st.download_button(
                     "⬇️ Descargar ledger filtrado (CSV)",
                     data=lf[show_cols].to_csv(index=False).encode("utf-8"),
                     file_name=f"ledger_filtrado_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
                     mime="text/csv",
                     use_container_width=True,
-                )   
+                )
+
+        
+
 
 # ==================================================
 # 7) BLOQUE REAPRO (intacto)
