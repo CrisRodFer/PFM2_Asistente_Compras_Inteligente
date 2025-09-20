@@ -731,9 +731,44 @@ def _load_top_ventas_from_outliers() -> pd.DataFrame:
              .rename(columns={"__flag__": "top_ventas"}))
     return top[["Product_ID", "top_ventas"]]
 
+# ==================== HELPER Sustitutos ====================
 
+@st.cache_data(ttl=60)
+def _load_subs_summary() -> pd.DataFrame:
+    """
+    Devuelve por Product_ID:
+      - subs_count: nº de sustitutos distintos
+      - subs_ids:   primeros 3 IDs de sustitutos (comma-separated)
+    Base: substitutes_unified.csv (vía load_substitutes_unified)
+    """
+    unif = load_substitutes_unified(ROOT)
+    if unif is None or unif.empty:
+        return pd.DataFrame(columns=["Product_ID", "subs_count", "subs_ids"])
+
+    u = unif.copy()
+    u = u.dropna(subset=["Product_ID", "Substitute_Product_ID"])
+    u = u[u["Substitute_Product_ID"] != ""]
+    if u.empty:
+        return pd.DataFrame(columns=["Product_ID", "subs_count", "subs_ids"])
+
+    # Asegurar ID en formato string "limpio"
+    u["Product_ID"] = _to_pid_str(u["Product_ID"])
+    u["Substitute_Product_ID"] = _to_pid_str(u["Substitute_Product_ID"])
+
+    def _top3_ids(s: pd.Series) -> str:
+        vals = pd.unique(s.dropna().astype(str))
+        vals = [v for v in vals if v and v != "nan"]
+        return ", ".join(vals[:3])
+
+    agg = u.groupby("Product_ID", as_index=False).agg(
+        subs_count=("Substitute_Product_ID", "nunique"),
+        subs_ids=("Substitute_Product_ID", _top3_ids),
+    )
+    agg["subs_count"] = pd.to_numeric(agg["subs_count"], errors="coerce").fillna(0).astype(int)
+    agg["subs_ids"] = agg["subs_ids"].fillna("")
+    return agg[["Product_ID", "subs_count", "subs_ids"]]
     
-    # ==================== OC helpers ====================
+# ==================== OC helpers ====================
 
 OC_HDR = OUT10 / "ordenes_compra.csv"
 OC_LIN = OUT10 / "ordenes_compra_lineas.csv"
@@ -3345,6 +3380,7 @@ def render_reapro():
         work = work.merge(en_camino[["Product_ID", "en_camino_qty", "eta_min"]], on="Product_ID", how="left")
         work["en_camino_qty"] = work["en_camino_qty"].fillna(0).astype(int)
 
+        # ===== TOP VENTAS (outliers.csv) =====
         tv = _load_top_ventas_from_outliers()
         if tv is not None and not tv.empty:
             work = work.merge(tv, on="Product_ID", how="left")
@@ -3352,35 +3388,16 @@ def render_reapro():
         else:
             work["top_ventas"] = False
 
-        # ===== TOP VENTAS (catalog_items.is_outlier == 1) =====
-        def _load_catalog_items():
-            from pathlib import Path
-            for p in [OUT10 / "catalog_items.csv",
-                    ROOT / "data" / "processed" / "catalog_items.csv",
-                    Path("/mnt/data/catalog_items.csv")]:
-                try:
-                    if p.exists():
-                        return pd.read_csv(p)
-                except Exception:
-                    pass
-            return pd.DataFrame()
+        # ===== SUSTITUTOS =====
+        subs_sum = _load_subs_summary()
+        if subs_sum is not None and not subs_sum.empty:
+            work = work.merge(subs_sum, on="Product_ID", how="left")
+        else:
+            work["subs_count"] = 0
+            work["subs_ids"] = ""
 
-        ci = _load_catalog_items()
-        if not ci.empty:
-            ci = ci.copy()
-            # normalizar clave
-            pid_col = "Product_ID" if "Product_ID" in ci.columns else ("product_id" if "product_id" in ci.columns else None)
-            if pid_col:
-                ci.rename(columns={pid_col: "Product_ID"}, inplace=True)
-                ci["Product_ID"] = _to_pid_str(ci["Product_ID"])
-                if "is_outlier" in ci.columns:
-                    work = work.merge(ci[["Product_ID", "is_outlier"]], on="Product_ID", how="left")
-                    # OR con lo que ya venía de outliers.csv
-                    top_ci = (pd.to_numeric(work["is_outlier"], errors="coerce").fillna(0) == 1)
-                    work["top_ventas"] = work["top_ventas"].fillna(False) | top_ci
-                # no pongas work["top_ventas"]=False si no hay columna: mantenemos lo que ya había
-        # Limpieza opcional
-        work.drop(columns=["is_outlier"], inplace=True, errors="ignore")
+        work["subs_count"] = pd.to_numeric(work.get("subs_count", 0), errors="coerce").fillna(0).astype(int)
+        work["subs_ids"] = work.get("subs_ids", "").fillna("")
 
         # ===== Ranking de proveedores =====
         prov_rank = (
@@ -3411,6 +3428,10 @@ def render_reapro():
                     chips = []
                     if r.get("rotura", False):
                         chips.append("🔴 Rotura")
+                        sc = int(r.get("subs_count", 0) or 0)
+                        if sc > 0:
+                            ns = str(r.get("subs_ids", "") or "")
+                            chips.append("♻️ Sustitutos: " + str(sc) + (f" [{ns}]" if ns else ""))
                     if r.get("rop_bajo", False):
                         chips.append("🟠 ROP bajo")
                     if r.get("ss_bajo", False):
@@ -3425,20 +3446,24 @@ def render_reapro():
 
                 dfp["Alertas"] = dfp.apply(_build_alertas_row, axis=1)
 
-                # Orden por severidad (rotura > rop > ss > en_camino; top_ventas no altera severidad)
+                # Orden por severidad
                 dfp = dfp.sort_values(["rotura","rop_bajo","ss_bajo","Product_ID"],
                                       ascending=[False, False, False, True])
 
                 # --- columnas a mostrar
                 mostrar = dfp[[
                     "Product_ID","Nombre","stock_actual","prev_lt","recomendada",
-                    "en_camino_qty","ROP","stock_seguridad","top_ventas","Alertas"
+                    "en_camino_qty","ROP","stock_seguridad",
+                    "subs_count","subs_ids",
+                    "top_ventas","Alertas"
                 ]].rename(columns={
                     "stock_actual":"Stock actual",
                     "prev_lt":"Previsión (LT)",
                     "recomendada":"Cantidad recomendada",
                     "stock_seguridad":"Stock de seguridad",
                     "en_camino_qty":"En camino",
+                    "subs_count":"Sustitutos (n)",
+                    "subs_ids":"Sustitutos (IDs)",
                     "top_ventas":"Top ventas",
                 }).copy()
 
@@ -3465,6 +3490,8 @@ def render_reapro():
                     "Cantidad a pedir":     st.column_config.NumberColumn("Cantidad a pedir", min_value=0, step=1),
                     "ROP":                  st.column_config.NumberColumn("ROP", format="%.0f", disabled=True),
                     "Stock de seguridad":   st.column_config.NumberColumn("Stock de seguridad", format="%.0f", disabled=True),
+                    "Sustitutos (n)":       st.column_config.NumberColumn("Sustitutos (n)", format="%d", disabled=True),
+                    "Sustitutos (ejemplos)":st.column_config.TextColumn("Sustitutos (ejemplos)", disabled=True),
                     "Top ventas":           st.column_config.CheckboxColumn("🏆 Top ventas", disabled=True),
                     "Alertas":              st.column_config.TextColumn("Alertas", disabled=True),
                     SEL:                    st.column_config.CheckboxColumn("✓ Incluir"),
@@ -3480,6 +3507,7 @@ def render_reapro():
                     disabled=False,
                     num_rows="fixed",
                 )
+
 
                 # ---- Acciones preview (con keys únicos)
                 if _preview_key not in st.session_state:
