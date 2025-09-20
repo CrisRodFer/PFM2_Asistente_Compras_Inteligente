@@ -6,6 +6,7 @@ from datetime import datetime
 import io
 
 import streamlit as st
+import datetime as dt
 import pandas as pd
 import numpy as np
 
@@ -436,6 +437,188 @@ def load_demanda_base(root: Path) -> pd.DataFrame | None:
     # limpiar
     out = out.dropna(subset=["Product_ID"])
     return out
+
+# ============================ helper: maestro productos ============================
+def build_product_master(root: Path) -> pd.DataFrame:
+    """
+    Devuelve un DF con columnas: Product_ID, Nombre, Proveedor, Categoria (si existe).
+    Origen:
+      - Nombre/Categoria: load_catalog_items(root)
+      - Proveedor: ui_products.parquet (preferred_supplier_id) y fallback a multi (scm_supplier_id)
+    """
+    # 1) Catálogo (Nombre/Categoria)
+    cat = load_catalog_items(root)
+    if cat is None or cat.empty:
+        cat = pd.DataFrame(columns=["Product_ID", "Nombre", "Categoria"])
+    else:
+        keep_cols = [c for c in ["Product_ID", "Nombre", "Categoria"] if c in cat.columns]
+        cat = cat[keep_cols].drop_duplicates("Product_ID")
+
+    # 2) Proveedor: prioriza ui_products.parquet (preferred_supplier_id)
+    prov_map = pd.DataFrame(columns=["Product_ID", "Proveedor"])
+    try:
+        ui_prod_path = TMP_VISTAS / "ui_products.parquet"
+        if ui_prod_path.exists():
+            up = pd.read_parquet(ui_prod_path)
+            up = _ensure_pid_col(up)
+            low_up = {c.lower(): c for c in up.columns}
+            prov_col = (low_up.get("preferred_supplier_id")
+                        or low_up.get("proveedor")
+                        or low_up.get("supplier"))
+            if prov_col:
+                prov_map = (up.rename(columns={prov_col: "Proveedor"})
+                              [["Product_ID", "Proveedor"]]
+                              .drop_duplicates("Product_ID"))
+    except Exception:
+        pass
+
+    # 3) Fallback proveedor desde multi
+    if prov_map.empty:
+        multi = load_supplier_catalog_multi(root)
+        if multi is not None and not multi.empty:
+            mm = multi.drop_duplicates("Product_ID")
+            prov_map = mm[["Product_ID", "scm_supplier_id"]].rename(
+                columns={"scm_supplier_id": "Proveedor"}
+            )
+
+    # 4) Normalizar IDs y unir
+    for df in (cat, prov_map):
+        if "Product_ID" in df.columns:
+            df["Product_ID"] = (
+                df["Product_ID"].astype(str).str.strip()
+                .str.replace(r"\.0+$", "", regex=True)
+            )
+
+    master = pd.merge(cat, prov_map, on="Product_ID", how="outer")
+    # Asegurar columnas
+    for c in ["Product_ID", "Nombre", "Proveedor", "Categoria"]:
+        if c not in master.columns:
+            master[c] = "" if c != "Product_ID" else master.get("Product_ID", "")
+    return master
+
+# ========================= helper: append_ledger =========================
+def _normalize_pid(x) -> str:
+    return str(x).strip().replace(".0", "")
+
+def append_ledger(rows: pd.DataFrame) -> None:
+    """
+    Escribe OUT10/ledger_movimientos.csv con el esquema CANÓNICO:
+    Date, Product_ID, Nombre, Proveedor, Tipo movimiento, qty_pedido
+    (acepta entrada con 'Tipo' o 'Tipo movimiento')
+    """
+    CANON_COLS = ["Date", "Product_ID", "Nombre", "Proveedor", "Tipo movimiento", "qty_pedido"]
+    ledger_path = OUT10 / "ledger_movimientos.csv"
+    if rows is None or rows.empty:
+        return
+
+    r = rows.copy()
+
+    # Aceptar 'Tipo' y normalizar a 'Tipo movimiento'
+    if "Tipo movimiento" not in r.columns and "Tipo" in r.columns:
+        r = r.rename(columns={"Tipo": "Tipo movimiento"})
+
+    # Fechas / IDs / cantidades
+    r["Date"] = pd.to_datetime(r.get("Date", pd.Timestamp.now()), errors="coerce").dt.normalize()
+    r["Product_ID"] = (
+        r["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
+    )
+    r["qty_pedido"] = pd.to_numeric(r.get("qty_pedido", 0), errors="coerce").fillna(0).astype(int)
+
+    # Añadir Nombre/Proveedor desde el master
+    master = build_product_master(ROOT)[["Product_ID", "Nombre", "Proveedor"]]
+    master["Product_ID"] = master["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
+    r = r.merge(master, on="Product_ID", how="left")
+
+    # Quedarnos con el canónico y sanear
+    r = r[["Date", "Product_ID", "Nombre", "Proveedor", "Tipo movimiento", "qty_pedido"]]
+    r = r.dropna(subset=["Date", "Product_ID"])
+    r = r[r["Product_ID"].str.isnumeric()]
+    r = r[r["qty_pedido"] > 0]
+
+    # Append ordenado
+    if ledger_path.exists():
+        old = pd.read_csv(ledger_path, dtype={"Product_ID": str})
+        out = pd.concat([old, r], ignore_index=True)
+    else:
+        out = r
+    out = out[CANON_COLS].sort_values(["Date", "Product_ID"]).reset_index(drop=True)
+    ledger_path.parent.mkdir(parents=True, exist_ok=True)
+    out.to_csv(ledger_path, index=False, encoding="utf-8")
+
+def repair_ledger_canonic():
+    """Limpia OUT10/ledger_movimientos.csv a esquema canónico:
+    Date, Product_ID, Nombre, Proveedor, Tipo movimiento, qty_pedido
+    - Recalcula qty_pedido si viene mal (con delta u on_prev/on_new)
+    - Normaliza Tipo movimiento (venta por defecto si venían números)
+    - Reconstituye Nombre/Proveedor desde el maestro
+    """
+    ledger_path = OUT10 / "ledger_movimientos.csv"
+    if not ledger_path.exists():
+        return
+
+    df = pd.read_csv(ledger_path)
+    if df.empty:
+        return
+
+    # --- normalizaciones básicas
+    df["Product_ID"] = (
+        df.get("Product_ID", "").astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
+    )
+    df["Date"] = pd.to_datetime(df.get("Date", pd.NaT), errors="coerce").dt.normalize()
+
+    # qty_pedido: intentar arreglar cuando esté vacío, NaN o <= 0
+    if "qty_pedido" not in df.columns:
+        df["qty_pedido"] = pd.NA
+    df["qty_pedido"] = pd.to_numeric(df["qty_pedido"], errors="coerce")
+
+    mask_bad_qty = df["qty_pedido"].isna() | (df["qty_pedido"] <= 0)
+
+    # 1º: usar |delta|
+    if "delta" in df.columns:
+        delta_fix = pd.to_numeric(df["delta"], errors="coerce").abs()
+        df.loc[mask_bad_qty & delta_fix.notna(), "qty_pedido"] = delta_fix
+
+    # 2º: si no hay delta, usar on_prev - on_new
+    if ("on_prev" in df.columns) and ("on_new" in df.columns):
+        prev = pd.to_numeric(df["on_prev"], errors="coerce")
+        new  = pd.to_numeric(df["on_new"], errors="coerce")
+        diff = (prev - new).abs()
+        df.loc[df["qty_pedido"].isna() | (df["qty_pedido"] <= 0), "qty_pedido"] = diff
+
+    # tipo movimiento: si viene numérico o vacío, poner "Venta"
+    tm = df.get("Tipo movimiento")
+    if tm is None:
+        df["Tipo movimiento"] = "Venta"
+    else:
+        as_str = tm.astype(str).str.strip()
+        bad_tm = as_str.str.fullmatch(r"-?\d+(\.\d+)?")
+        df.loc[bad_tm.fillna(True), "Tipo movimiento"] = "Venta"
+
+    # Añadir Nombre/Proveedor desde el maestro
+    master = build_product_master(ROOT)[["Product_ID", "Nombre", "Proveedor"]].copy()
+    master["Product_ID"] = master["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
+    df = df.merge(master, on="Product_ID", how="left", suffixes=("", "_m"))
+
+    # Si existían columnas previas con Nombre/Proveedor numéricos, prioriza las del maestro
+    for col in ["Nombre", "Proveedor"]:
+        mcol = f"{col}_m"
+        if mcol in df.columns:
+            df[col] = df[mcol].where(df[mcol].notna() & (df[mcol] != ""), df.get(col))
+            df.drop(columns=[mcol], inplace=True, errors="ignore")
+
+    # Quedarnos SOLO con el canónico
+    keep = ["Date", "Product_ID", "Nombre", "Proveedor", "Tipo movimiento", "qty_pedido"]
+    for c in keep:
+        if c not in df.columns:
+            df[c] = "" if c not in ("Date", "qty_pedido") else (pd.NaT if c == "Date" else 0)
+
+    df = df[keep].copy()
+    df["qty_pedido"] = pd.to_numeric(df["qty_pedido"], errors="coerce").fillna(0).astype(int)
+    df = df[(df["qty_pedido"] > 0) & df["Product_ID"].str.isnumeric()]
+    df["Date"] = pd.to_datetime(df["Date"], errors="coerce").dt.normalize()
+
+    df = df.sort_values(["Date", "Product_ID"]).reset_index(drop=True)
+    df.to_csv(ledger_path, index=False, encoding="utf-8")
 
 
 # --- Normalizador MULTI: garantiza columnas para construir_vistas ---
@@ -1609,7 +1792,7 @@ def render_exploracion_sustitutos():
                   "rank", "score", "precio", "lead_time", "disponibilidad", "Δ precio", "Δ lead time", "Δ disp"]
         show_cols = [c for c in wanted if c in df_show.columns]
         df_show = df_show[show_cols].rename(columns={
-            "tipo": "Tipo",
+            "tipo": "Tipo movimiento",
             "Substitute_Product_ID": "Sustituto (Product_ID)",
             "nombre": "Nombre",
             "categoria": "Categoría",
@@ -1757,13 +1940,12 @@ def render_movimientos_stock():
                 top_qty = df_orders.sort_values("qty", ascending=False).head(20)
                 st.dataframe(top_qty, use_container_width=True, height=240)
 
-            # (2) Inventario 'vivo' con nombres EXACTOS (Product_ID, Proveedor, Nombre, Categoria, Stock Real)
+            # (2) Inventario 'vivo' con nombres EXACTOS
             inv_live = _read_working_inventory()
             if inv_live.empty:
                 st.error("Inventario vivo vacío.")
                 st.stop()
 
-            # Asegurar mismo formato de ID en el inventario
             inv_live["Product_ID"] = _to_pid_str(inv_live["Product_ID"])
 
             # --- Diagnóstico rápido
@@ -1776,11 +1958,10 @@ def render_movimientos_stock():
                     + ", ".join(no_casan[:20]) + ("…" if len(no_casan) > 20 else "")
                 )
 
-            # ==================== CAMBIO CLAVE: sin merge, con map ====================
             # (3) Construir diccionario de cantidades pedidas por Product_ID
             qty_by_id = df_orders.set_index("Product_ID")["qty"].to_dict()
 
-            # (4) Calcular stocks: solo resta si el Product_ID aparece en el pedido
+            # (4) Calcular stocks
             df = inv_live.copy()
             df["on_prev"] = pd.to_numeric(df["Stock Real"], errors="coerce").fillna(0).astype(int)
             df["resta"]   = df["Product_ID"].map(qty_by_id).fillna(0).astype(int)
@@ -1788,29 +1969,14 @@ def render_movimientos_stock():
             df["Δ"]       = df["on_new"] - df["on_prev"]
 
             # ---- Ledger de movimientos (append) ----
-            ledger_path = OUT10 / "ledger_movimientos.csv"
-            stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            mov = df.loc[df["resta"] > 0, ["Product_ID"]].copy()
+            mov["Date"] = pd.Timestamp.now().normalize()
+            mov["qty_pedido"] = df.loc[df["resta"] > 0, "resta"].values
+            mov["Tipo movimiento"] = "Venta"
+            append_ledger(mov)
+            repair_ledger_canonic()
 
-            ledger_cols = ["timestamp", "Product_ID", "Nombre", "Proveedor", "Categoria",
-                            "qty_pedido", "on_prev", "on_new", "delta"]
-
-            ledger_df = df[["Product_ID", "Nombre", "Proveedor", "Categoria", "resta", "on_prev", "on_new", "Δ"]].copy()
-            ledger_df.insert(0, "timestamp", stamp)
-            ledger_df = ledger_df.rename(columns={"resta": "qty_pedido", "Δ": "delta"})
-
-            try:
-                if ledger_path.exists():
-                    old = pd.read_csv(ledger_path)
-                    merged = pd.concat([old, ledger_df[ledger_cols]], ignore_index=True)
-                    merged.to_csv(ledger_path, index=False)
-                else:
-                    ledger_df[ledger_cols].to_csv(ledger_path, index=False)
-            
-            except Exception as e:
-                st.warning(f"No se pudo escribir el ledger: {e}")
-            # ========================================================================
-
-            # (5) Reescribir inventario 'vivo' con EXACTAMENTE las 5 columnas (transcribiendo todo)
+            # (5) Reescribir inventario vivo
             out_path = OUT10 / "inventory_updated.csv"
             df_out = df[["Product_ID", "Proveedor", "Nombre", "Categoria"]].copy()
             df_out["Stock Real"] = df["on_new"].astype(int)
@@ -1826,7 +1992,6 @@ def render_movimientos_stock():
                 df[["Product_ID", "Nombre", "Proveedor", "Categoria", "on_prev", "on_new", "Δ"]]
                 .sort_values("Product_ID")
             )
-            
             st.dataframe(df_view, use_container_width=True, height=320)
 
             # ---- Solo cambios (Δ != 0) + descarga ----
@@ -1863,8 +2028,7 @@ def render_movimientos_stock():
 
                 st.rerun()
 
-
-            # (7) Limpieza de caché (y vaciar pedidos UI para no recontar)
+            # (7) Limpieza de caché
             try:
                 st.cache_data.clear()
             except Exception:
@@ -1904,7 +2068,7 @@ def render_movimientos_stock():
         # ---------- Formulario para añadir líneas ----------
         with st.form("form_add_order", clear_on_submit=True):
             c1, c2, c3, c4 = st.columns([1.1, 1.1, 0.9, 0.9])
-            f_date = c1.date_input("Fecha", value=datetime.today(), format="YYYY-MM-DD")
+            f_date = c1.date_input("Fecha", value=dt.datetime.today(), format="YYYY-MM-DD")
             f_item = c2.text_input("Product_ID", placeholder="Ej. 4347")
             f_qty  = c3.number_input("Cantidad", value=1, min_value=1, step=1)
             submitted = c4.form_submit_button("➕ Añadir")
@@ -2270,78 +2434,235 @@ def render_movimientos_stock():
             )
 
 
+    
+    
+
     # ---------------- TAB: 📒 Ledger ----------------
     with tab_ledger:
         st.subheader("📒 Ledger de movimientos")
 
+        CANON_COLS = ["Date", "Product_ID", "Nombre", "Proveedor", "Tipo movimiento", "qty_pedido"]
         ledger_path = OUT10 / "ledger_movimientos.csv"
-        if not ledger_path.exists():
-            st.info("Aún no hay ledger. Procesa algún pedido para generarlo.")
-        else:
+
+        def _norm_pid(x) -> str:
+            return str(x).strip().replace(".0", "")
+
+        def _enrich_with_master(df: pd.DataFrame) -> pd.DataFrame:
+            if df is None or df.empty:
+                return pd.DataFrame(columns=CANON_COLS)
+            master = build_product_master(ROOT)
+            if master is None or master.empty:
+                for c in CANON_COLS:
+                    if c not in df.columns:
+                        df[c] = np.nan
+                return df[CANON_COLS]
+            master = master[["Product_ID", "Nombre", "Proveedor"]].copy()
+            master["Product_ID"] = master["Product_ID"].astype(str).map(_norm_pid)
+            df = df.merge(master, on="Product_ID", how="left", suffixes=("", "_m"))
+            for c in ["Nombre", "Proveedor"]:
+                base = df[c].astype(str) if c in df.columns else ""
+                df[c] = base.where(base.notna() & (base != "") & (base != "None"), df[f"{c}_m"])
+                df.drop(columns=[f"{c}_m"], inplace=True, errors="ignore")
+            return df
+
+        def _canonize_existing_ledger(path: Path) -> pd.DataFrame:
             try:
-                led = pd.read_csv(ledger_path)
-            except Exception as e:
-                st.error("No se pudo leer el ledger.")
-                st.exception(e)
-            else:
-                # --- limpieza de tipos
-                if "timestamp" in led.columns:
-                    led["timestamp"] = pd.to_datetime(led["timestamp"], errors="coerce")
+                led = pd.read_csv( 
+                    ledger_path,
+                    dtype={"Product_ID": str},
+                    na_values=["", "None", "nan"],
+                    keep_default_na=True,
+                    low_memory=False
+                )
+
+                # Normaliza numéricos (si existen)
                 for c in ["qty_pedido", "on_prev", "on_new", "delta"]:
                     if c in led.columns:
                         led[c] = pd.to_numeric(led[c], errors="coerce")
+                
+                # Normaliza texto (si existe)
+                for c in ["Tipo", "Tipo movimiento", "Nombre", "Proveedor"]:
+                    if c in led.columns:
+                        led[c] = led[c].astype(str)
+            except Exception:
+                return pd.DataFrame(columns=CANON_COLS)
+            if led.empty:
+                return pd.DataFrame(columns=CANON_COLS)
+            low = {c.lower(): c for c in led.columns}
+            date_col = low.get("date") or low.get("timestamp") or ("Date" if "Date" in led.columns else None)
+            if not date_col:
+                return pd.DataFrame(columns=CANON_COLS)
+            out = pd.DataFrame()
+            out["Date"] = pd.to_datetime(led[date_col], errors="coerce").dt.normalize()
+            pid_col = low.get("product_id") or low.get("item_id") or ("Product_ID" if "Product_ID" in led.columns else None)
+            out["Product_ID"] = led.get(pid_col, pd.Series([], dtype=object)).astype(str).map(_norm_pid) if pid_col else ""
+            out["Nombre"] = ""
+            out["Proveedor"] = ""
+            tipo_c = low.get("tipo movimiento") or low.get("tipo") or None
+            if tipo_c:
+                    out["Tipo movimiento"] = led[tipo_c].astype(str)
+            elif "delta" in low:
+                out["Tipo movimiento"] = np.where(
+                    pd.to_numeric(led["delta"], errors="coerce").fillna(0) < 0, "Venta", "Entrada"
+                ).astype(str)
+            else:
+                out["Tipo movimiento"] = "Movimiento"
+            qty = None
+            for cand in ["qty_pedido", "qty", "cantidad", "units"]:
+                if cand in low:
+                    qty = low[cand]
+                    break
+            if qty:
+                out["qty_pedido"] = pd.to_numeric(led[qty], errors="coerce")
+            elif "delta" in low:
+                out["qty_pedido"] = pd.to_numeric(led[low["delta"]], errors="coerce").abs()
+            else:
+                out["qty_pedido"] = 0
+            out = out.dropna(subset=["Date"])
+            out["Product_ID"] = out["Product_ID"].replace({"nan": np.nan})
+            out = out.dropna(subset=["Product_ID"])
+            out["qty_pedido"] = pd.to_numeric(out["qty_pedido"], errors="coerce").fillna(0).astype(int)
+            return out[CANON_COLS]
 
-                # --- filtros
-                c1, c2, c3 = st.columns([1.2, 1, 1])
-                min_date = pd.to_datetime(led["timestamp"].min()) if "timestamp" in led.columns else None
-                max_date = pd.to_datetime(led["timestamp"].max()) if "timestamp" in led.columns else None
+        def _historical_to_canon(root: Path) -> pd.DataFrame:
+            dem = load_demanda_base(root)
+            if dem is None or dem.empty:
+                return pd.DataFrame(columns=CANON_COLS)
+            df = dem.copy()
+            needed = {"Product_ID", "Date", "sales_quantity"}
+            if not needed.issubset(df.columns):
+                return pd.DataFrame(columns=CANON_COLS)
+            df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+            df = df.dropna(subset=["Date", "Product_ID", "sales_quantity"])
+            df["Product_ID"] = df["Product_ID"].astype(str).map(_norm_pid)
+            df["sales_quantity"] = pd.to_numeric(df["sales_quantity"], errors="coerce").fillna(0)
+            cutoff = pd.Timestamp(2025, 9, 19)
+            mask = (df["Date"].dt.year.eq(2024)) | (df["Date"].dt.year.eq(2025) & (df["Date"] <= cutoff))
+            df = df[mask]
+            if df.empty:
+                return pd.DataFrame(columns=CANON_COLS)
+            df["Date"] = df["Date"].dt.normalize()
+            agg = df.groupby(["Product_ID", "Date"], as_index=False)["sales_quantity"].sum()
+            agg = agg.rename(columns={"sales_quantity": "qty_pedido"})
+            out = pd.DataFrame({
+                "Date": agg["Date"],
+                "Product_ID": agg["Product_ID"].astype(str).map(_norm_pid),
+                "Nombre": "",
+                "Proveedor": "",
+                "Tipo movimiento": "Venta histórica",
+                "qty_pedido": pd.to_numeric(agg["qty_pedido"], errors="coerce").fillna(0).astype(int)
+            })
+            return out[CANON_COLS]
 
-                f_ini = c1.date_input(
-                    "Desde",
-                    value=(min_date.date() if min_date is not None else None)
+        with st.expander("🧹 Reconstruir ledger canónico (históricos 2024+2025 hasta 2025-09-19 + movimientos existentes)"):
+            st.caption("Reescribe **ledger_movimientos.csv** al esquema: "
+                    "`Date, Product_ID, Nombre, Proveedor, Tipo movimiento, qty_pedido`.")
+            if st.button("Reconstruir ledger ahora", use_container_width=True, key="rebuild_ledger_btn"):
+                hist = _historical_to_canon(ROOT)
+                exist = _canonize_existing_ledger(ledger_path) if ledger_path.exists() else pd.DataFrame(columns=CANON_COLS)
+                all_df = pd.concat([hist, exist], ignore_index=True)
+                all_df = _enrich_with_master(all_df)
+                all_df["__key__"] = (
+                    all_df["Product_ID"].astype(str) + "|" +
+                    pd.to_datetime(all_df["Date"], errors="coerce").dt.strftime("%Y-%m-%d") + "|" +
+                    all_df["Tipo movimiento"].astype(str) + "|" +
+                    pd.to_numeric(all_df["qty_pedido"], errors="coerce").fillna(0).astype(int).astype(str)
                 )
-                f_fin = c2.date_input(
-                    "Hasta",
-                    value=(max_date.date() if max_date is not None else None)
+                all_df = all_df.drop_duplicates("__key__").drop(columns="__key__")
+
+                all_df["Date"] = pd.to_datetime(all_df["Date"], errors="coerce").dt.normalize()
+                all_df["Product_ID"] = (
+                    all_df["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
                 )
-                solo_cambios = c3.toggle("Mostrar solo cambios (Δ ≠ 0)", value=True)
+                all_df["qty_pedido"] = pd.to_numeric(all_df["qty_pedido"], errors="coerce").fillna(0).astype(int)
 
-                # --- aplicar filtros
-                lf = led.copy()
-                if "timestamp" in lf.columns and f_ini and f_fin:
-                    lf = lf[(lf["timestamp"].dt.date >= f_ini) & (lf["timestamp"].dt.date <= f_fin)]
-                if solo_cambios and "delta" in lf.columns:
-                    lf = lf[lf["delta"] != 0]
+                # Eliminar filas sin fecha o sin SKU válido
+                all_df = all_df.dropna(subset=["Date", "Product_ID"])
+                all_df = all_df[all_df["Product_ID"].str.isnumeric()]
+                all_df = all_df[all_df["qty_pedido"] > 0]
 
-                # --- resumen
-                total_lines = len(lf)
-                total_delta = lf["delta"].sum() if "delta" in lf.columns else 0
-                st.caption(f"Líneas en vista: **{total_lines}** · Suma Δ: **{int(total_delta)}**")
+                all_df = all_df[CANON_COLS].sort_values(["Date", "Product_ID"]).reset_index(drop=True)
+                ledger_path.parent.mkdir(parents=True, exist_ok=True)
+                all_df.to_csv(ledger_path, index=False, encoding="utf-8")
+                st.success(f"Ledger reconstruido: **{len(all_df):,}** filas.")
+                
+                # --------- NUEVO: Limpieza de filas inválidas ----------
+                with st.expander("🧽 Limpiar filas inválidas del ledger (1 clic)"):
+                    st.caption("Elimina filas con Product_ID no numérico, qty_pedido ≤ 0 o fecha inválida y reescribe el CSV.")
+                    if st.button("Eliminar filas inválidas ahora", use_container_width=True, key="cleanup_ledger_btn"):
+                        try:
+                            df = pd.read_csv(ledger_path, dtype={"Product_ID": str})
 
-                # --- mostrar tabla
-                show_cols = [
-                    c for c in [
-                        "timestamp", "Product_ID", "Nombre", "Proveedor", "Categoria",
-                        "qty_pedido", "on_prev", "on_new", "delta"
-                    ] if c in lf.columns
-                ]
-                st.dataframe(
-                    lf[show_cols].sort_values("timestamp", ascending=False),
-                    use_container_width=True,
-                    height=420,
-                )
+                            # Normalización mínima
+                            df["Date"] = pd.to_datetime(df["Date"], errors="coerce").dt.normalize()
+                            df["Product_ID"] = df["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
+                            df["qty_pedido"] = pd.to_numeric(df.get("qty_pedido", 0), errors="coerce").fillna(0).astype(int)
 
-                # --- descarga CSV
-                st.download_button(
-                    "⬇️ Descargar ledger filtrado (CSV)",
-                    data=lf[show_cols].to_csv(index=False).encode("utf-8"),
-                    file_name=f"ledger_filtrado_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
-                    mime="text/csv",
-                    use_container_width=True,
-                )
+                            before = len(df)
 
-        
+                            # --- REGLAS DE LIMPIEZA ---
+                            df = df.dropna(subset=["Date", "Product_ID"])
+                            df = df[df["Product_ID"].str.isnumeric()]     # quita 'Venta histórica', vacíos, etc.
+                            df = df[df["qty_pedido"] > 0]                 # quita qty = 0
 
+                            # Guardar limpio y ordenado
+                            df = df[CANON_COLS].sort_values(["Date", "Product_ID"]).reset_index(drop=True)
+                            df.to_csv(ledger_path, index=False, encoding="utf-8")
+
+                            removed = before - len(df)
+                            st.success(f"Listo ✅  Eliminadas {removed:,} filas inválidas. Recarga la página si no se actualiza.")
+                        except Exception as e:
+                            st.error("No se pudo limpiar el ledger.")
+                            st.exception(e)
+
+        if not ledger_path.exists():
+            st.info("Aún no hay ledger. Reconstrúyelo o genera movimientos.")
+            led = pd.DataFrame(columns=CANON_COLS)
+        else:
+            try:
+                led = pd.read_csv(ledger_path, dtype={"Product_ID": str})
+            except Exception:
+                st.error("No se pudo leer el ledger.")
+                led = pd.DataFrame(columns=CANON_COLS)
+
+        if not led.empty:
+            led["Date"] = pd.to_datetime(led["Date"], errors="coerce").dt.normalize()
+            led["Product_ID"] = led["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
+            led["qty_pedido"] = pd.to_numeric(led["qty_pedido"], errors="coerce").fillna(0).astype(int)
+        else:
+            st.info("Ledger vacío.")
+
+        c0, c1, c2, c3 = st.columns([1.4, 1, 1, 1.2])
+        q_pid = c0.text_input("Product_ID (contiene)", placeholder="Ej. 1003, 43…", key="ledger_pid").strip()
+        prov_list = ["(Todos)"]
+        if "Proveedor" in led.columns and not led.empty:
+            prov_list += sorted(pd.Series(led["Proveedor"]).dropna().astype(str).unique().tolist())
+        prov_sel = c1.selectbox("Proveedor", prov_list, index=0, key="ledger_proveedor")
+        min_date = pd.to_datetime(led["Date"]).min() if not led.empty else None
+        max_date = pd.to_datetime(led["Date"]).max() if not led.empty else None
+        f_ini = c2.date_input("Desde", value=(min_date.date() if pd.notna(min_date) else None), key="ledger_desde")
+        f_fin = c3.date_input("Hasta", value=(max_date.date() if pd.notna(max_date) else None), key="ledger_hasta")
+        lf = led.copy()
+        if q_pid:
+            q_ci = q_pid.casefold()
+            lf = lf[lf["Product_ID"].astype(str).str.casefold().str.contains(q_ci, na=False)]
+        if prov_sel != "(Todos)" and "Proveedor" in lf.columns:
+            lf = lf[lf["Proveedor"].astype(str) == prov_sel]
+        if "Date" in lf.columns and f_ini and f_fin:
+            lf = lf[(lf["Date"].dt.date >= f_ini) & (lf["Date"].dt.date <= f_fin)]
+        st.caption(f"Líneas en vista: **{len(lf):,}**")
+        st.dataframe(
+            lf[CANON_COLS].sort_values("Date", ascending=False),
+            use_container_width=True,
+            height=460,
+        )
+        st.download_button(
+            "⬇️ Descargar ledger (CSV)",
+            data=lf[CANON_COLS].to_csv(index=False).encode("utf-8"),
+            file_name=f"ledger_canonico_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
+            mime="text/csv",
+            use_container_width=True,
+        )
 
 # ==================================================
 # 7) BLOQUE REAPRO (intacto)
