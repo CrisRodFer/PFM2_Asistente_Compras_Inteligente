@@ -107,6 +107,9 @@ def _to_pid_str(s: pd.Series) -> pd.Series:
     out = s_num.astype("Int64").astype(str)
     return out.replace("<NA>", "")
 
+def _norm_pid(s: pd.Series) -> pd.Series:
+    return _to_pid_str(s)
+
 def _find_col(df: pd.DataFrame, candidates: list[str]) -> str | None:
     low = {c.lower(): c for c in df.columns}
     for c in candidates:
@@ -570,6 +573,89 @@ def repair_ledger_canonic():
     df = pd.read_csv(ledger_path)
     if df.empty:
         return
+    
+    # ==================== OC helpers ====================
+
+OC_HDR = OUT10 / "ordenes_compra.csv"
+OC_LIN = OUT10 / "ordenes_compra_lineas.csv"
+
+def _oc_read_hdr() -> pd.DataFrame:
+    exp = ["order_id","Proveedor","Fecha","Escenario","Estado","ETA_dias"]
+    if OC_HDR.exists():
+        try:
+            df = pd.read_csv(OC_HDR)
+        except Exception:
+            df = pd.DataFrame(columns=exp)
+    else:
+        df = pd.DataFrame(columns=exp)
+
+    # Normaliza columnas y rellena faltantes
+    low = {c.lower(): c for c in df.columns}
+    ren = {}
+    if "order_id" not in df.columns:
+        # alias muy comunes
+        if "id" in low: ren[low["id"]] = "order_id"
+    if "proveedor" not in df.columns and ("supplier" in low or "scm_supplier_id" in low):
+        ren[low.get("supplier", low.get("scm_supplier_id"))] = "Proveedor"
+    if "fecha" not in df.columns and "date" in low:
+        ren[low["date"]] = "Fecha"
+    if ren:
+        df = df.rename(columns=ren)
+
+    for c in exp:
+        if c not in df.columns:
+            df[c] = "" if c not in ("ETA_dias","Estado") else (0 if c=="ETA_dias" else "en_curso")
+
+    # Tipos suaves
+    df["Fecha"] = df["Fecha"].astype(str).str[:10]
+    df["ETA_dias"] = pd.to_numeric(df["ETA_dias"], errors="coerce").fillna(0).astype(int)
+    df["Estado"] = df["Estado"].replace("", "en_curso").fillna("en_curso")
+
+    return df[exp]
+
+def _oc_read_lin() -> pd.DataFrame:
+    if OC_LIN.exists():
+        return pd.read_csv(OC_LIN, dtype={"Product_ID": str})
+    return pd.DataFrame(columns=["order_id","Product_ID","Nombre","Cantidad_pedir"])
+
+def _oc_write_hdr(df: pd.DataFrame) -> None:
+    df.to_csv(OC_HDR, index=False, encoding="utf-8")
+
+def _oc_write_lin(df: pd.DataFrame) -> None:
+    df.to_csv(OC_LIN, index=False, encoding="utf-8")
+
+def _make_order_id(proveedor: str) -> str:
+    ts = pd.Timestamp.now().strftime("%Y%m%d%H%M%S")
+    base = str(proveedor).strip().replace(" ", "_")[:16]
+    return f"OC-{base}-{ts}"
+
+
+
+    # --- marcar cabecera como recibida
+    if "Estado" not in hdr.columns:
+        hdr["Estado"] = "en_curso"
+    hdr.loc[hdr["order_id"] == order_id, "Estado"] = "recibida"
+    _oc_write_hdr(hdr)
+
+    return True
+
+    # --- normalizaciones básicas
+def repair_ledger_canonic():
+    """
+    Limpia OUT10/ledger_movimientos.csv al esquema canónico:
+    Date, Product_ID, Nombre, Proveedor, Tipo movimiento, qty_pedido
+
+    - Recalcula qty_pedido si viene mal (usa |delta| o |on_prev - on_new| como fallback)
+    - Normaliza 'Tipo movimiento' (pone 'Venta' si venían números o vacío)
+    - Reconstituye Nombre/Proveedor desde el maestro
+    """
+    ledger_path = OUT10 / "ledger_movimientos.csv"
+    if not ledger_path.exists():
+        return
+
+    df = pd.read_csv(ledger_path)
+    if df.empty:
+        return
 
     # --- normalizaciones básicas
     df["Product_ID"] = (
@@ -596,14 +682,12 @@ def repair_ledger_canonic():
         diff = (prev - new).abs()
         df.loc[df["qty_pedido"].isna() | (df["qty_pedido"] <= 0), "qty_pedido"] = diff
 
-    # tipo movimiento: si viene numérico o vacío, poner "Venta"
-    tm = df.get("Tipo movimiento")
-    if tm is None:
+    # Tipo movimiento: si venían números o vacío → "Venta"
+    if "Tipo movimiento" not in df.columns:
         df["Tipo movimiento"] = "Venta"
-    else:
-        as_str = tm.astype(str).str.strip()
-        bad_tm = as_str.str.fullmatch(r"-?\d+(\.\d+)?")
-        df.loc[bad_tm.fillna(True), "Tipo movimiento"] = "Venta"
+    tm_str = df["Tipo movimiento"].astype(str).str.strip()
+    bad_tm = tm_str.str.fullmatch(r"-?\d+(\.\d+)?")
+    df.loc[bad_tm.fillna(True), "Tipo movimiento"] = "Venta"
 
     # Añadir Nombre/Proveedor desde el maestro
     master = build_product_master(ROOT)[["Product_ID", "Nombre", "Proveedor"]].copy()
@@ -617,7 +701,7 @@ def repair_ledger_canonic():
             df[col] = df[mcol].where(df[mcol].notna() & (df[mcol] != ""), df.get(col))
             df.drop(columns=[mcol], inplace=True, errors="ignore")
 
-    # Quedarnos SOLO con el canónico
+    # Dejar sólo el canónico y tipos correctos
     keep = ["Date", "Product_ID", "Nombre", "Proveedor", "Tipo movimiento", "qty_pedido"]
     for c in keep:
         if c not in df.columns:
@@ -630,7 +714,6 @@ def repair_ledger_canonic():
 
     df = df.sort_values(["Date", "Product_ID"]).reset_index(drop=True)
     df.to_csv(ledger_path, index=False, encoding="utf-8")
-
 
 # --- Normalizador MULTI: garantiza columnas para construir_vistas ---
 def _normalize_multi_for_vistas(src: Path) -> Path:
@@ -1985,7 +2068,7 @@ def render_movimientos_stock():
             mov["qty_pedido"] = df.loc[df["resta"] > 0, "resta"].values
             mov["Tipo movimiento"] = "Venta"
             append_ledger(mov)
-            repair_ledger_canonic()
+            
 
             # (5) Reescribir inventario vivo
             out_path = OUT10 / "inventory_updated.csv"
@@ -2692,10 +2775,655 @@ def render_movimientos_stock():
 # ==================================================
 # 7) BLOQUE REAPRO (intacto)
 # ==================================================
-def render_reapro():
-    # (… tu bloque actual …)
-    pass
 
+# ====================== Reapro - helpers ======================
+
+@st.cache_data(ttl=300, show_spinner=False)
+def _load_forecast_daily_scenario(root: Path, scenario: str) -> pd.DataFrame:
+    """
+    Carga DEMANDA DIARIA 2025 según escenario exacto y la normaliza a:
+      ['Date','Product_ID','sales_quantity'].
+
+    Tus archivos traen: ['date','cluster_id','y_pred','product_id','y_pred_estacional'].
+    Nosotros usamos 'y_pred_estacional' como cantidad diaria.
+    """
+    mapping = {
+        "Neutro":     root / "data/processed/predicciones_2025_estacional.parquet",
+        "Pesimista":  root / "data/processed/predicciones_2025_pesimista.parquet",
+        "Optimista":  root / "data/processed/predicciones_2025_optimista.parquet",
+    }
+    p = mapping.get(scenario, mapping["Neutro"])
+    if not p.exists():
+        return pd.DataFrame(columns=["Date","Product_ID","sales_quantity"])
+
+    # Lee parquet/csv
+    df = pd.read_parquet(p) if p.suffix == ".parquet" else pd.read_csv(p)
+
+    # Renombrado explícito a canónico
+    # - date -> Date
+    # - product_id -> Product_ID
+    # - y_pred_estacional -> sales_quantity
+    ren = {}
+    low = {c.lower(): c for c in df.columns}
+    if "date" in low:         ren[low["date"]] = "Date"
+    if "product_id" in low:   ren[low["product_id"]] = "Product_ID"
+    if "y_pred_estacional" in low:
+        ren[low["y_pred_estacional"]] = "sales_quantity"
+    else:
+        # fallback por si viniera como y_pred (no es tu caso, pero por robustez)
+        if "y_pred" in low:
+            ren[low["y_pred"]] = "sales_quantity"
+
+    df = df.rename(columns=ren)
+
+    # Nos quedamos con solo las 3 columnas necesarias
+    cols_needed = ["Date", "Product_ID", "sales_quantity"]
+    for c in cols_needed:
+        if c not in df.columns:
+            return pd.DataFrame(columns=cols_needed)
+
+    out = df[cols_needed].copy()
+    out["Product_ID"]     = _to_pid_str(out["Product_ID"])
+    out["Date"]           = pd.to_datetime(out["Date"], errors="coerce").dt.normalize()
+    out["sales_quantity"] = pd.to_numeric(out["sales_quantity"], errors="coerce").fillna(0.0)
+    return out
+
+def _load_lead_times(root: Path) -> pd.DataFrame:
+    """
+    Lee lead times por Product_ID o por Proveedor. Columnas admitidas:
+      - [Product_ID, lead_time]  o  [Proveedor, lead_time]
+    """
+    candidatos = [
+        root / "data/processed/lead_times.csv",
+        root / "data/clean/lead_times.csv",
+        root / "data/processed/proveedor_lead_times.csv",
+    ]
+    for p in candidatos:
+        if p.exists():
+            try:
+                df = pd.read_csv(p)
+                low = {c.lower(): c for c in df.columns}
+                pid_col  = low.get("product_id")
+                prov_col = low.get("proveedor") or low.get("supplier") or low.get("scm_supplier_id")
+                lt_col   = low.get("lead_time") or low.get("leadtime") or low.get("lt_days")
+                if lt_col is None:
+                    continue
+                if pid_col:
+                    df = df[[pid_col, lt_col]].rename(columns={pid_col:"Product_ID", lt_col:"lead_time"})
+                    df["Product_ID"] = _norm_pid(df["Product_ID"])
+                elif prov_col:
+                    df = df[[prov_col, lt_col]].rename(columns={prov_col:"Proveedor", lt_col:"lead_time"})
+                else:
+                    continue
+                df["lead_time"] = pd.to_numeric(df["lead_time"], errors="coerce").fillna(7).astype(int)
+                return df
+            except Exception:
+                pass
+    return pd.DataFrame(columns=["Product_ID","Proveedor","lead_time"])
+
+def _forecast_over_lt(fore: pd.DataFrame, pid: str, start_date: pd.Timestamp, lt_days: int) -> float:
+    """Suma la previsión diaria desde start_date durante lt_days (inclusive)."""
+    if fore.empty or lt_days <= 0:
+        return 0.0
+    end = (start_date + pd.Timedelta(days=lt_days-1)).normalize()
+    sub = fore[(fore["Product_ID"] == pid) & (fore["Date"].between(start_date, end))]
+    return float(sub["sales_quantity"].sum()) if not sub.empty else 0.0
+
+def _compute_rop_and_ss(f_prevision_lt: float, lt_days: int) -> tuple[float, float]:
+    """Heurística por defecto: SS=20%·prev_LT; ROP=prev_LT+SS."""
+    ss  = 0.20 * f_prevision_lt
+    rop = f_prevision_lt + ss
+    return rop, ss
+
+
+# ==================== OC helpers (cabecera y líneas) ====================
+OC_CUR_HDR = OUT10 / "oc_en_curso.csv"
+OC_CUR_LIN = OUT10 / "oc_en_curso_lineas.csv"
+OC_REC_HDR = OUT10 / "oc_recibidas.csv"
+OC_REC_LIN = OUT10 / "oc_recibidas_lineas.csv"
+
+def _oc_read(path: Path, cols: list[str]) -> pd.DataFrame:
+    if path.exists():
+        try:
+            df = pd.read_csv(path)
+        except Exception:
+            df = pd.DataFrame(columns=cols)
+    else:
+        df = pd.DataFrame(columns=cols)
+    for c in cols:
+        if c not in df.columns:
+            df[c] = ""
+    return df[cols].copy()
+
+def _oc_write(path: Path, df: pd.DataFrame) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(path, index=False, encoding="utf-8")
+
+def _oc_read_cur_hdr() -> pd.DataFrame:
+    return _oc_read(OC_CUR_HDR, ["order_id","Proveedor","Fecha","Escenario","ETA_dias"])
+
+
+def _oc_read_cur_lin() -> pd.DataFrame:
+    df = _oc_read(OC_CUR_LIN, ["order_id","Product_ID","Nombre","Cantidad_pedir"])
+    df["Product_ID"] = df["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
+    df["Cantidad_pedir"] = pd.to_numeric(df["Cantidad_pedir"], errors="coerce").fillna(0).astype(int)
+    return df
+
+def _oc_read_rec_hdr() -> pd.DataFrame:
+    return _oc_read(OC_REC_HDR, ["order_id","Proveedor","Fecha","Escenario","ETA_dias","Fecha_recepcion"])
+
+def _oc_read_rec_lin() -> pd.DataFrame:
+    df = _oc_read(OC_REC_LIN, ["order_id","Product_ID","Nombre","Cantidad_pedir"])
+    df["Product_ID"] = df["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
+    df["Cantidad_pedir"] = pd.to_numeric(df["Cantidad_pedir"], errors="coerce").fillna(0).astype(int)
+    return df
+
+def _make_order_id(proveedor: str) -> str:
+    ts = pd.Timestamp.now().strftime("%Y%m%d%H%M%S")
+    base = str(proveedor).strip().replace(" ", "_")[:16]
+    return f"OC-{base}-{ts}"
+
+# ======================= helper: ingresar orden en inventario + ledger =======================
+def _ingresar_orden_en_inventario_y_ledger(order_id: str) -> bool:
+    """
+    Recibe una orden y actualiza:
+      - OUT10/inventory_updated.csv  (suma cantidades)
+      - OUT10/ledger_movimientos.csv (Tipo movimiento = Compra)
+    Soporta dos esquemas de almacenamiento:
+      1) OC_HDR / OC_LIN
+      2) CUR/REC: OC_CUR_HDR/OC_CUR_LIN -> mueve a OC_REC_HDR/OC_REC_LIN
+    """
+
+    # -------- 1) ¿En qué esquema está la orden? --------
+    # a) Esquema 'una sola tabla' (OC_HDR / OC_LIN)
+    try:
+        hdr_uni = _oc_read_hdr()
+        lin_uni = _oc_read_lin()
+    except Exception:
+        hdr_uni = pd.DataFrame(columns=["order_id"])
+        lin_uni = pd.DataFrame(columns=["order_id","Product_ID","Nombre","Cantidad_pedir"])
+
+    en_unico = order_id in set(hdr_uni.get("order_id", []))
+
+    # b) Esquema CUR/REC (si existe en tu script)
+    try:
+        hdr_cur = _oc_read_cur_hdr()
+        lin_cur = _oc_read_cur_lin()
+        en_currec = order_id in set(hdr_cur.get("order_id", []))
+    except Exception:
+        hdr_cur = lin_cur = None
+        en_currec = False
+
+    if not en_unico and not en_currec:
+        return False  # no existe la orden en ninguno de los esquemas
+
+    # -------- 2) Tomar líneas y normalizar cantidades --------
+    if en_unico:
+        lines = lin_uni[lin_uni["order_id"] == order_id].copy()
+    else:
+        lines = lin_cur[lin_cur["order_id"] == order_id].copy()
+
+    if lines.empty:
+        return False
+
+    # cantidades EN SERIE y > 0
+    lines["Cantidad_pedir"] = (
+        pd.to_numeric(lines.get("Cantidad_pedir", 0), errors="coerce")
+        .fillna(0).round().astype(int)
+    )
+    lines = lines[lines["Cantidad_pedir"] > 0]
+    if lines.empty:
+        return False
+
+    # -------- 3) Actualizar inventario vivo --------
+    inv = _read_working_inventory().copy()
+    if inv.empty:
+        return False
+
+    inv["Product_ID"] = inv["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$","", regex=True)
+    inv["Stock Real"] = pd.to_numeric(inv["Stock Real"], errors="coerce").fillna(0).astype(int)
+    inv = inv.set_index("Product_ID")
+
+    add_by_pid = (lines.assign(Product_ID=lambda d: d["Product_ID"].astype(str).str.strip()
+                                              .str.replace(r"\.0+$","", regex=True))
+                       .groupby("Product_ID")["Cantidad_pedir"].sum())
+
+    for pid, qty in add_by_pid.items():
+        qty = int(qty)
+        if pid in inv.index:
+            inv.loc[pid, "Stock Real"] = int(inv.loc[pid, "Stock Real"]) + qty
+        else:
+            # crear fila mínima si no existía
+            inv.loc[pid, "Stock Real"] = qty
+
+    inv = inv.reset_index()
+    (OUT10 / "inventory_updated.csv").write_text(inv.to_csv(index=False), encoding="utf-8")
+
+    # -------- 4) Escribir en ledger (Compra) --------
+    mov = (lines[["Product_ID","Cantidad_pedir"]]
+           .rename(columns={"Cantidad_pedir":"qty_pedido"}).copy())
+    mov["Product_ID"] = mov["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$","", regex=True)
+    mov["Date"] = pd.Timestamp.today().normalize()
+    mov["Tipo movimiento"] = "Compra"
+    if not mov.empty:
+        append_ledger(mov)
+
+    # -------- 5) Marcar recibida / mover a REC --------
+    if en_unico:
+        hdr_uni.loc[hdr_uni["order_id"] == order_id, "Estado"] = "recibida"
+        _oc_write_hdr(hdr_uni)
+    else:
+        # mover de CUR -> REC si tienes estas utilidades
+        hdr_rec = _oc_read_rec_hdr()
+        lin_rec = _oc_read_rec_lin()
+        hdr_sel = hdr_cur[hdr_cur["order_id"] == order_id].copy()
+        hdr_sel["Fecha_recepcion"] = pd.Timestamp.today().strftime("%Y-%m-%d")
+        _oc_write(OC_REC_HDR, pd.concat([hdr_rec, hdr_sel], ignore_index=True))
+        _oc_write(OC_REC_LIN, pd.concat([lin_rec, lines], ignore_index=True))
+        _oc_write(OC_CUR_HDR, hdr_cur[hdr_cur["order_id"] != order_id].copy())
+        _oc_write(OC_CUR_LIN, lin_cur[lin_cur["order_id"] != order_id].copy())
+
+    return True
+
+
+# =============== BLOQUE: 📦 Órdenes en curso ===============
+def render_ordenes_en_curso():
+    hdr = _oc_read_hdr()
+    if "Estado" not in hdr.columns:
+        hdr["Estado"] = "en_curso"
+    lin = _oc_read_lin()
+    en_curso = hdr[hdr["Estado"] == "en_curso"].copy()
+
+    if en_curso.empty:
+        st.info("No hay órdenes en curso.")
+        return
+
+    st.dataframe(
+        en_curso[["order_id","Proveedor","Fecha","Escenario","ETA_dias","Estado"]],
+        use_container_width=True,
+        height=220,
+    )
+
+    oc_ids = en_curso["order_id"].tolist()
+    oc_sel = st.selectbox("Ver detalle de orden", oc_ids, index=0)
+    det = lin[lin["order_id"] == oc_sel].copy()
+
+    if det.empty:
+        st.info("Esta orden no tiene líneas.")
+        return
+
+    if "Nombre" not in det.columns or det["Nombre"].isna().all():
+        master = build_product_master(ROOT)[["Product_ID","Nombre"]].drop_duplicates("Product_ID")
+        master["Product_ID"] = _norm_pid(master["Product_ID"])
+        det = det.merge(master, on="Product_ID", how="left")
+
+    st.subheader(f"Detalle {oc_sel}")
+    st.dataframe(det[["Product_ID","Nombre","Cantidad_pedir"]], use_container_width=True, height=280)
+
+    if st.button("✅ Forzar recepción", type="primary", use_container_width=True):
+        ok = _ingresar_orden_en_inventario_y_ledger(oc_sel)
+        if ok:
+            st.success("Recepción forzada. Inventario y ledger actualizados. La orden pasa a 'recibidas'.")
+            try: st.cache_data.clear()
+            except: pass
+            st.rerun()
+        else:
+            st.warning("No se pudo procesar la orden (revisa que tenga líneas y cantidades > 0).")
+
+
+# =============== BLOQUE: 📥 Órdenes recibidas ===============
+def render_ordenes_recibidas():
+    hdr = _oc_read_hdr()
+    rec = hdr[hdr["Estado"] == "recibida"].copy()
+
+    if rec.empty:
+        st.info("Aún no hay órdenes recibidas.")
+        return
+
+    if "Fecha" in rec.columns:
+        rec["Fecha"] = pd.to_datetime(rec["Fecha"], errors="coerce")
+        rec = rec.sort_values("Fecha", ascending=False)
+
+    st.dataframe(
+        rec[["order_id","Proveedor","Fecha","Escenario","ETA_dias","Estado"]],
+        use_container_width=True,
+        height=360,
+    )
+
+
+# ======================= BLOQUE PRINCIPAL: 🧰 Reapro / Pedidos =======================
+def render_reapro():
+    st.title("🧰 Reapro / Pedidos")
+
+    tab_rank, tab_en_curso, tab_rec = st.tabs(
+        ["📊 Ranking & Sugerencias", "📦 Órdenes en curso", "📥 Órdenes recibidas"]
+    )
+
+    # ------------------------ TAB: Ranking & Sugerencias ------------------------
+    with tab_rank:
+        escenario = st.selectbox("Escenario de previsión", ["Neutro", "Pesimista", "Optimista"], index=0)
+
+        inv = _read_working_inventory()
+        if inv.empty:
+            st.warning("Inventario vivo vacío.")
+            st.stop()
+
+        inv["Product_ID"] = _to_pid_str(inv["Product_ID"])
+        inv["Stock Real"] = pd.to_numeric(inv["Stock Real"], errors="coerce").fillna(0).astype(int)
+
+        fore = load_demanda_base(ROOT)
+        if fore is None:
+            fore = pd.DataFrame(columns=["Product_ID", "Date", "sales_quantity"])
+        else:
+            fore = fore.copy()
+            fore["Product_ID"] = _to_pid_str(fore["Product_ID"])
+            fore["sales_quantity"] = pd.to_numeric(fore["sales_quantity"], errors="coerce").fillna(0)
+
+        lt_df = load_supplier_catalog_multi(ROOT)
+
+        base_cols = ["Product_ID", "Nombre", "Proveedor"]
+        work = inv[base_cols + ["Stock Real"]].copy().rename(columns={"Stock Real": "stock_actual"})
+
+        lt_by_pid, lt_by_prov = {}, {}
+        if lt_df is not None and not lt_df.empty:
+            tmp = lt_df.copy()
+            if "Product_ID" in tmp.columns:
+                tmp["Product_ID"] = _to_pid_str(tmp["Product_ID"])
+            if "scm_lead_time" in tmp.columns:
+                tmp["scm_lead_time"] = pd.to_numeric(tmp["scm_lead_time"], errors="coerce").fillna(7).astype(int)
+                if "Product_ID" in tmp.columns:
+                    lt_by_pid = dict(zip(tmp["Product_ID"], tmp["scm_lead_time"]))
+            if "scm_supplier_id" in tmp.columns and "scm_lead_time" in tmp.columns:
+                lt_by_prov = dict(zip(tmp["scm_supplier_id"].astype(str), tmp["scm_lead_time"]))
+
+        if lt_by_pid:
+            work["lead_time"] = work["Product_ID"].map(lt_by_pid).fillna(7)
+        else:
+            work["lead_time"] = work["Proveedor"].map(lt_by_prov).fillna(7)
+
+        if not fore.empty:
+            daily_mean = fore.groupby("Product_ID", as_index=False)["sales_quantity"].mean().rename(
+                columns={"sales_quantity": "sales_mean"}
+            )
+            work = work.merge(daily_mean, on="Product_ID", how="left")
+            work["sales_mean"] = work["sales_mean"].fillna(0)
+        else:
+            work["sales_mean"] = 0.0
+
+        work["prev_lt"] = (work["sales_mean"] * pd.to_numeric(work["lead_time"], errors="coerce").fillna(7)).clip(lower=0)
+        work["stock_seguridad"] = (work["sales_mean"] * 0.5 * work["lead_time"]).fillna(0)
+        work["ROP"] = (work["sales_mean"] * work["lead_time"] + work["stock_seguridad"]).fillna(0)
+
+        work["rotura"]   = work["stock_actual"] <= 0
+        work["rop_bajo"] = work["stock_actual"] < work["ROP"]
+        work["ss_bajo"]  = work["stock_actual"] < work["stock_seguridad"]
+
+        work["recomendada"] = (work["ROP"] + work["prev_lt"] - work["stock_actual"]).clip(lower=0).round().astype(int)
+
+        prov_rank = (
+            work.groupby("Proveedor")
+            .agg(roturas=("rotura", "sum"),
+                 rop_bajos=("rop_bajo", "sum"),
+                 ss_bajos=("ss_bajo", "sum"),
+                 total=("Product_ID", "count"))
+            .reset_index()
+            .sort_values(["roturas", "rop_bajos", "ss_bajos", "total"], ascending=[False, False, False, True])
+        )
+
+        st.subheader("📦 Proveedores priorizados")
+        st.dataframe(prov_rank, use_container_width=True, height=260)
+
+        c1, c2 = st.columns([1, 1])
+        prov_sel = c1.selectbox("Ver detalle de proveedor",
+                                prov_rank["Proveedor"].tolist() if not prov_rank.empty else [],
+                                index=0 if not prov_rank.empty else None)
+        solo_criticos = c2.toggle("Solo críticos (rotura / ROP bajo / SS bajo)", value=True)
+
+        if prov_sel:
+            dfp = work[work["Proveedor"] == prov_sel].copy()
+            if solo_criticos:
+                dfp = dfp[dfp["rotura"] | dfp["rop_bajo"] | dfp["ss_bajo"]].copy()
+
+            if dfp.empty:
+                st.info("No hay productos críticos para este proveedor en el escenario seleccionado.")
+            else:
+                dfp["Cantidad a pedir"] = 0
+                dfp["Alertas"] = ""
+                dfp = dfp.sort_values(["rotura", "rop_bajo", "ss_bajo", "Product_ID"],
+                                      ascending=[False, False, False, True])
+
+                mostrar = dfp[[
+                    "Product_ID", "Nombre", "stock_actual", "prev_lt",
+                    "recomendada", "Cantidad a pedir", "ROP", "stock_seguridad", "Alertas"
+                ]].rename(columns={
+                    "stock_actual": "Stock actual",
+                    "prev_lt": "Previsión (LT)",
+                    "recomendada": "Cantidad recomendada",
+                    "stock_seguridad": "Stock de seguridad"
+                }).copy()
+
+                SEL = "__incluir__"
+                if SEL not in mostrar.columns:
+                    mostrar[SEL] = False
+                mostrar["Cantidad a pedir"] = (
+                    pd.to_numeric(mostrar["Cantidad a pedir"], errors="coerce").fillna(0).astype("Int64")
+                )
+
+                st.subheader(f"🧾 Recomendaciones de compra — {prov_sel} · Escenario: {escenario}")
+                col_copy, col_undo = st.columns([1, 1])
+                _backup_key = f"backup_pedir_{prov_sel}_{escenario}"
+
+                if col_copy.button("Copiar recomendada → a pedir", use_container_width=True):
+                    st.session_state[_backup_key] = mostrar["Cantidad a pedir"].copy()
+                    mostrar["Cantidad a pedir"] = mostrar["Cantidad recomendada"].astype(int)
+                    st.success("Se copió la cantidad recomendada en 'Cantidad a pedir'.")
+
+                if col_undo.button("↩️ Deshacer copia", use_container_width=True):
+                    if _backup_key in st.session_state:
+                        mostrar["Cantidad a pedir"] = pd.to_numeric(
+                            st.session_state[_backup_key], errors="coerce"
+                        ).fillna(0).astype(int)
+                        st.success("Deshecho. Se restauraron los valores anteriores de 'Cantidad a pedir'.")
+                    else:
+                        mostrar["Cantidad a pedir"] = 0
+                        st.info("No había una copia previa que deshacer. He puesto 'Cantidad a pedir' a 0.")
+
+                table_key = f"tabla_reapro_{prov_sel}_{escenario}"
+                if table_key not in st.session_state:
+                    st.session_state[table_key] = mostrar.copy()
+
+                col_sel_all, col_desel_all = st.columns([1, 1])
+                if col_sel_all.button("✅ Seleccionar todas las líneas", use_container_width=True):
+                    tmp = st.session_state[table_key].copy()
+                    tmp[SEL] = True
+                    st.session_state[table_key] = tmp
+                    st.rerun()
+                if col_desel_all.button("🚫 Deseleccionar todas", use_container_width=True):
+                    tmp = st.session_state[table_key].copy()
+                    tmp[SEL] = False
+                    st.session_state[table_key] = tmp
+                    st.rerun()
+
+                cfg = {
+                    "Product_ID":           st.column_config.TextColumn("Product_ID", disabled=True),
+                    "Nombre":               st.column_config.TextColumn("Nombre", disabled=True),
+                    "Stock actual":         st.column_config.NumberColumn("Stock actual", format="%d", disabled=True),
+                    "Previsión (LT)":       st.column_config.NumberColumn("Previsión (LT)", format="%.0f", disabled=True),
+                    "Cantidad recomendada": st.column_config.NumberColumn("Cantidad recomendada", format="%d", disabled=True),
+                    "Cantidad a pedir":     st.column_config.NumberColumn("Cantidad a pedir", min_value=0, step=1),
+                    "ROP":                  st.column_config.NumberColumn("ROP", format="%.0f", disabled=True),
+                    "Stock de seguridad":   st.column_config.NumberColumn("Stock de seguridad", format="%.0f", disabled=True),
+                    "Alertas":              st.column_config.TextColumn("Alertas", disabled=True),
+                    SEL:                    st.column_config.CheckboxColumn("✓ Incluir"),
+                }
+                edited = st.data_editor(
+                    st.session_state[table_key],
+                    use_container_width=True,
+                    height=420,
+                    hide_index=True,
+                    key=f"reapro_{prov_sel}_{escenario}",
+                    column_config=cfg,
+                    disabled=False,
+                    num_rows="fixed",
+                )
+                st.session_state[table_key] = edited.copy()
+
+                if st.button("➕ Añadir seleccionadas al preview", use_container_width=True):
+                    tmp = st.session_state[table_key].copy()
+                    tmp["Cantidad a pedir"] = pd.to_numeric(tmp["Cantidad a pedir"], errors="coerce").fillna(0).astype(int)
+                    tmp = tmp[(tmp[SEL] == True) & (tmp["Cantidad a pedir"] > 0)][
+                        ["Product_ID", "Nombre", "Cantidad a pedir"]
+                    ].rename(columns={"Cantidad a pedir": "Cantidad_pedir"})
+
+                    _preview_key = f"oc_preview_{prov_sel}_{escenario}"
+                    if _preview_key not in st.session_state:
+                        st.session_state[_preview_key] = pd.DataFrame(
+                            columns=["Product_ID", "Nombre", "Cantidad_pedir"]
+                        )
+
+                    if not tmp.empty:
+                        prev = st.session_state[_preview_key]
+                        prev = pd.concat([prev, tmp], ignore_index=True)
+                        prev = (prev.groupby(["Product_ID", "Nombre"], as_index=False)["Cantidad_pedir"]
+                                .sum()
+                                .sort_values(["Product_ID"]))
+                        st.session_state[_preview_key] = prev
+                        st.success(f"Añadidas {len(tmp)} línea(s) al preview.")
+                    else:
+                        st.info("Marca alguna línea y pon 'Cantidad a pedir' > 0.")
+
+                st.markdown("#### 🧾 Orden de compra definitiva (preview)")
+                _preview_key = f"oc_preview_{prov_sel}_{escenario}"
+                if _preview_key not in st.session_state:
+                    st.session_state[_preview_key] = pd.DataFrame(
+                        columns=["Product_ID", "Nombre", "Cantidad_pedir"]
+                    )
+                prev = st.session_state[_preview_key]
+
+                if prev.empty:
+                    st.caption("No hay líneas todavía. Marca filas arriba y pulsa **Añadir seleccionadas al preview**.")
+                else:
+                    st.dataframe(prev, use_container_width=True, height=220)
+
+                cc1, cc2, cc3, cc4 = st.columns([1, 1, 1, 1])
+                if cc1.button("🚀 Lanzar orden con el preview", use_container_width=True):
+                    if prev.empty:
+                        st.warning("El preview está vacío.")
+                    else:
+                        order_id = _make_order_id(prov_sel)
+                        hdr_cur = _oc_read_hdr()
+                        eta_dias = int(dfp["lead_time"].iloc[0]) if "lead_time" in dfp.columns and not dfp.empty else 7
+                        new_hdr = pd.DataFrame([{
+                            "order_id": order_id,
+                            "Proveedor": prov_sel,
+                            "Fecha": pd.Timestamp.today().strftime("%Y-%m-%d"),
+                            "Escenario": escenario,
+                            "ETA_dias": eta_dias,
+                            "Estado": "en_curso",
+                        }])
+                        _oc_write_hdr(pd.concat([hdr_cur, new_hdr], ignore_index=True))
+                        lin_cur = _oc_read_lin()
+                        new_lin = prev.copy()
+                        new_lin.insert(0, "order_id", order_id)
+                        _oc_write_lin(pd.concat([lin_cur, new_lin], ignore_index=True))
+                        st.session_state[_preview_key] = pd.DataFrame(
+                            columns=["Product_ID", "Nombre", "Cantidad_pedir"]
+                        )
+                        st.success(f"Orden {order_id} creada en 'Órdenes en curso'.")
+
+                if cc2.button("🧹 Vaciar preview", use_container_width=True):
+                    st.session_state[_preview_key] = pd.DataFrame(columns=["Product_ID", "Nombre", "Cantidad_pedir"])
+                    st.info("Preview vaciado.")
+                if cc3.button("🗑️ Eliminar seleccionadas del preview", use_container_width=True):
+                    st.info("De momento, usa 'Vaciar preview' y vuelve a añadir solo las deseadas.")
+                if cc4.button("🗓️ Retrasar / Descartar orden", use_container_width=True):
+                    st.info("Orden descartada por ahora. Podrás revisarla mañana de nuevo.")
+
+    # ------------------------ TAB: Órdenes en curso ------------------------
+    with tab_en_curso:
+        def render_ordenes_en_curso():
+            hdr = _oc_read_hdr()
+            hdr = hdr[hdr["Estado"] == "en_curso"].copy()
+            lin = _oc_read_lin()
+            if hdr.empty:
+                st.info("No hay órdenes en curso.")
+                return
+
+            st.dataframe(hdr[["order_id", "Proveedor", "Fecha", "Escenario", "ETA_dias"]],
+                         use_container_width=True, height=220)
+
+            oc_ids = hdr["order_id"].tolist()
+            oc_sel = st.selectbox("Ver detalle de orden", oc_ids, index=0)
+
+            det = lin[lin["order_id"] == oc_sel].copy()
+
+            # --- Normalización defensiva ---
+            # Product_ID
+            det = _ensure_pid_col(det, prefer_int=False)
+            if "Product_ID" not in det.columns:
+                pid_col = _find_col(det, ["Product_ID", "product_id", "item_id", "sku"])
+                if pid_col and pid_col != "Product_ID":
+                    det = det.rename(columns={pid_col: "Product_ID"})
+                if "Product_ID" not in det.columns:
+                    det["Product_ID"] = ""
+            det["Product_ID"] = det["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
+
+            # Cantidad_pedir
+            if "Cantidad_pedir" not in det.columns:
+                low = {c.lower(): c for c in det.columns}
+                for alt in ("qty", "cantidad", "cantidad_pedida", "quantity"):
+                    if alt in low:
+                        det = det.rename(columns={low[alt]: "Cantidad_pedir"})
+                        break
+            if "Cantidad_pedir" not in det.columns:
+                det["Cantidad_pedir"] = 0
+
+            # Nombre (buscar variantes o enriquecer desde maestro)
+            name_col = _find_col(det, ["Nombre", "nombre", "name", "product_name"])
+            if name_col and name_col != "Nombre":
+                det = det.rename(columns={name_col: "Nombre"})
+            if "Nombre" not in det.columns or det["Nombre"].isna().all() or (det["Nombre"] == "").all():
+                master = build_product_master(ROOT)[["Product_ID", "Nombre"]].drop_duplicates("Product_ID")
+                master["Product_ID"] = master["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
+                det = det.merge(master, on="Product_ID", how="left")
+                if "Nombre" not in det.columns:
+                    det["Nombre"] = ""
+
+            st.subheader(f"Detalle {oc_sel}")
+            cols_show = [c for c in ["Product_ID", "Nombre", "Cantidad_pedir"] if c in det.columns]
+            st.dataframe(det[cols_show], use_container_width=True, height=280)
+
+            if st.button("✅ Forzar recepción", type="primary", use_container_width=True):
+                ok = _ingresar_orden_en_inventario_y_ledger(oc_sel)
+                if ok:
+                    st.success("Recepción forzada. Inventario y ledger actualizados. La orden pasó a 'Recibidas'.")
+                    try:
+                        st.cache_data.clear()
+                    except:
+                        pass
+                    st.rerun()
+                else:
+                    st.warning("No se pudo procesar la orden (revisa que tenga líneas y cantidades > 0).")
+
+        render_ordenes_en_curso()
+
+    # ------------------------ TAB: Órdenes recibidas ------------------------
+    with tab_rec:
+        def render_ordenes_recibidas():
+            hdr = _oc_read_hdr()
+            hdr = hdr[hdr["Estado"] == "recibida"].copy()
+            if hdr.empty:
+                st.info("Aún no hay órdenes recibidas.")
+                return
+
+            if "Fecha" in hdr.columns:
+                hdr["Fecha"] = pd.to_datetime(hdr["Fecha"], errors="coerce")
+                hdr = hdr.sort_values("Fecha", ascending=False)
+
+            st.dataframe(hdr[["order_id", "Proveedor", "Fecha", "Escenario", "ETA_dias"]],
+                         use_container_width=True, height=360)
+
+        render_ordenes_recibidas()
 
 # ------------------ Render según ruta ----------------------------
 route = st.session_state["route"]

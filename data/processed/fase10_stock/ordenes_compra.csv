@@ -1,2 +1,5 @@
-order_id,supplier_name,num_lineas,importe_total
-PO_NA_20250919_154202,,2995,25.03
+order_id,Proveedor,Fecha,Escenario,Estado,ETA_dias
+PO_NA_20250919_154202,,nan,,en_curso,0
+OC-INDIEX_(LIFE_PRO-20250920221721,INDIEX (LIFE PRO),2025-09-20,Neutro,recibida,5
+OC-NASKORSPORTS-20250920222150,NASKORSPORTS,2025-09-20,Neutro,recibida,2
+"OC-Best_Protein,_SL-20250920225537","Best Protein, SL",2025-09-20,Neutro,recibida,4
