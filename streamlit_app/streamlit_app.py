@@ -767,6 +767,103 @@ def _load_subs_summary() -> pd.DataFrame:
     agg["subs_count"] = pd.to_numeric(agg["subs_count"], errors="coerce").fillna(0).astype(int)
     agg["subs_ids"] = agg["subs_ids"].fillna("")
     return agg[["Product_ID", "subs_count", "subs_ids"]]
+
+@st.cache_data(ttl=300)
+def _load_forecast_neutral() -> pd.DataFrame:
+    """
+    Lee la previsión neutra 2025 (baseline).
+    Usa y_pred_estacional si existe; si no, cae a y_pred.
+    """
+    from pathlib import Path
+    cands = [
+        ROOT / "data" / "processed" / "predicciones_2025_estacional.parquet",
+        Path(r"C:\Users\crisr\Desktop\Máster Data Science & IA\PROYECTO\PFM2_Asistente_Compras_Inteligente\data\processed\predicciones_2025_estacional.parquet"),
+        Path("/mnt/data/predicciones_2025_estacional.parquet"),
+    ]
+    df = None
+    for p in cands:
+        try:
+            if p.exists():
+                df = pd.read_parquet(p)
+                break
+        except Exception:
+            df = None
+
+    if df is None or df.empty:
+        return pd.DataFrame(columns=["Product_ID","Date","qty_forecast","cluster_id"])
+
+    low = {c.lower(): c for c in df.columns}
+    pid_col   = low.get("product_id") or "product_id"
+    date_col  = low.get("date") or "date"
+    y_est_col = low.get("y_pred_estacional")
+    y_col     = y_est_col or low.get("y_pred") or "y_pred"
+    cl_col    = low.get("cluster_id") or "cluster_id"
+
+    out = df[[pid_col, date_col, y_col] + ([cl_col] if cl_col in df.columns else [])].copy()
+    out = out.rename(columns={
+        pid_col:  "Product_ID",
+        date_col: "Date",
+        y_col:    "qty_forecast",
+        **({cl_col: "cluster_id"} if cl_col in df.columns else {})
+    })
+    out["Product_ID"]   = _to_pid_str(out["Product_ID"])
+    out["Date"]         = pd.to_datetime(out["Date"], errors="coerce")
+    out["qty_forecast"] = pd.to_numeric(out["qty_forecast"], errors="coerce").fillna(0.0)
+    return out.dropna(subset=["Date"])
+
+
+@st.cache_data(ttl=600)
+def _load_clusters_map() -> pd.DataFrame:
+    """
+    Devuelve: Product_ID, Cluster
+    Lee demanda_subset.* (Cluster textual o cluster_id numérico).
+    """
+    from pathlib import Path
+    cands = [
+        ROOT / "data" / "processed" / "demanda_subset.csv",
+        ROOT / "data" / "processed" / "demanda_subset.parquet",
+        Path("/mnt/data/demanda_subset.csv"),
+        Path("/mnt/data/demanda_subset.parquet"),
+    ]
+    df = None
+    for p in cands:
+        try:
+            if p.exists():
+                df = pd.read_parquet(p) if p.suffix == ".parquet" else pd.read_csv(p)
+                break
+        except Exception:
+            df = None
+
+    if df is None or df.empty:
+        return pd.DataFrame(columns=["Product_ID","Cluster"])
+
+    low = {c.lower(): c for c in df.columns}
+    pid = low.get("product_id") or "Product_ID"
+    cl  = low.get("cluster") or low.get("cluster_id")
+
+    out = df[[pid, cl]].drop_duplicates().rename(columns={pid: "Product_ID", cl: "Cluster"})
+    out["Product_ID"] = _to_pid_str(out["Product_ID"])
+    out["Cluster"] = out["Cluster"].apply(lambda x: str(x))
+    return out[["Product_ID","Cluster"]]
+
+
+# Elasticidades: aceptan numérico o textual
+ELASTICIDADES = {
+    "0":  -0.6, "C0": -0.6,
+    "1":  -1.0, "C1": -1.0,
+    "2":  -1.2, "C2": -1.2,
+    "3":  -0.8, "C3": -0.8,
+}
+def _elasticidad(cluster_val: str) -> float:
+    return float(ELASTICIDADES.get(str(cluster_val).strip(), ELASTICIDADES["1"]))
+
+
+def _get_cluster(pid: str, cmap: pd.DataFrame) -> str:
+    row = cmap[cmap["Product_ID"] == pid]
+    if row.empty:
+        return "C1"
+    return str(row.iloc[0]["Cluster"])
+
     
 # ==================== OC helpers ====================
 
@@ -3297,8 +3394,8 @@ def render_ordenes_recibidas():
 def render_reapro():
     st.title("🧰 Reapro / Pedidos")
 
-    tab_rank, tab_en_curso, tab_rec = st.tabs(
-        ["📊 Ranking & Sugerencias", "📦 Órdenes en curso", "📥 Órdenes recibidas"]
+    tab_rank, tab_en_curso, tab_rec, tab_sim = st.tabs(
+        ["📊 Ranking & Sugerencias", "📦 Órdenes en curso", "📥 Órdenes recibidas", "🔮 Simulador demanda"]
     )
 
     # ------------------------ TAB: Ranking & Sugerencias ------------------------
@@ -3720,6 +3817,84 @@ def render_reapro():
                     use_container_width=True,
                     height=280,
                 )
+    
+    # ==================== TAB DE SIMULADOR ====================
+
+    with tab_sim:
+        st.subheader("🔮 Simulador de escenarios de demanda")
+
+        forecast = _load_forecast_neutral()
+        cmap     = _load_clusters_map()
+
+        # selector de producto (con placeholder)
+        prods = forecast["Product_ID"].unique().tolist()
+        options = ["--Seleccione o introduzca Product_ID para comenzar simulación--"] + prods
+        prod_sel = st.selectbox("Selecciona un producto", options, index=0)
+
+        # detener hasta que el usuario elija un Product_ID válido
+        if prod_sel == "--Seleccione o introduzca Product_ID para comenzar simulación--":
+            st.info("Selecciona un Product_ID para iniciar la simulación.")
+            st.stop()
+
+        if prod_sel:
+            dfp = forecast[forecast["Product_ID"] == prod_sel].copy()
+            clus = _get_cluster(prod_sel, cmap)
+            eps  = _elasticidad(clus)
+
+            st.caption(f"Cluster del producto: **{clus}** · Elasticidad precio: **{eps:.2f}**")
+
+            # ===== Parámetros de simulación (precio + promo + evento) =====
+            st.markdown("#### Parámetros de simulación")
+            c1, c2, c3 = st.columns([1, 1, 1])
+
+            # 1) Precio
+            delta_precio = c1.slider("Δ precio (%)", -50, 50, 0, step=1,
+                                    help="Variación relativa del precio. Un -10% reduce el precio; la demanda cambia según la elasticidad del clúster.")
+
+            # 2) Promo
+            promo_on = c2.checkbox("Promo (packs/bundles)", value=False,
+                                help="No es descuento; no afecta al precio. Impacta directamente a la demanda.")
+            promo_pct = 0
+            if promo_on:
+                promo_pct = st.slider("Impacto promo (% sobre demanda)", 0, 100, 15, step=5,
+                                    help="Efecto multiplicativo sobre la demanda. 15% ⇒ x1.15")
+
+            # 3) Evento especial
+            evento_on = c3.checkbox("Evento especial", value=False)
+            evento_pct = 0
+            if evento_on:
+                evento_pct = st.slider("Impacto evento (% sobre demanda)", 0, 200, 30, step=10,
+                                help="Efecto multiplicativo sobre la demanda. 30% ⇒ x1.30")
+
+            # ===== Factores multiplicativos =====
+            M_price_scalar = max(0.01, 1.0 + delta_precio / 100.0) ** eps
+            M_promo_scalar = 1.0 + promo_pct / 100.0
+            M_event_scalar = 1.0 + evento_pct / 100.0
+
+            # Demanda base y simulada
+            dfp["qty_base"] = dfp["qty_forecast"].astype(float)
+            dfp["qty_sim"]  = (dfp["qty_base"] * M_price_scalar * M_promo_scalar * M_event_scalar).clip(lower=0.0)
+
+            # ===== Métricas resumen =====
+            base_sum = float(dfp["qty_base"].sum())
+            sim_sum  = float(dfp["qty_sim"].sum())
+            delta_pct_total = (sim_sum / base_sum - 1.0) * 100.0 if base_sum > 0 else 0.0
+
+            m1, m2, m3 = st.columns(3)
+            m1.metric("Demanda base (rango)", f"{base_sum:,.0f} uds")
+            m2.metric("Demanda simulada", f"{sim_sum:,.0f} uds", delta=f"{delta_pct_total:+.1f}%")
+            m3.metric("Δ precio aplicado", f"{delta_precio:+d} %")
+
+            # ===== Gráfica =====
+            chart_df = dfp[["Date", "qty_base", "qty_sim"]].set_index("Date").sort_index()
+            st.line_chart(chart_df, height=280, use_container_width=True)
+
+            # ===== Tabla detalle =====
+            show_tbl = st.toggle("Mostrar detalle diario", value=False)
+            if show_tbl:
+                det = dfp[["Date","qty_base","qty_sim"]].copy()
+                det = det.rename(columns={"qty_base":"Demanda base", "qty_sim":"Escenario modificado"})
+                st.dataframe(det, use_container_width=True, height=320)
 
 # ------------------ Render según ruta ----------------------------
 route = st.session_state["route"]
