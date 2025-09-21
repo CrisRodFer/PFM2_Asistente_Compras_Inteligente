@@ -864,7 +864,216 @@ def _get_cluster(pid: str, cmap: pd.DataFrame) -> str:
         return "C1"
     return str(row.iloc[0]["Cluster"])
 
+
+# ============= HELPERS PROVEEDORES ==========
+
+@st.cache_data(ttl=300)
+def _load_hist_demand() -> pd.DataFrame:
+    """
+    Carga demanda histórica 2023-2025 (hasta hoy) desde demanda_subset.* 
+    y la normaliza a: Product_ID, Date, qty
+    """
+    from pathlib import Path
+    cands = [
+        ROOT / "data" / "processed" / "demanda_subset.csv",
+        ROOT / "data" / "processed" / "demanda_subset.parquet",
+        Path("/mnt/data/demanda_subset.csv"),
+        Path("/mnt/data/demanda_subset.parquet"),
+    ]
+    df = None
+    for p in cands:
+        try:
+            if p.exists():
+                df = pd.read_parquet(p) if p.suffix == ".parquet" else pd.read_csv(p)
+                break
+        except Exception:
+            df = None
+    if df is None or df.empty:
+        return pd.DataFrame(columns=["Product_ID","Date","qty"])
+
+    # <-- strip() para tolerar espacios en los nombres de columnas
+    low = {c.lower().strip(): c for c in df.columns}
+
+    pid  = low.get("product_id") or low.get("item_id") or "Product_ID"
+    date = low.get("date") or low.get("fecha") or "Date"
+
+    # Preferimos y_pred_estacional; si no, y_pred; si no, sales_quantity…
+    qty = (low.get("y_pred_estacional") or low.get("y_pred")
+           or low.get("sales_quantity") or low.get("quantity") or low.get("qty"))
+
+    if not pid or not date or not qty or (pid not in df.columns) or (date not in df.columns) or (qty not in df.columns):
+        return pd.DataFrame(columns=["Product_ID","Date","qty"])
+
+    out = df[[pid, date, qty]].copy()
+    out = out.rename(columns={pid: "Product_ID", date: "Date", qty: "qty"})
+    out["Product_ID"] = _to_pid_str(out["Product_ID"])
+    out["Date"] = pd.to_datetime(out["Date"], errors="coerce")
+    out["qty"] = pd.to_numeric(out["qty"], errors="coerce").fillna(0.0)
+    out = out.dropna(subset=["Date"])
+    out = out[out["Date"] >= pd.Timestamp(2023, 1, 1)]
+    return out
+
+@st.cache_data(ttl=300)
+def _load_forecast_2025() -> pd.DataFrame:
+    """
+    Devuelve la previsión completa de 2025 normalizada a:
+      Product_ID (str), Date (datetime), qty (float)
+    Reutiliza _load_forecast_neutral() y mapea qty_forecast -> qty
+    """
+    f = _load_forecast_neutral()
+    if f is None or f.empty:
+        return pd.DataFrame(columns=["Product_ID", "Date", "qty"])
+
+    out = f.rename(columns={"qty_forecast": "qty"})[["Product_ID", "Date", "qty"]].copy()
+    out["Product_ID"] = _to_pid_str(out["Product_ID"])
+    out["Date"] = pd.to_datetime(out["Date"], errors="coerce")
+    out["qty"] = pd.to_numeric(out["qty"], errors="coerce").fillna(0.0)
+    out = out.dropna(subset=["Date"])
+    # Filtramos 2025 completo
+    out = out[(out["Date"] >= pd.Timestamp(2025, 1, 1)) &
+              (out["Date"] <= pd.Timestamp(2025, 12, 31))]
+    return out
+
+@st.cache_data(ttl=300)
+def _price_map() -> pd.DataFrame:
+    """
+    Devuelve Product_ID, Nombre, Proveedor, Categoria, Precio.
+    - Proveedor / Nombre / Categoria: build_product_master()
+    - Precio: ui_products.preferred_price (si existe) y, si no, precio_medio/precio/price del catálogo enriquecido.
+    """
+    # ===== Base (Nombre / Proveedor / Categoria)
+    master = build_product_master(ROOT)
+    if master is None:
+        master = pd.DataFrame()
+    master = _ensure_pid_col(master)
+    for c in ["Nombre", "Proveedor", "Categoria"]:
+        if c not in master.columns:
+            master[c] = ""
+    master = master[["Product_ID", "Nombre", "Proveedor", "Categoria"]].drop_duplicates("Product_ID")
+
+    # ---------- helper para convertir a float precios que puedan venir con coma/miles ----------
+    def _clean_price(series: pd.Series) -> pd.Series:
+        s = (
+            series.astype(str)
+                  .str.replace(r"[^\d,.\-]", "", regex=True)   # deja dígitos, coma, punto y signo
+                  .str.replace(".", "", regex=False)           # elimina miles "1.234,56"
+                  .str.replace(",", ".", regex=False)          # coma decimal -> punto
+        )
+        return pd.to_numeric(s, errors="coerce")
+
+    # ===== Precios preferentes (ui_products.parquet)
+    ui_prod_path = TMP_VISTAS / "ui_products.parquet"
+    up = pd.DataFrame(columns=["Product_ID", "Precio"])
+    if ui_prod_path.exists():
+        try:
+            tmp = pd.read_parquet(ui_prod_path)
+            tmp = _ensure_pid_col(tmp)
+            low = {c.lower().strip(): c for c in tmp.columns}
+            prc = (low.get("preferred_price") or low.get("price") or
+                   low.get("precio") or low.get("precio_medio"))
+            if prc:
+                up = tmp.rename(columns={prc: "Precio"})[["Product_ID", "Precio"]].copy()
+                up["Precio"] = _clean_price(up["Precio"])
+        except Exception:
+            pass
+
+    # ===== Fallback precios desde el catálogo enriquecido (¡sin recortar!)
+    #     Ojo: NO usamos load_catalog_items(), porque recorta columnas y pierde el precio.
+    from pathlib import Path
+    p = CAT if CAT.exists() else (ROOT / "data" / "processed" / "catalog_items_enriquecido.csv")
+    cat_prc = pd.DataFrame(columns=["Product_ID", "Precio"])
+    if p.exists():
+        try:
+            cat_raw = _read_csv_smart(p)   # mantiene todas las columnas originales
+            cat_raw = _ensure_pid_col(cat_raw)
+            low = {c.lower().strip(): c for c in cat_raw.columns}
+            prc_c = low.get("precio_medio") or low.get("precio") or low.get("price")
+            if prc_c:
+                tmp = cat_raw.rename(columns={prc_c: "Precio"})[["Product_ID", "Precio"]].copy()
+                tmp["Precio"] = _clean_price(tmp["Precio"])
+                cat_prc = tmp
+        except Exception:
+            pass
+
+    # ===== Merge y preferencia (preferred_price > catálogo)
+    left = master.copy()
+    if not up.empty:
+        left = left.merge(up, on="Product_ID", how="left")
+    else:
+        left["Precio"] = pd.NA
+
+    if not cat_prc.empty:
+        left = left.merge(cat_prc.rename(columns={"Precio": "Precio_cat"}),
+                          on="Product_ID", how="left")
+
+    left["Precio"] = pd.to_numeric(left["Precio"], errors="coerce")
+    left["Precio_cat"] = pd.to_numeric(left.get("Precio_cat"), errors="coerce")
+    left["Precio"] = left["Precio"].fillna(left["Precio_cat"])
+    left.drop(columns=[c for c in left.columns if c.endswith("_cat")],
+              inplace=True, errors="ignore")
+
+    out = left[["Product_ID", "Nombre", "Proveedor", "Categoria", "Precio"]].drop_duplicates("Product_ID")
+    out["Product_ID"] = out["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
+    return out
+
+
+def _cat_table_by_supplier(supplier: str) -> pd.DataFrame:
+    """
+    Tabla Catálogo por proveedor: Product_ID, Nombre, Categoria, Stock actual.
+    (Precio oculto temporalmente para evitar valores corruptos)
+    """
+    pm = _price_map()  # lo seguimos usando para Nombre/Proveedor/Categoria
+    inv = _read_working_inventory().rename(columns={"Stock Real": "Stock actual"})
+
+    base = pm.merge(inv[["Product_ID", "Stock actual"]], on="Product_ID", how="left")
+    base["Stock actual"] = base["Stock actual"].fillna(0).astype(int)
+
+    if supplier and supplier != "Todos":
+        base = base[base["Proveedor"] == supplier]
+
+    # Solo mostramos columnas sin precio
+    keep = ["Product_ID", "Nombre", "Categoria", "Stock actual"]
+    for c in keep:
+        if c not in base.columns:
+            base[c] = "" if c != "Stock actual" else 0
+
+    return base[keep].sort_values("Nombre", na_position="last").reset_index(drop=True)
+
+def _stats_by_supplier(df_qty: pd.DataFrame, pm: pd.DataFrame,
+                       start: pd.Timestamp, end: pd.Timestamp) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """
+    df_qty: Product_ID, Date, qty (hist + forecast ya concatenado y filtrado por fechas)
+    pm:    Product_ID, Proveedor, ...
+    Devuelve:
+      - rank_sup: proveedor, qty_total
+      - series_sup: Date, Proveedor, qty (para línea temporal)
+    """
+    if df_qty.empty:
+        return (pd.DataFrame(columns=["Proveedor", "qty_total"]),
+                pd.DataFrame(columns=["Date", "Proveedor", "qty"]))
+
+    df = df_qty[(df_qty["Date"] >= start) & (df_qty["Date"] <= end)].copy()
+    df = df.merge(pm[["Product_ID", "Proveedor"]], on="Product_ID", how="left")
+
+    rank = (df.groupby("Proveedor", as_index=False)
+              .agg(qty_total=("qty", "sum"))
+              .sort_values(["qty_total"], ascending=False))
+
+    serie = (df.groupby([pd.Grouper(key="Date", freq="MS"), "Proveedor"], as_index=False)
+               .agg(qty=("qty", "sum"))
+               .sort_values(["Date", "Proveedor"]))
+    return rank, serie
     
+def _fmt_unidades_ceil(s: pd.Series) -> pd.Series:
+    """
+    Redondea al alza y aplica separador de miles (estilo 12.345).
+    Solo para mostrar en tablas (no usar en cálculos).
+    """
+    v = pd.to_numeric(s, errors="coerce").fillna(0)
+    v = np.ceil(v).astype("Int64")
+    # 12,345 -> 12.345
+    return v.map(lambda x: f"{x:,}".replace(",", ".") if pd.notna(x) else "")
+
 # ==================== OC helpers ====================
 
 OC_HDR = OUT10 / "ordenes_compra.csv"
@@ -2226,9 +2435,114 @@ def render_exploracion_sustitutos():
 # 5) BLOQUE DE PROVEEDORES (intacto)
 # ==================================================
 def render_proveedores():
-    # (… tu bloque de proveedores actual …)
-    pass
+    st.header("🏭 Proveedores")
 
+    tab_cat, tab_stats = st.tabs(["📘 Catálogo", "📈 Estadísticas"])
+
+    # ---------- Pestaña: Catálogo ----------
+    with tab_cat:
+        st.subheader("Catálogo por proveedor")
+
+        pm = _price_map()
+        provs = ["Todos"] + sorted(pm["Proveedor"].dropna().unique().tolist())
+        prov_sel = st.selectbox("Proveedor", provs, index=0)
+
+        df_cat = _cat_table_by_supplier(prov_sel)
+        st.dataframe(
+            df_cat,
+            use_container_width=True,
+            hide_index=True,
+        )
+
+        # descarga
+        csv = df_cat.to_csv(index=False).encode("utf-8")
+        st.download_button("⬇️ Descargar CSV", data=csv, file_name=f"catalogo_{prov_sel or 'todos'}.csv", mime="text/csv")
+
+    # ---------- Pestaña: Estadísticas ----------
+    with tab_stats:
+        st.subheader("Estadísticas 2023–2025 (histórico + previsión)")
+
+        # Carga de datos
+        pm = _price_map()
+        hist = _load_hist_demand()          # 2023 → hoy (qty)
+        fore = _load_forecast_2025()        # 2025 completo (qty)
+        qty = pd.concat([hist, fore], ignore_index=True) if not hist.empty or not fore.empty \
+          else pd.DataFrame(columns=["Product_ID","Date","qty"])
+
+        # Filtros
+        c1, c2 = st.columns(2)
+        start = c1.date_input("Desde", value=dt.date(2023,1,1))
+        end   = c2.date_input("Hasta", value=dt.date(2025,12,31))
+        start_ts, end_ts = pd.Timestamp(start), pd.Timestamp(end)
+
+        rank_sup, serie_sup = _stats_by_supplier(qty, pm, start_ts, end_ts)
+
+        # KPI: solo unidades
+        total_qty = float(rank_sup["qty_total"].sum()) if not rank_sup.empty else 0.0
+        k1, = st.columns(1)
+        k1.metric("Unidades totales", f"{total_qty:,.0f} uds")
+
+        # Ranking proveedores (solo unidades)
+        st.markdown("#### Ranking de proveedores")
+        if rank_sup.empty:
+            st.info("No hay datos para el rango seleccionado.")
+        else:
+            df_rank_view = rank_sup.rename(columns={"qty_total": "Unidades"}).copy()
+            df_rank_view["Unidades"] = _fmt_unidades_ceil(df_rank_view["Unidades"])    
+            st.dataframe(  
+                df_rank_view,
+                use_container_width=True,
+                hide_index=True
+            )
+
+        # Evolución temporal (mensual) por unidades
+        st.markdown("#### Evolución por proveedor (mensual)")
+        if serie_sup.empty:
+            st.info("No hay datos para el rango seleccionado.")
+        else:
+            # 1) Selector múltiple de proveedores (por defecto: todos)
+            all_suppliers = sorted(serie_sup["Proveedor"].dropna().unique().tolist())
+            sel_suppliers = st.multiselect(
+                "Selecciona proveedores para comparar",
+                options=all_suppliers,
+                default=all_suppliers
+            )
+
+            # 2) Filtramos la serie según la selección
+            serie_filtrada = serie_sup[serie_sup["Proveedor"].isin(sel_suppliers)].copy()
+
+            if serie_filtrada.empty:
+                st.warning("No hay proveedores seleccionados (o no hay datos para la selección).")
+            else:
+            # 3) Pivot y gráfica
+                pivot_qty = (serie_filtrada
+                                .pivot(index="Date", columns="Proveedor", values="qty")
+                                .sort_index()
+                                .fillna(0.0))
+
+                st.line_chart(pivot_qty, use_container_width=True, height=280)
+
+        # Top productos por proveedor (solo unidades)
+        st.markdown("#### Top productos por proveedor")
+        provs = ["(Selecciona proveedor)"] + sorted(pm["Proveedor"].dropna().unique().tolist())
+        prov_pick = st.selectbox("Proveedor para ver top productos", provs, index=0)
+        if prov_pick != "(Selecciona proveedor)":
+            df = qty[(qty["Date"] >= start_ts) & (qty["Date"] <= end_ts)].copy()
+            df = df.merge(pm[["Product_ID","Nombre","Proveedor"]], on="Product_ID", how="left")
+            df = df[df["Proveedor"] == prov_pick]
+            top_prod = (df.groupby(["Product_ID","Nombre"], as_index=False)
+                        .agg(Unidades=("qty","sum"))
+                        .sort_values(["Unidades"], ascending=False)
+                        .head(25))
+            
+            top_prod_view = top_prod.copy()
+            top_prod_view["Unidades"] = _fmt_unidades_ceil(top_prod_view["Unidades"])
+
+            top_prod["Unidades"] = (
+                top_prod["Unidades"]
+                .apply(lambda x: f"{int(np.ceil(x)):,}".replace(",", "."))
+            )
+            st.dataframe(top_prod, use_container_width=True, hide_index=True)
 
 # ==================================================
 # 6) BLOQUE MOVIMIENTOS DE STOCK

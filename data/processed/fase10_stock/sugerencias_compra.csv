@@ -880,7 +880,7 @@ item_id,qty_sugerida,moq,multiplo,importe,supplier_name,motivo
 4343,0,,,,,rotura
 4345,0,,,,,rotura
 4346,0,,,,,rotura
-4347,1,0.0,1.0,25.03,,rotura
+4347,0,0.0,1.0,0.0,,rotura
 4348,0,,,,,rotura
 4351,0,,,,,rotura
 4353,0,,,,,rotura
@@ -1157,6 +1157,7 @@ item_id,qty_sugerida,moq,multiplo,importe,supplier_name,motivo
 5253,0,,,,,rotura
 5259,0,,,,,rotura
 5276,0,,,,,rotura
+5278,3,,,,,rotura
 5283,0,,,,,rotura
 5284,0,,,,,rotura
 5287,0,,,,,rotura
