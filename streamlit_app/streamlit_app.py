@@ -10,7 +10,130 @@ import datetime as dt
 import pandas as pd
 import numpy as np
 
-st.set_page_config(page_title="PFM2", page_icon="🧭", layout="wide")
+from base64 import b64encode
+
+from pathlib import Path
+from base64 import b64encode
+import streamlit as st
+
+APP_TITLE = "SupplyMind: Asistente Inteligente de Compras"
+
+st.set_page_config(
+    page_title=APP_TITLE,
+    page_icon="🧭",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
+# 1) Ruta ABSOLUTA de Windows (usa barras / para evitar problemas de escapes)
+ABS_BG = Path("C:/Users/crisr/Desktop/Máster Data Science & IA/PROYECTO/PFM2_Asistente_Compras_Inteligente/data/auxiliar/foto_app.png")
+
+# 2) Candidatas RELATIVAS dentro del repo (por si mueves la app)
+HERE = Path(__file__).resolve().parent
+ROOT = HERE if (HERE / "data").exists() else HERE.parents[1]  # app/ o raíz del repo
+REL_BG = [
+    ROOT / "data" / "auxiliar" / "foto_app.png",
+    HERE / "data" / "auxiliar" / "foto_app.png",
+    Path("data/auxiliar/foto_app.png"),
+]
+
+def _pick_bg() -> Path | None:
+    # 1º absoluta; 2º relativas; 3º búsqueda por nombre dentro del repo
+    for p in [ABS_BG, *REL_BG]:
+        if p.exists():
+            return p
+    # búsqueda por si está en otro sitio del proyecto
+    try:
+        for p in ROOT.rglob("foto_app.png"):
+            return p
+    except Exception:
+        pass
+    return None
+
+def apply_theme(overlay: float = 0.20, debug: bool = True):
+    bg = _pick_bg()
+    if not bg:
+        if debug:
+            st.warning("⚠️ No encuentro foto_app.png. Colócala en /data/auxiliar o ajusta ABS_BG.")
+        # Aplica al menos el degradado para no dejarlo en blanco
+        st.markdown(f"""
+        <style id="supplymind-theme">
+          .stApp {{ background:
+             linear-gradient(rgba(0,0,0,{overlay}), rgba(0,0,0,{overlay})) !important; }}
+          .block-container {{
+            background: rgba(255,255,255,0.86);
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 16px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+            padding: 2rem;
+          }}
+        </style>
+        """, unsafe_allow_html=True)
+        return
+
+    data_uri = "data:image/png;base64," + b64encode(bg.read_bytes()).decode()
+    st.markdown(f"""
+    <style id="supplymind-theme">
+      .stApp {{
+        background:
+          linear-gradient(rgba(0,0,0,{overlay}), rgba(0,0,0,{overlay})),
+          url("{data_uri}") center/cover fixed no-repeat !important;
+      }}
+      .block-container {{
+        background: rgba(255,255,255,0.86);
+        border: 1px solid rgba(0,0,0,0.06);
+        border-radius: 16px;
+        backdrop-filter: blur(4px);
+        box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+        padding: 2rem;
+      }}
+      .stButton > button {{
+        border-radius: 14px;
+        padding: .9rem 1.1rem;
+        border: 1px solid rgba(0,0,0,0.06);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+        transition: transform .06s ease, box-shadow .2s ease;
+      }}
+      .stButton > button:hover {{
+        transform: translateY(-1px);
+        box-shadow: 0 8px 18px rgba(0,0,0,0.10);
+      }}
+      section[data-testid="stSidebar"] {{
+        background: rgba(255,255,255,0.90);
+        backdrop-filter: blur(6px);
+        border-right: 1px solid rgba(0,0,0,0.06);
+      }}
+      .card {{
+        padding: 1.2rem;
+        background: rgba(255,255,255,0.94);
+        border: 1px solid rgba(0,0,0,0.06);
+        border-radius: 16px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      }}
+      .card h3 {{ margin: 0 0 .25rem 0; }}
+      .card p  {{ margin: .25rem 0 0 0; color: #334155; opacity: .92; }}
+    </style>
+    """, unsafe_allow_html=True)
+    if debug:
+        st.caption(f"Fondo cargado desde: {bg}")
+
+# Llamar SIEMPRE antes de pintar la portada
+apply_theme(debug=False)
+
+# === Ancho global del contenido (tablas a lo ancho) ===
+st.markdown("""
+<style>
+/* Contenedor central más ancho */
+.main .block-container {
+  max-width: 1600px;   /* Ajusta 1400–1800 si lo prefieres */
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
 
 # ---------------- Router sencillo en session_state ----------------
 ROUTES = {
@@ -39,15 +162,7 @@ with st.sidebar:
         goto(choice)
         st.rerun()
 
-# -------------- CSS mínimo --------------
-st.markdown(
-    """
-    <style>
-    .st-emotion-cache-1v0mbdj { gap: .3rem; } /* tabs compactas */
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+
 
 # -------------- JS peque autorefresh --------------
 def autorefresh(interval: int | None = None):
@@ -1846,26 +1961,65 @@ def _generate_scenarios_AE(
 # 2). Portada
 # ==================================================
 def render_home():
-    st.title("🧭 PFM2 — Asistente de Compras")
+    # Título principal
+    st.markdown("## 🧭 SupplyMind: Asistente Inteligente de Compras")
     st.caption("Elige un bloque para trabajar.")
 
-    cols = st.columns(4)
-    with cols[0]:
-        st.subheader("🔎 Exploración & Sustitutos")
-        st.write("Explora catálogo, productos y sustitutos internos/externos.")
-        st.button("Entrar", use_container_width=True, on_click=goto, args=("exploracion",), key="go_exploracion")
-    with cols[1]:
-        st.subheader("🏭 Proveedores")
-        st.write("Catálogo por proveedor, condiciones y cobertura.")
-        st.button("Entrar", use_container_width=True, on_click=goto, args=("proveedores",), key="go_proveedores")
-    with cols[2]:
-        st.subheader("📦 Movimientos de stock")
-        st.write("Entradas, salidas, transferencias y stock neto.")
-        st.button("Entrar", use_container_width=True, on_click=goto, args=("movimientos",), key="go_movimientos")
-    with cols[3]:
-        st.subheader("🧾 Reapro / Pedidos")
-        st.write("ROP, safety stock, cantidad recomendada y pedidos.")
-        st.button("Entrar", use_container_width=True, on_click=goto, args=("reapro",), key="go_reapro")
+    # MATRIZ 2×2 (tarjetas con botón)
+    r1c1, r1c2 = st.columns(2, gap="large")
+    r2c1, r2c2 = st.columns(2, gap="large")
+
+    with r1c1:
+        st.markdown(
+            """
+            <div class="card">
+              <h3>🔎 Exploración & Sustitutos</h3>
+              <p>Explora catálogo, productos y sustitutos internos/externos.</p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.button("Entrar", key="go_exploracion", use_container_width=True,
+                  on_click=goto, args=("exploracion",))
+
+    with r1c2:
+        st.markdown(
+            """
+            <div class="card">
+              <h3>🏭 Proveedores</h3>
+              <p>Catálogo por proveedor, condiciones y cobertura.</p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.button("Entrar", key="go_proveedores", use_container_width=True,
+                  on_click=goto, args=("proveedores",))
+
+    with r2c1:
+        st.markdown(
+            """
+            <div class="card">
+              <h3>📦 Movimientos de stock</h3>
+              <p>Entradas, salidas, transferencias y stock neto.</p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.button("Entrar", key="go_movimientos", use_container_width=True,
+                  on_click=goto, args=("movimientos",))
+
+    with r2c2:
+        st.markdown(
+            """
+            <div class="card">
+              <h3>🧾 Reapro / Pedidos</h3>
+              <p>ROP, safety stock, cantidad recomendada y pedidos.</p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.button("Entrar", key="go_reapro", use_container_width=True,
+                  on_click=goto, args=("reapro",))
 
     st.divider()
     st.markdown("Consejo: usa el **menú lateral** para saltar entre bloques sin volver a la portada.")
@@ -3167,7 +3321,7 @@ def render_movimientos_stock():
 
         def _canonize_existing_ledger(path: Path) -> pd.DataFrame:
             try:
-                led = pd.read_csv( 
+                led = pd.read_csv(
                     ledger_path,
                     dtype={"Product_ID": str},
                     na_values=["", "None", "nan"],
@@ -3179,34 +3333,40 @@ def render_movimientos_stock():
                 for c in ["qty_pedido", "on_prev", "on_new", "delta"]:
                     if c in led.columns:
                         led[c] = pd.to_numeric(led[c], errors="coerce")
-                
+
                 # Normaliza texto (si existe)
                 for c in ["Tipo", "Tipo movimiento", "Nombre", "Proveedor"]:
                     if c in led.columns:
                         led[c] = led[c].astype(str)
             except Exception:
                 return pd.DataFrame(columns=CANON_COLS)
+
             if led.empty:
                 return pd.DataFrame(columns=CANON_COLS)
+
             low = {c.lower(): c for c in led.columns}
             date_col = low.get("date") or low.get("timestamp") or ("Date" if "Date" in led.columns else None)
             if not date_col:
                 return pd.DataFrame(columns=CANON_COLS)
+
             out = pd.DataFrame()
             out["Date"] = pd.to_datetime(led[date_col], errors="coerce").dt.normalize()
+
             pid_col = low.get("product_id") or low.get("item_id") or ("Product_ID" if "Product_ID" in led.columns else None)
             out["Product_ID"] = led.get(pid_col, pd.Series([], dtype=object)).astype(str).map(_norm_pid) if pid_col else ""
             out["Nombre"] = ""
             out["Proveedor"] = ""
+
             tipo_c = low.get("tipo movimiento") or low.get("tipo") or None
             if tipo_c:
-                    out["Tipo movimiento"] = led[tipo_c].astype(str)
+                out["Tipo movimiento"] = led[tipo_c].astype(str)
             elif "delta" in low:
                 out["Tipo movimiento"] = np.where(
                     pd.to_numeric(led["delta"], errors="coerce").fillna(0) < 0, "Venta", "Entrada"
                 ).astype(str)
             else:
                 out["Tipo movimiento"] = "Movimiento"
+
             qty = None
             for cand in ["qty_pedido", "qty", "cantidad", "units"]:
                 if cand in low:
@@ -3218,6 +3378,7 @@ def render_movimientos_stock():
                 out["qty_pedido"] = pd.to_numeric(led[low["delta"]], errors="coerce").abs()
             else:
                 out["qty_pedido"] = 0
+
             out = out.dropna(subset=["Date"])
             out["Product_ID"] = out["Product_ID"].replace({"nan": np.nan})
             out = out.dropna(subset=["Product_ID"])
@@ -3292,20 +3453,15 @@ def render_movimientos_stock():
                     if st.button("Eliminar filas inválidas ahora", use_container_width=True, key="cleanup_ledger_btn"):
                         try:
                             df = pd.read_csv(ledger_path, dtype={"Product_ID": str})
-
-                            # Normalización mínima
                             df["Date"] = pd.to_datetime(df["Date"], errors="coerce").dt.normalize()
                             df["Product_ID"] = df["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
                             df["qty_pedido"] = pd.to_numeric(df.get("qty_pedido", 0), errors="coerce").fillna(0).astype(int)
 
                             before = len(df)
-
-                            # --- REGLAS DE LIMPIEZA ---
                             df = df.dropna(subset=["Date", "Product_ID"])
-                            df = df[df["Product_ID"].str.isnumeric()]     # quita 'Venta histórica', vacíos, etc.
-                            df = df[df["qty_pedido"] > 0]                 # quita qty = 0
+                            df = df[df["Product_ID"].str.isnumeric()]
+                            df = df[df["qty_pedido"] > 0]
 
-                            # Guardar limpio y ordenado
                             df = df[CANON_COLS].sort_values(["Date", "Product_ID"]).reset_index(drop=True)
                             df.to_csv(ledger_path, index=False, encoding="utf-8")
 
@@ -3315,6 +3471,7 @@ def render_movimientos_stock():
                             st.error("No se pudo limpiar el ledger.")
                             st.exception(e)
 
+        # ---------- Lectura segura del ledger (evita KeyError: 'Date') ----------
         if not ledger_path.exists():
             st.info("Aún no hay ledger. Reconstrúyelo o genera movimientos.")
             led = pd.DataFrame(columns=CANON_COLS)
@@ -3325,6 +3482,24 @@ def render_movimientos_stock():
                 st.error("No se pudo leer el ledger.")
                 led = pd.DataFrame(columns=CANON_COLS)
 
+        # Canoniza encabezados mínimos (renombres si vienen en minúsculas u otros)
+        low = {c.lower(): c for c in led.columns}
+        ren = {}
+        if "date" in low and "Date" not in led.columns: ren[low["date"]] = "Date"
+        if "timestamp" in low and "Date" not in led.columns: ren[low["timestamp"]] = "Date"
+        if "tipo movimiento" in low and "Tipo movimiento" not in led.columns: ren[low["tipo movimiento"]] = "Tipo movimiento"
+        if "tipo" in low and "Tipo movimiento" not in led.columns: ren[low["tipo"]] = "Tipo movimiento"
+        if "qty_pedido" not in led.columns:
+            for cand in ("qty_pedido", "qty", "cantidad", "units"):
+                if cand in low: ren[low[cand]] = "qty_pedido"; break
+        if ren:
+            led = led.rename(columns=ren)
+
+        # Asegura columnas canónicas para que el dataframe final no falle
+        for c in CANON_COLS:
+            if c not in led.columns:
+                led[c] = np.nan
+
         if not led.empty:
             led["Date"] = pd.to_datetime(led["Date"], errors="coerce").dt.normalize()
             led["Product_ID"] = led["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
@@ -3334,21 +3509,27 @@ def render_movimientos_stock():
 
         c0, c1, c2, c3, c4 = st.columns([1.4, 1, 1, 1.2, 1])
         q_pid = c0.text_input("Product_ID (contiene)", placeholder="Ej. 1003, 43…", key="ledger_pid").strip()
+
         prov_list = ["(Todos)"]
         if "Proveedor" in led.columns and not led.empty:
             prov_list += sorted(pd.Series(led["Proveedor"]).dropna().astype(str).unique().tolist())
         prov_sel = c1.selectbox("Proveedor", prov_list, index=0, key="ledger_proveedor")
 
-        # 🔽 nuevo: selector Tipo movimiento
         tipo_list = ["(Todos)"]
         if "Tipo movimiento" in led.columns and not led.empty:
             tipo_list += sorted(pd.Series(led["Tipo movimiento"]).dropna().astype(str).unique().tolist())
         tipo_sel = c4.selectbox("Tipo movimiento", tipo_list, index=0, key="ledger_tipo")
 
-        min_date = pd.to_datetime(led["Date"]).min() if not led.empty else None
-        max_date = pd.to_datetime(led["Date"]).max() if not led.empty else None
+        # Fechas seguras aunque el ledger venga vacío o sin fechas válidas
+        if led.empty or led["Date"].isna().all():
+            min_date = max_date = None
+        else:
+            min_date = pd.to_datetime(led["Date"]).min()
+            max_date = pd.to_datetime(led["Date"]).max()
+
         f_ini = c2.date_input("Desde", value=(min_date.date() if pd.notna(min_date) else None), key="ledger_desde")
         f_fin = c3.date_input("Hasta", value=(max_date.date() if pd.notna(max_date) else None), key="ledger_hasta")
+
         lf = led.copy()
         if q_pid:
             q_ci = q_pid.casefold()
@@ -3357,13 +3538,13 @@ def render_movimientos_stock():
             lf = lf[lf["Proveedor"].astype(str) == prov_sel]
         if tipo_sel != "(Todos)" and "Tipo movimiento" in lf.columns:
             lf = lf[lf["Tipo movimiento"].astype(str) == tipo_sel]
-        
+
         # --- Filtrar por rango de fechas ---
         start = pd.to_datetime(f_ini) if f_ini else None
         end   = pd.to_datetime(f_fin) if f_fin else None
-
         if "Date" in lf.columns and start is not None and end is not None:
             lf = lf[(lf["Date"] >= start) & (lf["Date"] <= end)]
+
         st.caption(f"Líneas en vista: **{len(lf):,}**")
         st.dataframe(
             lf[CANON_COLS].sort_values("Date", ascending=False),
@@ -3379,7 +3560,7 @@ def render_movimientos_stock():
         )
 
 # ==================================================
-# 7) BLOQUE REAPRO (intacto)
+# 7) BLOQUE REAPRO 
 # ==================================================
 
 # ====================== Reapro - helpers ======================
@@ -3529,7 +3710,7 @@ def _make_order_id(proveedor: str) -> str:
     base = str(proveedor).strip().replace(" ", "_")[:16]
     return f"OC-{base}-{ts}"
 
-# ======================= helper: ingresar orden en inventario + ledger =======================
+
 # ======================= helper: ingresar orden en inventario + ledger =======================
 def _ingresar_orden_en_inventario_y_ledger(order_id: str) -> bool:
     """
@@ -3569,15 +3750,42 @@ def _ingresar_orden_en_inventario_y_ledger(order_id: str) -> bool:
     lines = lines[lines.get("order_id") == order_id].copy()
     if lines.empty:
         return False
+    
+    # Mapear columnas posibles a Product_ID y Cantidad_pedir
+    def _pick_col(df, *cands):
+        norm = {c.lower().replace(" ", "").replace("-", "").replace("_", ""): c for c in df.columns}
+        for cand in cands:
+            k = cand.lower().replace(" ", "").replace("-", "").replace("_", "")
+            if k in norm:
+                return norm[k]
+        return None
 
+    pid_col = "Product_ID" if "Product_ID" in lines.columns else _pick_col(
+        lines, "Product_ID", "product id", "productid", "item_id", "sku", "id_producto",
+        "cod_producto", "codigo", "code"
+    )
+    qty_col = "Cantidad_pedir" if "Cantidad_pedir" in lines.columns else _pick_col(
+        lines, "Cantidad_pedir", "cantidad", "qty", "quantity", "units", "ud"
+    )
+
+    if pid_col and pid_col != "Product_ID":
+        lines.rename(columns={pid_col: "Product_ID"}, inplace=True)
+    if qty_col and qty_col != "Cantidad_pedir":
+        lines.rename(columns={qty_col: "Cantidad_pedir"}, inplace=True)
+
+    # Si aún falta Product_ID, no podemos continuar
+    if "Product_ID" not in lines.columns:
+        return False
+
+    # Normalizaciones
     lines["Product_ID"] = (
         lines["Product_ID"].astype(str).str.strip().str.replace(r"\.0+$", "", regex=True)
     )
-    # cantidades EN SERIE y > 0
     lines["Cantidad_pedir"] = (
-        pd.to_numeric(lines.get("Cantidad_pedir", 0), errors="coerce")
-        .fillna(0).round().astype(int)
+        pd.to_numeric(lines.get("Cantidad_pedir", 0), errors="coerce").fillna(0).round().astype(int)
     )
+
+    # Quedarse solo con líneas con cantidad > 0
     lines = lines[lines["Cantidad_pedir"] > 0]
     if lines.empty:
         return False

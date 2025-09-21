@@ -1,2 +1,4 @@
-order_id,supplier_name,num_lineas,importe_total
-PO_NA_20250921_122918,,2996,0.0
+order_id,Proveedor,Fecha,Escenario,Estado,ETA_dias
+PO_NA_20250921_122918,,nan,,en_curso,0
+"OC-Biotech_Usa,_SL-20250921163113","Biotech Usa, SL",2025-09-21,Neutro,recibida,5
+"OC-NATURBEST,_SLU-20250921163434","NATURBEST, SLU",2025-09-21,Neutro,recibida,2
