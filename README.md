@@ -12,50 +12,45 @@ demanda y modelado predictivo.
 
 ## 📂 Estructura del proyecto
 
-📂 PFM2_Asistente_Compras_Inteligente
-├── 📂 data
-│   ├── 📂 raw
-│   ├── 📂 clean
-│   │   └── supplier_catalog_multi.csv
-│   ├── 📂 processed
-│   │   ├── demanda_all_adjusted.parquet
-│   │   ├── demanda_all_adjusted_postnoise.parquet
-│   │   ├── subset_modelado.parquet
-│   │   ├── dataset_modelado_ready.parquet
-│   │   ├── predicciones_2025.parquet
-│   │   ├── predicciones_2025_estacional.parquet
-│   │   ├── predicciones_2025_optimista.parquet
-│   │   ├── predicciones_2025_pesimista.parquet
-│   │   ├── products.parquet                 # ← Fase 9
-│   │   ├── suppliers.parquet                # ← Fase 9
-│   │   └── substitutes_unified.parquet      # ← Fase 9
-│   └── 📂 external
+PFM2_Asistente_Compras_Inteligente/
+├── 📁 data/
+│ ├── 📁 raw/ # Datos originales sin procesar
+│ ├── 📁 clean/ # Datos limpios tras ETL
+│ │ └── 📄 supplier_catalog_multi.csv
+│ ├── 📁 processed/ # Datos procesados por fases
+│ │ ├── 📄 demanda_all_adjusted.parquet
+│ │ ├── 📄 demanda_all_adjusted_postnoise.parquet
+│ │ ├── 📄 subset_modelado.parquet
+│ │ ├── 📄 dataset_modelado_ready.parquet
+│ │ ├── 📄 predicciones_2025.parquet
+│ │ ├── 📄 predicciones_2025_estacional.parquet
+│ │ ├── 📄 predicciones_2025_optimista.parquet
+│ │ ├── 📄 predicciones_2025_pesimista.parquet
+│ │ ├── 📄 products.parquet # ← Fase 9
+│ │ ├── 📄 suppliers.parquet # ← Fase 9
+│ │ ├── 📄 substitutes_unified.parquet # ← Fase 9
+│ │ └── 📁 external/ # Recursos externos
 │
-├── 📂 outputs
-│   ├── 📂 figuras
-│   └── 📂 controles_escenarios
-│       ├── control_totales_optimista.csv
-│       ├── control_por_cluster_optimista.csv
-│       ├── control_totales_pesimista.csv
-│       └── control_por_cluster_pesimista.csv
+├── 📁 outputs/
+│ ├── 📁 figuras/ # Gráficas generadas
+│ ├── 📁 controles_escenarios/ # Resultados de simulaciones de escenarios
+│ │ ├── 📄 control_totales_optimista.csv
+│ │ ├── 📄 control_por_cluster_optimista.csv
+│ │ ├── 📄 control_totales_pesimista.csv
+│ │ └── 📄 control_por_cluster_pesimista.csv
 │
-├── 📂 reports
-│   └── fase9_validations_summary.json       # ← métricas validación F9
+├── 📁 reports/
+│ └── 📄 fase9_validations_summary.json # Métricas de validación (Fase 9)
 │
-├── 📂 scripts
-│   ├── 📂 eda
-│   ├── 📂 transform
-│   ├── 📂 modeling
-│   ├── 📂 utils
-│   └── 📂 export
-│       └── construir_vistas.py              # ← export vistas F9
+├── 📁 scripts/
+│ ├── 📁 eda/ # Análisis exploratorio
+│ ├── 📁 transform/ # Scripts de limpieza y simulación
+│ ├── 📁 modeling/ # Scripts de modelado
+│ └── 📁 utils/ # Funciones auxiliares reutilizables
 │
-├── 📂 notebooks
-│   └── PFM2_Modelado_y_app.ipynb
-│
-├── README.md
-└── requirements.txt
-
+├── 📄 streamlit_app.py # App final en Streamlit (Fase 11)
+├── 📄 README.md # Documentación principal
+└── 📄 requirements.txt # Dependencias del entorno
 
 
 ------------------------------------------------------------------------
@@ -759,3 +754,42 @@ Desplegar el asistente de compras en una **app interactiva en Streamlit**, conec
 
 📌 **Conclusión de la Fase 11**  
 La app en Streamlit convierte SupplyMind en un **asistente operativo**: permite visualizar inventario y alertas, gestionar sustitutos y multiproveedor, generar y recibir órdenes, y simular escenarios de demanda. Con ello, el proyecto culmina en una herramienta práctica y directamente utilizable en el área de compras.
+
+
+
+## 🎬 Demo (GIFs)
+
+**Portada**
+![Portada](docs/gifs/01-home-overview.gif.gif)
+
+**Exploración & Sustitutos**
+![Exploración & Sustitutos](docs/gifs/02-exploracion-sustitutos.gif.gif)
+
+**Proveedores**
+![Proveedores](docs/gifs/03-proveedores.gif.gif)
+
+**Movimientos de stock — Pedidos cliente (escenarios A–E)**
+![Pedidos cliente - escenarios](docs/gifs/04-mov-pedidos-escenarios.gif.gif)
+
+**Movimientos de stock — Pedidos cliente (UI / generación aleatoria)**
+![Pedidos cliente - UI](docs/gifs/04-mov-pedidos-ui.gif.gif)
+
+**Movimientos de stock — Stock actual**
+![Stock actual](docs/gifs/05-mov-stock-actual.gif.gif)
+
+**Movimientos de stock — 📒 Ledger**
+![Ledger](docs/gifs/06-mov-ledger.gif.gif)
+
+**Reapro — Ranking & Sugerencias (Neutro por defecto)**
+![Reapro Ranking](docs/gifs/07-reapro-ranking.gif.gif)
+
+**Reapro — Generar OC**
+![Generar OC](docs/gifs/08-reapro-generar-oc.gif.gif)
+
+**Reapro — Forzar recepción**
+![Forzar recepción](docs/gifs/09-reapro-forzar-recepcion.gif.gif)
+
+**Reapro — Simulador**
+![Simulador](docs/gifs/10-reapro-simulador.gif.gif)
+
+-------------------------------------------------------------------------

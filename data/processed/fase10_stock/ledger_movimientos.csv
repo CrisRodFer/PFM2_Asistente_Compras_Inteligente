@@ -1,10 +1,12 @@
 Date,Product_ID,Nombre,Proveedor,Tipo movimiento,qty_pedido
-2025-09-21 00:00:00,7940,Neo Proline L-carnitine 60 Caps.,"NATURBEST, SLU",Compra,3.0
-2025-09-21 00:00:00,8063,VitOBest Harina de Avena 1 kg Sabor Tarta de Queso,"NATURBEST, SLU",Compra,4.0
+2025-09-21 00:00:00,2673,BioTechUSA Iso Whey Zero 2270 gr ProteAna Sin Gluten Sabor Coco,"Biotech Usa, SL",Compra,5.0
 2025-09-21,1007,226ERS HIGH ENERGY GEL CAFFEINE - 1 Gel x 60 ml - Gel EnergA(c)tico Cereza Sin Gluten - Vegano - Con Ciclodextrina - 160mg de CafeAna y 50g de Hidratos de Carbono Sabor Cereza,226ERS SPORTS THINGS SL,Venta,1.0
 2025-09-21 00:00:00,1000,226ERS Sub9 Salts Electrolytes 100 Cápsulas,226ERS SPORTS THINGS SL,Venta,4.0
 2025-09-21 00:00:00,1007,226ERS HIGH ENERGY GEL CAFFEINE - 1 Gel x 60 ml - Gel EnergA(c)tico Cereza Sin Gluten - Vegano - Con Ciclodextrina - 160mg de CafeAna y 50g de Hidratos de Carbono Sabor Cereza,226ERS SPORTS THINGS SL,Venta,16.0
+2025-09-21 00:00:00,1024,226ERS Race Day Bar BCAAs 1 barrita x 40 gr - Barritas EnergA(c)ticas Veganas con BCAA's y Leucina Sabor Chocolate Negro,226ERS SPORTS THINGS SL,Venta,1.0
+2025-09-21 00:00:00,1030,"226ERS HydraZero 1 Sobre x 7,5 Gramos Sabor Limón",226ERS SPORTS THINGS SL,Venta,2.0
 2025-09-21 00:00:00,1030,"226ERS HydraZero 1 Sobre x 7,5 Gramos Sabor Limón",226ERS SPORTS THINGS SL,Venta,1.0
+2025-09-21 00:00:00,1043,226ERS Energy Gel BIO Frutas del Bosque con 100 mg de Cafeina - 1 gel x 25 gr / Sin Gluten ni Lactosa Sabor Frutas del Bosque,226ERS SPORTS THINGS SL,Venta,1.0
 2025-09-21 00:00:00,1043,226ERS Energy Gel BIO Frutas del Bosque con 100 mg de Cafeina - 1 gel x 25 gr / Sin Gluten ni Lactosa Sabor Frutas del Bosque,226ERS SPORTS THINGS SL,Venta,4.0
 2025-09-21 00:00:00,1053,226ERS Race Day Bar Choco Bits 1 barrita x 40 gr Sabor Fresa-Chocolate Blanco,226ERS SPORTS THINGS SL,Venta,8.0
 2025-09-21 00:00:00,1056,226ERS Box Race Day Bar - Barritas EnergA(c)ticas Bcaa 6 Barritas X 40 Gr Sabor Chocolate Negro,226ERS SPORTS THINGS SL,Venta,33.0
@@ -18,35 +20,51 @@ Date,Product_ID,Nombre,Proveedor,Tipo movimiento,qty_pedido
 2025-09-21 00:00:00,1803,Amix MuscleCore Myto Test V3 90 caps Aumenta la Masa Muscular,AMIX LEVANTE S.L.,Venta,3.0
 2025-09-21 00:00:00,1839,Amix Performance Energy Gel RockA's! XXL Sin CafeAna - 1 gel x 65 gr Energía Sabor Mango,AMIX LEVANTE S.L.,Venta,1.0
 2025-09-21 00:00:00,1958,Coor Smart Nutrition By Amix Docoor Relleno De Crema 70 Gr Sabor Fresa,AMIX LEVANTE S.L.,Venta,4.0
+2025-09-21 00:00:00,2057,Vikika Gold by Amix Slim Vegan Protein 30 sobres X 20 gr ProteAna Vegetal Sabor Doble Chocolate,AMIX LEVANTE S.L.,Compra,12.0
+2025-09-21 00:00:00,2057,Vikika Gold by Amix Slim Vegan Protein 30 sobres X 20 gr ProteAna Vegetal Sabor Doble Chocolate,AMIX LEVANTE S.L.,Venta,3.0
+2025-09-21 00:00:00,2057,Vikika Gold by Amix Slim Vegan Protein 30 sobres X 20 gr ProteAna Vegetal Sabor Doble Chocolate,AMIX LEVANTE S.L.,Venta,4.0
+2025-09-21 00:00:00,2057,Vikika Gold by Amix Slim Vegan Protein 30 sobres X 20 gr ProteAna Vegetal Sabor Doble Chocolate,AMIX LEVANTE S.L.,Venta,1.0
 2025-09-21 00:00:00,2082,Paleobull Barrita Proteica De Nueces 1 Barrita X 55 Gr Sabor Nuez,"BAMBINI FOODS, SL",Venta,2.0
+2025-09-21 00:00:00,2489,"BigMan Zero Whey Protein Isolate 2 kg (4,4 Lbs) Sabor Natilla con Galleta","Big Man Nutrition, SL",Venta,1.0
 2025-09-21 00:00:00,2653,BigMan Adrenaline FX 30 caps,"Big Man Nutrition, SL",Venta,4.0
+2025-09-21 00:00:00,2658,BioTechUSA Protein Power 4000 gr Sabor Chocolate,"Biotech Usa, SL",Venta,4.0
 2025-09-21 00:00:00,2658,BioTechUSA Protein Power 4000 gr Sabor Chocolate,"Biotech Usa, SL",Venta,1.0
 2025-09-21 00:00:00,2684,BioTechUSA EAA Zero 350 gr - AminoA!cidos Esenciales Sabor Limón,"Biotech Usa, SL",Compra,16.0
 2025-09-21 00:00:00,2684,BioTechUSA EAA Zero 350 gr - AminoA!cidos Esenciales Sabor Limón,"Biotech Usa, SL",Venta,5.0
 2025-09-21 00:00:00,2732,BioTechUSA Nuts and Honey 1 barrita x 35 gr,"Biotech Usa, SL",Venta,5.0
+2025-09-21 00:00:00,3356,"Crown Sport Nutrition Hyperbar 45 - 60 Gr / Barrita EnergA(c)tica de Gominola Doble con 45g CHO en Relación 1:0,8 + Extra Sodio Sabor Neutro",Crown Nutrition,Venta,3.0
 2025-09-21 00:00:00,3356,"Crown Sport Nutrition Hyperbar 45 - 60 Gr / Barrita EnergA(c)tica de Gominola Doble con 45g CHO en Relación 1:0,8 + Extra Sodio Sabor Neutro",Crown Nutrition,Venta,4.0
 2025-09-21 00:00:00,3361,"Crown Sport Nutrition Isodrink & Energy 640 g - Isotónico con distintos carbohidratos, sales minerales, BCAA,  glutamina, Sabor y textura suaves, Sin alA(c)rgenos Sabor Limón",Crown Nutrition,Venta,2.0
 2025-09-21 00:00:00,3365,"Crown Sport Nutrition HyperGel 30 Hydro 1 x 75 g - Gel EnergA(c)tico con 30g CHO en Relación 1:0,8 + Extra Sodio Sabor Neutro",Crown Nutrition,Venta,5.0
+2025-09-21 00:00:00,3366,"Crown Sport Nutrition Energy Bar, 1 x 60 g - Barrita EnergA(c)tica De Avena Sin Cobertura Y Un Extra De ProteAna Aislada De Whey Sabor Banana-ChocoBlanco",Crown Nutrition,Venta,4.0
 2025-09-21 00:00:00,3366,"Crown Sport Nutrition Energy Bar, 1 x 60 g - Barrita EnergA(c)tica De Avena Sin Cobertura Y Un Extra De ProteAna Aislada De Whey Sabor Banana-ChocoBlanco",Crown Nutrition,Venta,10.0
 2025-09-21 00:00:00,3372,"Crown Sport Nutrition Energy Bar, 1 x 60 g - Barrita EnergA(c)tica De Avena Sin Cobertura Y Un Extra De ProteAna Aislada De Whey Sabor Doble Chocolate",Crown Nutrition,Venta,2.0
 2025-09-21 00:00:00,3427,Drasanvi Collmar Colageno Magnesio + éido Hialuronico + Curcuma 300 gr Sabor Limón,"DRASANVI, SL",Venta,2.0
 2025-09-21 00:00:00,4110,Nutramino Protein Bar 1 Barrita X 55 Gr Sabor Vainilla-Caramelo,Glanbia Nutritionals,Venta,2.0
 2025-09-21 00:00:00,4173,Optimum Nutrition Gold Standard Pre-Entrenamiento Workout 330 gr Sabor Sandá,Glanbia Nutritionals,Venta,3.0
+2025-09-21 00:00:00,4191,Optimum Nutrition Gold Standard Plant 1 Sobre X 33 Gr Sabor Chocolate,Glanbia Nutritionals,Venta,2.0
 2025-09-21 00:00:00,4298,GoldNutrition Endurance Salt Bar - Barrita Proteica 1 barrita x 40 gr Sabor CHOCOLATE & AVELLANA,"Goldnutrition, SL",Venta,1.0
 2025-09-21 00:00:00,4613,Corny Protein Barrita de cereales proteica / 30% de proteinas / 0% azAocares aA+-adidos / 1 barrita x 50 gr Sabor Mango,Hero EspaÃ±a SA,Venta,3.0
 2025-09-21 00:00:00,4617,Life Pro Nutrition Whey Chocolate Jungle 1kg Limited Edition Sabor Chocolate,INDIEX (LIFE PRO),Venta,3.0
+2025-09-21 00:00:00,4626,Life Pro Nutrition Endurance Energy Gel - 1 x 60 ml / Gel EnergA(c)tico / Sin CafeAna Sabor Mango,INDIEX (LIFE PRO),Venta,5.0
 2025-09-21 00:00:00,5134,InfiSport ND3 SA3lido Con CafeAna 1 Barrita x 40 Gramos Sabor Granada,"INFISPORT, S.L.",Venta,1.0
+2025-09-21 00:00:00,5154,InfiSport COMPLEX Recovery 3:1 1 sobre x 60 g Sabor Sandá,"INFISPORT, S.L.",Venta,2.0
 2025-09-21 00:00:00,5183,Chimpanzee Gunpowder Energy Drink 1 sobre x 30 gr Sabor Naranja,"JAUSUN IMPORT EXPORT, SL",Venta,1.0
 2025-09-21 00:00:00,5274,Colnatur Sport Colageno Natural Neutro 330 gr Sabor Neutro,Laboratorios Ordesa (Colnatur),Venta,2.0
 2025-09-21 00:00:00,5278,Mares Pantalones PolAgono 50 De CA(c)lula Abierta Talla de ropa XXL,MARES S.p.A.,Venta,4.0
 2025-09-21 00:00:00,5602,"Max Protein Harina de Avena - Instant Oatmeal Good Morning 1,5 kg Sabor Donut","NANONEN, SL",Venta,5.0
+2025-09-21 00:00:00,7940,Neo Proline L-carnitine 60 Caps.,"NATURBEST, SLU",Compra,3.0
 2025-09-21 00:00:00,8050,Vitobest Ultra Fast Recovery 1 Sobre X 50 Gr Sabor Limón,"NATURBEST, SLU",Venta,1.0
+2025-09-21 00:00:00,8063,VitOBest Harina de Avena 1 kg Sabor Tarta de Queso,"NATURBEST, SLU",Compra,4.0
 2025-09-21 00:00:00,8063,VitOBest Harina de Avena 1 kg Sabor Tarta de Queso,"NATURBEST, SLU",Venta,2.0
 2025-09-21 00:00:00,8074,VitOBest Carnitina 2000 Drink 1 Botella x 500 Mililitros Sabor Lima-Limón,"NATURBEST, SLU",Venta,1.0
+2025-09-21 00:00:00,8648,Nutrinovex Longovit 360 Gel Pro 1 gel x 75 gr - Gel EnergA(c)tico con 50g de Carbohidratos - Perfecto para Tomar Durante tus Entrenamientos mA!s Intensos Sabor Fresa-PlA!tano,"NUTRINOVEX SPORT INNOVATIONS, SL",Venta,1.0
 2025-09-21 00:00:00,8652,Nutrinovex Longobar - Barrita EnergA(c)tica 1 Barrita x 40 Gr Sabor Tarta de Queso,"NUTRINOVEX SPORT INNOVATIONS, SL",Venta,2.0
 2025-09-21 00:00:00,8653,Nutrinovex Longovit 360 Gel Pro 1 gel x 75 gr - Gel EnergA(c)tico con 50g de Carbohidratos - Perfecto para Tomar Durante tus Entrenamientos mA!s Intensos Sabor Mandarina-Mango,"NUTRINOVEX SPORT INNOVATIONS, SL",Venta,1.0
 2025-09-21 00:00:00,8676,Nutrinovex 360 Longovit Gel 1 gel x 45 gr Sabor Neutro,"NUTRINOVEX SPORT INNOVATIONS, SL",Venta,2.0
+2025-09-21 00:00:00,8740,Nutrisport Barritas Stimul Red 1 barrita x 40 gr Sabor Chocolate,NUTRISPORT S.A.U.,Venta,3.0
 2025-09-21 00:00:00,8740,Nutrisport Barritas Stimul Red 1 barrita x 40 gr Sabor Chocolate,NUTRISPORT S.A.U.,Venta,4.0
+2025-09-21 00:00:00,8741,Nutrisport Energy Gel Taurina 1 Gel X 35 Gr Sabor Fresa,NUTRISPORT S.A.U.,Venta,4.0
 2025-09-21 00:00:00,8742,Nutrisport Low Carbs High Protein Bar 1 barrita x 60 gr - Barrita Baja en AzAocares y Alta en Proteínas -  Ideal para Tomar DespuA(c)s de tus Entrenamientos Sabor Chocolate - Galleta,NUTRISPORT S.A.U.,Venta,3.0
 2025-09-21 00:00:00,8749,Nutrisport Barrita Proteica 1 Barrita x 44 Gr Sabor Doble Chocolate,NUTRISPORT S.A.U.,Venta,5.0
 2025-09-21 00:00:00,8753,NutriSport Fuel Gel EnergA(c)tico - 1 Gel X 30 Gr Sabor CITRICOS,NUTRISPORT S.A.U.,Venta,5.0

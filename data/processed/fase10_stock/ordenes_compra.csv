@@ -2,3 +2,7 @@ order_id,Proveedor,Fecha,Escenario,Estado,ETA_dias
 PO_NA_20250921_122918,,nan,,en_curso,0
 "OC-Biotech_Usa,_SL-20250921163113","Biotech Usa, SL",2025-09-21,Neutro,recibida,5
 "OC-NATURBEST,_SLU-20250921163434","NATURBEST, SLU",2025-09-21,Neutro,recibida,2
+OC-AMIX_LEVANTE_S.L-20250921181220,AMIX LEVANTE S.L.,2025-09-21,Neutro,recibida,2
+OC-Glanbia_Nutritio-20250921181443,Glanbia Nutritionals,2025-09-21,Neutro,en_curso,5
+OC-MARES_S.p.A.-20250921181807,MARES S.p.A.,2025-09-21,Neutro,en_curso,15
+"OC-Biotech_Usa,_SL-20250921181913","Biotech Usa, SL",2025-09-21,Neutro,recibida,5

@@ -13,6 +13,7 @@ python-dotenv
 # === I/O de ficheros ===
 openpyxl
 xlsxwriter
+fastparquet
 
 # === Visualización ===
 matplotlib
@@ -23,6 +24,12 @@ pillow
 
 # === App ===
 streamlit
+watchdog
+
+# === Utils / helpers ===
+tabulate
+click
+sqlalchemy
 
 # === Notebook / Dev UX ===
 jupyter
@@ -30,3 +37,9 @@ notebook
 ipykernel
 ipywidgets
 tqdm
+
+# === Dev (opcional) ===
+pytest
+pytest-cov
+black
+flake8
