@@ -659,3 +659,103 @@ python scripts/export/construir_vistas.py
 📌 Conclusión de la Fase 9
 Catálogo multiproveedor validado (V1–V4) y vistas exportadas para la app.
 -------------------------------------------------------------------------
+## 📑 Metodología – Fase 10 (Motor de movimientos de stock)
+
+### 10.1 Objetivo
+Desarrollar un **procesador de movimientos de stock** que actualice el inventario en función de pedidos de cliente, genere ledger de movimientos, dispare alertas y sugiera órdenes de compra, incluyendo el manejo de sustitutos.
+
+### 10.2 Datos de entrada
+- `data/clean/Inventario.csv` (inventario inicial; columnas: Product_ID, Proveedor, Nombre, Categoria, Stock Real).  
+- `customer_orders.csv` (pedidos simulados; columnas: date, item_id, qty).  
+- `supplier_catalog.csv` (catálogo enriquecido con precio, lead_time, moq, múltiplo).  
+- `service_policy.csv` (políticas de cobertura y stock de seguridad por categoría).  
+- `substitutes.csv` (sustitutos internos y externos por Product_ID).  
+
+### 10.3 Lógica implementada
+1. **Carga y validación de inventario y pedidos**.  
+   - Control de columnas obligatorias y formatos.  
+   - Posibilidad de generar pedidos DEMO en ausencia de input.  
+
+2. **Enriquecimiento con catálogos y políticas**.  
+   - Merge con catálogo multiproveedor y política de servicio.  
+   - Fallbacks: cobertura=14 días, lead_time=5 días, SS=0 uds.  
+
+3. **Cálculo de métricas base**.  
+   - Demanda media diaria (`μ_d`).  
+   - Reorder Point (ROP = μ_d·LT + SS).  
+
+4. **Procesado de pedidos**.  
+   - Actualización secuencial de `stock_actual`.  
+   - Ledger cronológico de movimientos (ventas, recepciones).  
+   - Generación de alertas (WARN, CRIT) ante inconsistencias o roturas.  
+
+5. **Etiquetado y sugerencias de compra**.  
+   - Flags `flag_rotura` y `flag_bajo`.  
+   - Cálculo de `qty_sugerida` con validación de MOQ y múltiplos.  
+   - Cálculo de importes (`qty_sugerida` × `precio`).  
+
+6. **Sustitutos**.  
+   - Búsqueda de hasta 3 alternativas por SKU en rotura.  
+   - Filtros por disponibilidad y ranking por score.  
+   - Alertas críticas si no se encuentran sustitutos.  
+
+7. **Órdenes de compra**.  
+   - Generación de cabecera y líneas por proveedor.  
+   - Control de motivo (rotura/bajo stock) y trazabilidad en ledger.  
+
+### 10.4 Salidas
+- `inventory_updated.csv` → inventario vivo post-pedidos.  
+- `ledger_movimientos.csv` → histórico de movimientos.  
+- `alerts.csv` → alertas generadas.  
+- `sugerencias_compra.csv` → candidatos a reaprovisionamiento.  
+- `ordenes_compra.csv` y `ordenes_compra_lineas.csv` → órdenes agrupadas por proveedor.  
+- `sugerencias_sustitutos.csv` → propuestas de sustitutos para roturas.  
+
+### 10.5 Validación
+- Reglas aplicadas: stock ≥ 0, qty > 0 en pedidos, ROP coherente con μ_d y lead_time.  
+- Se verificó consistencia de salidas y ausencia de NaNs críticos.  
+- Análisis de resultados: detección correcta de roturas y bajo ROP, ledger cronológico sin inconsistencias, sustitutos sugeridos para >85% de SKUs en rotura.
+
+📌 **Conclusión de la Fase 10**  
+El motor de movimientos de stock queda consolidado: actualiza inventario, mantiene trazabilidad con ledger, dispara alertas y genera sugerencias de compra junto con sustitutos y órdenes de compra. Sus salidas alimentan directamente la app en Streamlit.
+
+**⏭️ Reproducibilidad (Fase 10)**
+
+```bash
+# Desde la raíz del repo
+python scripts/operativa/movimientos_stock.py \
+  --inventario data/clean/Inventario.csv \
+  --orders data/clean/customer_orders.csv \
+  --supplier-catalog data/clean/supplier_catalog.csv \
+  --service-policy data/clean/service_policy.csv \
+  --substitutes data/clean/substitutes.csv \
+  --outdir data/processed/fase10_stock
+
+-------------------------------------------------------------------------
+
+## 📑 Metodología – Fase 11 (Despliegue en Streamlit — SupplyMind)
+
+### 11.1 Objetivo
+Desplegar el asistente de compras en una **app interactiva en Streamlit**, conectando las salidas de la Fase 10 con una interfaz usable para el técnico de compras.
+
+### 11.2 Bloques principales de la app
+1. **Home**: portada con navegación mediante tarjetas a las distintas secciones.  
+2. **Exploración & Sustitutos**: consulta de inventario vivo y sustitutos unificados, con edición opcional de pedidos UI y acceso a ledger, órdenes y alertas.  
+3. **Proveedores**: vista por proveedor con catálogo, precios y análisis de históricos 2023–2025 (ranking y tendencias).  
+4. **Movimientos de stock**: inventario vivo con flags de rotura/bajo ROP, buscador y filtrado por proveedor/categoría.  
+5. **Reapro / Pedidos**: consolidación de sugerencias, gestión de órdenes en curso y recibidas, y simulador de escenarios de demanda.  
+6. **Mensajes y descargas**: alertas INFO/WARN/CRIT alineadas con `alerts.csv` y botones para descargar CSVs.  
+
+### 11.3 Datos consumidos
+- Outputs de Fase 10 (`inventory_updated.csv`, `ledger_movimientos.csv`, `alerts.csv`, `sugerencias_compra.csv`, `ordenes_compra*.csv`, `sugerencias_sustitutos.csv`).  
+- Vistas de catálogo multiproveedor (`products.parquet`, `suppliers.parquet`, `substitutes_unified.parquet`).  
+- Predicciones 2025 (`predicciones_2025*.parquet`) para el simulador.  
+
+### 11.4 Validaciones de la app
+- Se verificó coherencia en la carga de CSV/Parquet y alineación de nombres de columnas (`Product_ID` vs `item_id`).  
+- La navegación mantiene el estado entre secciones gracias a `st.session_state`.  
+- Se comprobó la descarga correcta de archivos y la consistencia de mensajes de alerta.  
+- El simulador reproduce escenarios alternativos coherentes con los definidos en Fase 8.  
+
+📌 **Conclusión de la Fase 11**  
+La app en Streamlit convierte SupplyMind en un **asistente operativo**: permite visualizar inventario y alertas, gestionar sustitutos y multiproveedor, generar y recibir órdenes, y simular escenarios de demanda. Con ello, el proyecto culmina en una herramienta práctica y directamente utilizable en el área de compras.

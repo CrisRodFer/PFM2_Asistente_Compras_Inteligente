@@ -4,6 +4,7 @@ C:.
 ¦   .gitattributes
 ¦   .gitignore
 ¦   estructura.txt
+¦   Pitch_SupplyMind.pdf
 ¦   README.md
 ¦   requirements.txt
 ¦   
@@ -38808,6 +38809,7 @@ C:.
 ¦   ¦   README.md
 ¦   ¦   
 ¦   +---auxiliar
+¦   ¦       foto_app.png
 ¦   ¦       ventanas_externos.csv
 ¦   ¦       ventanas_externos_completo.csv
 ¦   ¦       ventanas_precio.csv
@@ -38892,6 +38894,8 @@ C:.
 ¦   ¦   ¦       alerts.csv
 ¦   ¦   ¦       inventory_updated.csv
 ¦   ¦   ¦       ledger_movimientos.csv
+¦   ¦   ¦       oc_en_curso.csv
+¦   ¦   ¦       oc_en_curso_lineas.csv
 ¦   ¦   ¦       ordenes_compra.csv
 ¦   ¦   ¦       ordenes_compra_lineas.csv
 ¦   ¦   ¦       sugerencias_compra.csv
@@ -38927,22 +38931,33 @@ C:.
 ¦   ¦   ¦       pca_componentes.csv
 ¦   ¦   ¦       
 ¦   ¦   +---preds
-¦   ¦       +---baselines
-¦   ¦           +---holt_winters
-¦   ¦           ¦       preds_test.parquet
-¦   ¦           ¦       preds_val.parquet
-¦   ¦           ¦       
-¦   ¦           +---seasonal_naive
-¦   ¦                   preds_test.parquet
-¦   ¦                   preds_val.parquet
-¦   ¦                   
+¦   ¦   ¦   +---baselines
+¦   ¦   ¦       +---holt_winters
+¦   ¦   ¦       ¦       preds_test.parquet
+¦   ¦   ¦       ¦       preds_val.parquet
+¦   ¦   ¦       ¦       
+¦   ¦   ¦       +---seasonal_naive
+¦   ¦   ¦               preds_test.parquet
+¦   ¦   ¦               preds_val.parquet
+¦   ¦   ¦               
+¦   ¦   +---_tmp_views
+¦   ¦   ¦       substitutes_unified_norm.csv
+¦   ¦   ¦       supplier_catalog_multi_norm.csv
+¦   ¦   ¦       
+¦   ¦   +---_tmp_vistas_streamlit
+¦   ¦           substitutes_unified_norm.csv
+¦   ¦           supplier_catalog_multi_norm.csv
+¦   ¦           
 ¦   +---raw
 ¦   ¦       .gitkeep
 ¦   ¦       Catalogo_Productos_Con_Estado.xlsx
 ¦   ¦       customer_orders_AE.csv
+¦   ¦       customer_orders_to_process.csv
 ¦   ¦       customer_orders_ui.csv
 ¦   ¦       Historico_Ventas_2023_Corregido.xlsx
 ¦   ¦       Historico_Ventas_2024_Corregido.xlsx
+¦   ¦       orders_for_ms.csv
+¦   ¦       orders_for_ms__ms.csv
 ¦   ¦       Prevision_demanda_2025_corregida.xlsx
 ¦   ¦       supplier_catalog_demo.csv
 ¦   ¦       test_data.csv
@@ -39257,11 +39272,13 @@ C:.
 ¦   ¦           holt_winters_ets.cpython-313.pyc
 ¦   ¦           
 ¦   +---operativa
+¦   ¦   ¦   generar_pedidos_clientes.py
 ¦   ¦   ¦   movimientos_stock.py
 ¦   ¦   ¦   __init__.py
 ¦   ¦   ¦   
 ¦   ¦   +---__pycache__
 ¦   ¦           movimientos_stock.cpython-313.pyc
+¦   ¦           __init__.cpython-313.pyc
 ¦   ¦           
 ¦   +---reports
 ¦   ¦   +---estacionalidad
@@ -39320,6 +39337,7 @@ C:.
 ¦   ¦   ¦   generar_calendario_estacional.py
 ¦   ¦   ¦   generar_historicos.py
 ¦   ¦   ¦   integrar_metricas.py
+¦   ¦   ¦   inventory_ops.py
 ¦   ¦   ¦   metrics.py
 ¦   ¦   ¦   model_registry.py
 ¦   ¦   ¦   preprocesamiento.py

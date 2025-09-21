@@ -2713,7 +2713,7 @@ def render_movimientos_stock():
             return pd.DataFrame(columns=["date","Product_ID","qty"])
 
     # ---------- estado / toggles ----------
-    use_ae = st.sidebar.toggle("Incluir escenarios A–E", value=True)
+    use_ae = st.sidebar.toggle("Incluir escenarios A–E", value=st.session_state.get("use_ae", False), key="use_ae")
 
     # ---- Configurador de escenarios A–E ----
     if use_ae:
@@ -2909,8 +2909,8 @@ def render_movimientos_stock():
     st.divider()
 
     # ======= Tabs de revisión rápida (UI) =======
-    tab_ped, tab_stock, tab_ledger, tab_oc, tab_hist, tab_alerts = st.tabs(
-        ["Pedidos cliente", "Stock actual", "📒 Ledger", "OC generadas", "📉 Demanda histórica", "🚨 Alertas"]
+    tab_ped, tab_stock, tab_ledger = st.tabs(
+        ["Pedidos cliente", "Stock actual", "📒 Ledger"]
     )
 
     # ===================== TAB: Pedidos cliente =====================
@@ -3934,7 +3934,7 @@ def render_reapro():
         inv["Stock Real"] = pd.to_numeric(inv["Stock Real"], errors="coerce").fillna(0).astype(int)
 
         # ===== Demanda =====
-        fore = load_demanda_base(ROOT)
+        fore =_load_forecast_daily_scenario(ROOT, escenario)
         if fore is None:
             fore = pd.DataFrame(columns=["Product_ID", "Date", "sales_quantity"])
         else:
